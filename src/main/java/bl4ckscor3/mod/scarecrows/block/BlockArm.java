@@ -43,15 +43,17 @@ public class BlockArm extends Block
 	{
 		EnumFacing facing = state.getValue(FACING);
 		float px = 1.0F / 16.0F;
+		float yStart = 4 * px;
+		float yEnd = 14 * px;
 
-		if(facing == EnumFacing.NORTH)
-			return new AxisAlignedBB(7.5F * px, 0, 0, 8.5F * px, 10 * px, 8 * px);
-		else if(facing == EnumFacing.EAST)
-			return new AxisAlignedBB(8 * px, 0, 7.5F * px, 16 * px, 10 * px, 8.5F * px);
-		else if(facing == EnumFacing.SOUTH)
-			return new AxisAlignedBB(7.5F * px, 0, 8 * px, 8.5F * px, 10 * px, 16 * px);
+		if(facing == EnumFacing.SOUTH)
+			return new AxisAlignedBB(7.5F * px, yStart, 0, 8.5F * px, yEnd, 0.5F);
 		else if(facing == EnumFacing.WEST)
-			return new AxisAlignedBB(0, 0, 7.5F * px, 8F * px, 10 * px, 8.5 * px);
+			return new AxisAlignedBB(0.5F, yStart, 7.5F * px, 1.0F, yEnd, 8.5F * px);
+		else if(facing == EnumFacing.NORTH)
+			return new AxisAlignedBB(7.5F * px, yStart, 0.5F, 8.5F * px, yEnd, 1.0F);
+		else if(facing == EnumFacing.EAST)
+			return new AxisAlignedBB(0, yStart, 7.5F * px, 0.5F, yEnd, 8.5F * px);
 		else
 			return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
