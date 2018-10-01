@@ -1,17 +1,17 @@
 package bl4ckscor3.mod.scarecrows.types;
 
+import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ScaryScarecrow implements IScarecrowType
+public class SuperSpoopyScarecrow implements IScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin //TODO: customizable scarecrows which give off light when a lit pumpkin is placed
-	 *  AEA				- A: Arm
-	 *   R				- E: Endstone
-	 *   R				- R: End Rod
+	 *  ABA				- A: Arm
+	 *					- C: Chiseled Stone Bricks
 	 */
 
 	@Override
@@ -19,13 +19,7 @@ public class ScaryScarecrow implements IScarecrowType
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.END_STONE)
-		{
-			if(world.getBlockState(pos.down()).getBlock() == Blocks.END_ROD && world.getBlockState(pos.down().down()).getBlock() == Blocks.END_ROD)
-				return true;
-		}
-
-		return false;
+		return hasArms(world, pos) && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == BlockStoneBrick.EnumType.CHISELED;
 	}
 
 	@Override

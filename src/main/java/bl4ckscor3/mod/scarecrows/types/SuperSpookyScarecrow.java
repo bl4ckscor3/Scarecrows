@@ -1,19 +1,18 @@
 package bl4ckscor3.mod.scarecrows.types;
 
-import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockQuartz;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class NotThatSpookyScarecrow implements IScarecrowType
+public class SuperSpookyScarecrow implements IScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin //TODO: customizable scarecrows which give off light when a lit pumpkin is placed
-	 *  AWA				- A: Arm
-	 *   F				- W: Wool //TODO: customizable scarecrows with different colors
-	 * 					- F: Fence //TODO: customizable scarecrows with any type of fence
+	 *  AQA				- A: Arm
+	 *   F				- Q: Quartz Pillar
+	 *   				- F: Netherbrick Fence
 	 */
 
 	@Override
@@ -21,12 +20,9 @@ public class NotThatSpookyScarecrow implements IScarecrowType
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.WOOL && state.getValue(BlockColored.COLOR) == EnumDyeColor.BROWN)
+		if(hasArms(world, pos) && state.getBlock() == Blocks.QUARTZ_BLOCK && state.getValue(BlockQuartz.VARIANT) == BlockQuartz.EnumType.LINES_Y)
 		{
-			pos = pos.down();
-			state = world.getBlockState(pos);
-
-			if(state.getBlock() == Blocks.OAK_FENCE)
+			if(world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
 		}
 

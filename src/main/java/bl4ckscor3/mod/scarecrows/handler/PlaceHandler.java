@@ -3,10 +3,12 @@ package bl4ckscor3.mod.scarecrows.handler;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.types.IScarecrowType;
-import bl4ckscor3.mod.scarecrows.types.NotThatSpookyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.ScaryScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SpookyScarecrow;
+import bl4ckscor3.mod.scarecrows.types.SpoopyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SuperScaryScarecrow;
+import bl4ckscor3.mod.scarecrows.types.SuperSpookyScarecrow;
+import bl4ckscor3.mod.scarecrows.types.SuperSpoopyScarecrow;
 import net.minecraft.block.SoundType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,8 +26,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class PlaceHandler
 {
 	private static final IScarecrowType[] TYPES = new IScarecrowType[] {
-			new NotThatSpookyScarecrow(),
+			new SpoopyScarecrow(),
+			new SuperSpoopyScarecrow(),
 			new SpookyScarecrow(),
+			new SuperSpookyScarecrow(),
 			new ScaryScarecrow(),
 			new SuperScaryScarecrow()
 	};
@@ -60,7 +64,7 @@ public class PlaceHandler
 
 		for(IScarecrowType type : TYPES)
 		{
-			if(event.getPlacedBlock().getBlock() == Blocks.PUMPKIN)
+			if(event.getPlacedBlock().getBlock() == Blocks.PUMPKIN) //structure only ever activates when placing a pumpkin
 			{
 				if(type.checkStructure(world, pos))
 					type.spawn(world, pos);
