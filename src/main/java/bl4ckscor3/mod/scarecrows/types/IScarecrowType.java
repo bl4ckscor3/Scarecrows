@@ -22,8 +22,9 @@ public interface IScarecrowType
 	 * Spawns the scarecrow entity
 	 * @param world The world to spawn in
 	 * @param pos The position to spawn at
+	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
 	 */
-	public void spawn(World world, BlockPos pos);
+	public void spawn(World world, BlockPos pos, boolean isLit);
 
 	/**
 	 * Checks whether this scarecrow has arms

@@ -30,6 +30,6 @@ public class SuperSpookyScarecrow implements IScarecrowType
 	}
 
 	@Override
-	public void spawn(World world, BlockPos pos)
+	public void spawn(World world, BlockPos pos, boolean isLit)
 	{}
 }

@@ -9,6 +9,7 @@ import bl4ckscor3.mod.scarecrows.types.SpoopyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SuperScaryScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SuperSpookyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SuperSpoopyScarecrow;
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -57,17 +58,19 @@ public class PlaceHandler
 	}
 
 	@SubscribeEvent
-	public static void onPlace(PlaceEvent event)
+	public static void onPlace(PlaceEvent event) //scarecrow structure logic
 	{
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 
 		for(IScarecrowType type : TYPES)
 		{
-			if(event.getPlacedBlock().getBlock() == Blocks.PUMPKIN) //structure only ever activates when placing a pumpkin
+			Block block = event.getPlacedBlock().getBlock();
+
+			if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
 			{
 				if(type.checkStructure(world, pos))
-					type.spawn(world, pos);
+					type.spawn(world, pos, block == Blocks.LIT_PUMPKIN);
 			}
 		}
 	}
