@@ -44,7 +44,7 @@ public class BlockArm extends Block
 		EnumFacing facing = state.getValue(FACING);
 		float px = 1.0F / 16.0F;
 		float yStart = 7 * px;
-		float yEnd = 17 * px;
+		float yEnd = 1.0F;
 
 		if(facing == EnumFacing.SOUTH)
 			return new AxisAlignedBB(7.5F * px, yStart, 0, 8.5F * px, yEnd, 0.5F);
