@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "scarecrows:arm" },
+		"facing=east": { "model": "scarecrows:arm", "y": 90 },
+		"facing=south": { "model": "scarecrows:arm", "y": 180 },
+		"facing=west": { "model": "scarecrows:arm", "y": 270 }
+	}
+}

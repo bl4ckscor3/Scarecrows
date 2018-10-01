@@ -1,0 +1,21 @@
+{
+	"textures": {
+		"0": "scarecrows:block/arm",
+		"particle": "scarecrows:block/arm"
+	},
+	"elements": [
+		{
+			"from": [7.5, 6, -4],
+			"to": [8.5, 7, 9],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8.5, 6.5, 2.5]},
+			"faces": {
+				"north": {"uv": [6, 0, 7, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 13], "texture": "#0", "rotation": 90},
+				"south": {"uv": [6, 12, 7, 13], "texture": "#0"},
+				"west": {"uv": [2, 0, 3, 13], "texture": "#0", "rotation": 270},
+				"up": {"uv": [1, 0, 2, 13], "texture": "#0"},
+				"down": {"uv": [3, 0, 4, 13], "texture": "#0", "rotation": 180}
+			}
+		}
+	]
+}
