@@ -31,4 +31,10 @@ public class SuperScaryScarecrow implements IScarecrowType
 	@Override
 	public void spawn(World world, BlockPos pos, boolean isLit)
 	{}
+
+	@Override
+	public int getHeight()
+	{
+		return 4;
+	}
 }

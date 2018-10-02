@@ -27,6 +27,11 @@ public interface IScarecrowType
 	public void spawn(World world, BlockPos pos, boolean isLit);
 
 	/**
+	 * Defines the height of the scarecrow, used for correctly defining the spawn position
+	 */
+	public int getHeight();
+
+	/**
 	 * Checks whether this scarecrow has arms
 	 * @param world The world the scarecrow is in
 	 * @param pos The block to which the arms should be attached

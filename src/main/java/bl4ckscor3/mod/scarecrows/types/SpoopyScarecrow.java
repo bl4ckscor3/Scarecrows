@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class SpoopyScarecrow implements IScarecrowType
 {
 	/*
-	 *   P				- P: Pumpkin //TODO: customizable scarecrows which give off light when a lit pumpkin is placed
+	 *   P				- P: Pumpkin
 	 *  ACA				- A: Arm
 	 *					- C: Clay
 	 */
@@ -24,4 +24,10 @@ public class SpoopyScarecrow implements IScarecrowType
 	@Override
 	public void spawn(World world, BlockPos pos, boolean isLit)
 	{}
+
+	@Override
+	public int getHeight()
+	{
+		return 2;
+	}
 }
