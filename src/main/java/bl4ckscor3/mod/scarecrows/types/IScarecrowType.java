@@ -13,7 +13,7 @@ public interface IScarecrowType
 	/**
 	 * Checks whether this scarecrow is built correctly
 	 * @param world The world to check in
-	 * @param pos The position to start checking from
+	 * @param pos The position to start checking from (the pumpkin)
 	 * @return true if the scarecrow is correctly built, false otherwhise
 	 */
 	public boolean checkStructure(World world, BlockPos pos);

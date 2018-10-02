@@ -69,8 +69,10 @@ public class PlaceHandler
 
 			if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
 			{
-				if(type.checkStructure(world, pos))
-					type.spawn(world, pos, block == Blocks.LIT_PUMPKIN);
+				boolean isLit = block == Blocks.LIT_PUMPKIN;
+
+				if((isLit ? world.getBlockState(pos.up()).getBlock() == Blocks.AIR : true) && type.checkStructure(world, pos))
+					type.spawn(world, pos.down(type.getHeight() - 1 /*-1 because that's where the feet are at*/), isLit);
 			}
 		}
 	}

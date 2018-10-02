@@ -1,6 +1,7 @@
 package bl4ckscor3.mod.scarecrows;
 
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
+import bl4ckscor3.mod.scarecrows.block.BlockInvisibleLight;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,10 +21,13 @@ public class Scarecrows
 
 	@ObjectHolder(Scarecrows.PREFIX + BlockArm.NAME)
 	public static final Block ARM = null;
+	@ObjectHolder(Scarecrows.PREFIX + BlockInvisibleLight.NAME)
+	public static final Block INVISIBLE_LIGHT = null;
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
 		event.getRegistry().register(new BlockArm());
+		event.getRegistry().register(new BlockInvisibleLight());
 	}
 }

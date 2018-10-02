@@ -1,5 +1,6 @@
 package bl4ckscor3.mod.scarecrows.types;
 
+import bl4ckscor3.mod.scarecrows.Scarecrows;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

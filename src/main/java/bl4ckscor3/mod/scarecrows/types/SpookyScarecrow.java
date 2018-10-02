@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class SpookyScarecrow implements IScarecrowType
 {
 	/*
-	 *   P				- P: Pumpkin //TODO: customizable scarecrows which give off light when a lit pumpkin is placed
+	 *   P				- P: Pumpkin
 	 *  ANA				- A: Arm
 	 *   F				- N: Netherrack
 	 *   				- F: Netherbrick Fence
