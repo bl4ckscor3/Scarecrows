@@ -131,4 +131,10 @@ public class BlockArm extends Block
 	{
 		return false;
 	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
 }
