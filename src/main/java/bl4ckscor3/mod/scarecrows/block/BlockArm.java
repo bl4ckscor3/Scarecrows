@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,13 @@ public class BlockArm extends Block
 		setResistance(1.0F);
 		setSoundType(SoundType.WOOD);
 		setTranslationKey(Scarecrows.PREFIX + NAME);
+	}
+
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos)
+	{
+		if(pos.offset(state.getValue(FACING).getOpposite()).equals(fromPos) && world.getBlockState(fromPos).getBlock() == Blocks.AIR)
+			world.destroyBlock(pos, true);
 	}
 
 	@Override
