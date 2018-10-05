@@ -1,11 +1,12 @@
 package bl4ckscor3.mod.scarecrows.types;
 
+import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SpookyScarecrow implements IScarecrowType
+public class SpookyScarecrow extends ScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin
@@ -13,6 +14,11 @@ public class SpookyScarecrow implements IScarecrowType
 	 *   F				- N: Netherrack
 	 *   				- F: Netherbrick Fence
 	 */
+
+	public SpookyScarecrow()
+	{
+		super(3, Configuration.spooky_scarecrow.RANGE, Configuration.spooky_scarecrow.SCARE_ANIMALS);
+	}
 
 	@Override
 	public boolean checkStructure(World world, BlockPos pos)
@@ -26,15 +32,5 @@ public class SpookyScarecrow implements IScarecrowType
 		}
 
 		return false;
-	}
-
-	@Override
-	public void spawn(World world, BlockPos pos, boolean isLit)
-	{}
-
-	@Override
-	public int getHeight()
-	{
-		return 3;
 	}
 }

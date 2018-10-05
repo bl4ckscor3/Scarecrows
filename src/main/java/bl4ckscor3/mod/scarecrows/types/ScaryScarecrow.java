@@ -1,11 +1,12 @@
 package bl4ckscor3.mod.scarecrows.types;
 
+import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ScaryScarecrow implements IScarecrowType
+public class ScaryScarecrow extends ScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin
@@ -13,6 +14,11 @@ public class ScaryScarecrow implements IScarecrowType
 	 *   R				- E: Endstone
 	 *   R				- R: End Rod
 	 */
+
+	public ScaryScarecrow()
+	{
+		super(4, Configuration.scary_scarecrow.RANGE, Configuration.scary_scarecrow.SCARE_ANIMALS);
+	}
 
 	@Override
 	public boolean checkStructure(World world, BlockPos pos)
@@ -26,15 +32,5 @@ public class ScaryScarecrow implements IScarecrowType
 		}
 
 		return false;
-	}
-
-	@Override
-	public void spawn(World world, BlockPos pos, boolean isLit)
-	{}
-
-	@Override
-	public int getHeight()
-	{
-		return 4;
 	}
 }

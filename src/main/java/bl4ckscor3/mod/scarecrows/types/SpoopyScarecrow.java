@@ -1,11 +1,11 @@
 package bl4ckscor3.mod.scarecrows.types;
 
-import bl4ckscor3.mod.scarecrows.Scarecrows;
+import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SpoopyScarecrow implements IScarecrowType
+public class SpoopyScarecrow extends ScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin
@@ -13,21 +13,16 @@ public class SpoopyScarecrow implements IScarecrowType
 	 *					- C: Clay
 	 */
 
+	public SpoopyScarecrow()
+	{
+		super(2, Configuration.spoopy_scarecrow.RANGE, Configuration.spoopy_scarecrow.SCARE_ANIMALS);
+	}
+
 	@Override
 	public boolean checkStructure(World world, BlockPos pos)
 	{
 		pos = pos.down();
 
 		return hasArms(world, pos) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
-	}
-
-	@Override
-	public void spawn(World world, BlockPos pos, boolean isLit)
-	{}
-
-	@Override
-	public int getHeight()
-	{
-		return 2;
 	}
 }

@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.handler;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
-import bl4ckscor3.mod.scarecrows.types.IScarecrowType;
+import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.types.ScaryScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SpookyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SpoopyScarecrow;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @EventBusSubscriber
 public class PlaceHandler
 {
-	private static final IScarecrowType[] TYPES = new IScarecrowType[] {
+	private static final ScarecrowType[] TYPES = new ScarecrowType[] {
 			new SpoopyScarecrow(),
 			new SuperSpoopyScarecrow(),
 			new SpookyScarecrow(),
@@ -63,7 +63,7 @@ public class PlaceHandler
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 
-		for(IScarecrowType type : TYPES)
+		for(ScarecrowType type : TYPES)
 		{
 			Block block = event.getPlacedBlock().getBlock();
 
@@ -71,8 +71,8 @@ public class PlaceHandler
 			{
 				boolean isLit = block == Blocks.LIT_PUMPKIN;
 
-				if((isLit ? world.getBlockState(pos.up()).getBlock() == Blocks.AIR : true) && type.checkStructure(world, pos))
-					type.spawn(world, pos.down(type.getHeight() - 1 /*-1 because that's where the feet are at*/), isLit);
+				if((isLit ? world.getBlockState(pos.up()).getBlock() == Blocks.AIR : true) && type.checkStructure(world, pos)) //check for empty space to place the light TODO: place where jackolantern was?
+					type.spawn(world, pos.down(type.getHeight() - 1), isLit); //-1 because of the feet
 			}
 		}
 	}
