@@ -2,6 +2,8 @@ package bl4ckscor3.mod.scarecrows.types;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,7 +17,7 @@ public class SpoopyScarecrow extends ScarecrowType
 
 	public SpoopyScarecrow()
 	{
-		super(2, Configuration.spoopy_scarecrow.RANGE, Configuration.spoopy_scarecrow.SCARE_ANIMALS);
+		super("spoopy_scarecrow", 2, Configuration.spoopy_scarecrow.RANGE, Configuration.spoopy_scarecrow.SCARE_ANIMALS);
 	}
 
 	@Override
@@ -36,5 +38,11 @@ public class SpoopyScarecrow extends ScarecrowType
 		world.destroyBlock(pos.south(), false); //a potential arm
 		world.destroyBlock(pos.east(), false); //a potential arm
 		world.destroyBlock(pos, false); //arm attachement block
+	}
+
+	@Override
+	public ItemStack[] getDrops()
+	{
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CLAY)};
 	}
 }

@@ -3,20 +3,32 @@ package bl4ckscor3.mod.scarecrows.types;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class ScarecrowType
 {
-	public int height;
-	public int range;
-	public boolean scareAnimals;
+	public static final ScarecrowType[] TYPES = new ScarecrowType[] {
+			new SpoopyScarecrow(),
+			new SuperSpoopyScarecrow(),
+			new SpookyScarecrow(),
+			new SuperSpookyScarecrow(),
+			new ScaryScarecrow(),
+			new SuperScaryScarecrow()
+	};
+	private String name;
+	private int height;
+	private int range;
+	private boolean scareAnimals;
 
-	public ScarecrowType(int height, int range, boolean scareAnimals)
+	public ScarecrowType(String name, int height, int range, boolean scareAnimals)
 	{
+		this.name = name;
 		this.height = height;
 		this.range = range;
 		this.scareAnimals = scareAnimals;
@@ -38,7 +50,20 @@ public abstract class ScarecrowType
 	public abstract void destroy(World world, BlockPos pos);
 
 	/**
-	 * Defines the height of the scarecrow, used for correctly defining the spawn position
+	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
+	 */
+	public abstract ItemStack[] getDrops();
+
+	/**
+	 * @return The name of the scarecrow
+	 */
+	public String getName()
+	{
+		return name;
+	}
+
+	/**
+	 * @return The height of the scarecrow, used for correctly defining the spawn position
 	 */
 	public final int getHeight()
 	{
@@ -46,7 +71,7 @@ public abstract class ScarecrowType
 	}
 
 	/**
-	 * Defines the value that should be used to determine the effect range of this scarecrow
+	 * @return The value that should be used to determine the effect range of this scarecrow
 	 */
 	public final int getRange()
 	{
@@ -90,15 +115,32 @@ public abstract class ScarecrowType
 
 	/**
 	 * Spawns the scarecrow entity
+	 * @param type The type of scarecrow to spawn
 	 * @param world The world to spawn in
 	 * @param pos The position to spawn at
 	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
 	 */
-	public final void spawn(World world, BlockPos pos, boolean isLit)
+	public final void spawn(ScarecrowType type, World world, BlockPos pos, boolean isLit)
 	{
 		if(isLit)
 			world.setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
 
-		world.spawnEntity(new EntityScarecrow(world, pos, height, range, scareAnimals));
+		world.spawnEntity(new EntityScarecrow(type, world, pos, isLit));
+	}
+
+	/**
+	 * Drops the items that the structure was made of. Used when the entity dies
+	 * @param world The world to spawn the drops in
+	 * @param pos The position to spawn the drops at
+	 * @param dropLight true if the entity was made with a Jack o' Lantern, false otherwise
+	 */
+	public final void dropMaterials(World world, BlockPos pos, boolean dropLight)
+	{
+		Block.spawnAsEntity(world, pos, new ItemStack(dropLight ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
+
+		for(ItemStack stack : getDrops())
+		{
+			Block.spawnAsEntity(world, pos, stack);
+		}
 	}
 }

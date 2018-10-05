@@ -1,5 +1,6 @@
 package bl4ckscor3.mod.scarecrows.entity;
 
+import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -7,22 +8,22 @@ import net.minecraft.world.World;
 
 public class EntityScarecrow extends Entity
 {
-	public int range;
-	public boolean scareAnimals;
+	private ScarecrowType type;
+	private boolean isLit;
 
 	public EntityScarecrow(World world)
 	{
 		super(world);
 	}
 
-	public EntityScarecrow(World world, BlockPos pos, int height, int range, boolean scareAnimals)
+	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit)
 	{
 		super(world);
 
 		setSize(1.0F, height);
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-		this.range = range;
-		this.scareAnimals = scareAnimals;
+		this.type = type;
+		this.isLit = isLit;
 	}
 
 	@Override
@@ -33,19 +34,40 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
+	public void setDead()
+	{
+		super.setDead();
+
+		if(!world.isRemote)
+		{
+			if(isLit)
+				world.destroyBlock(getPosition().up(type.getHeight() - 1), false);
+
+			type.dropMaterials(world, getPosition(), isLit);
+		}
+	}
+
+	@Override
 	protected void entityInit() {}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag)
 	{
-		range = tag.getInteger("range");
-		scareAnimals = tag.getBoolean("scare_animals");
+		String name = tag.getString("scarecrow_type");
+
+		for(ScarecrowType st : ScarecrowType.TYPES)
+		{
+			if(st.getName().equals(name))
+			{
+				type = st;
+				return;
+			}
+		}
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag)
 	{
-		tag.setInteger("range", range);
-		tag.setBoolean("scare_animals", scareAnimals);
+		tag.setString("scarecrow_type", type.getName());
 	}
 }

@@ -3,6 +3,8 @@ package bl4ckscor3.mod.scarecrows.types;
 import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -17,7 +19,7 @@ public class ScaryScarecrow extends ScarecrowType
 
 	public ScaryScarecrow()
 	{
-		super(4, Configuration.scary_scarecrow.RANGE, Configuration.scary_scarecrow.SCARE_ANIMALS);
+		super("scary_scarecrow", 4, Configuration.scary_scarecrow.RANGE, Configuration.scary_scarecrow.SCARE_ANIMALS);
 	}
 
 	@Override
@@ -47,5 +49,11 @@ public class ScaryScarecrow extends ScarecrowType
 		pos = pos.down();
 		world.destroyBlock(pos, false); //leg
 		world.destroyBlock(pos.down(), false); //foot
+	}
+
+	@Override
+	public ItemStack[] getDrops()
+	{
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_ROD, 2)};
 	}
 }

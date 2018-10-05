@@ -3,12 +3,6 @@ package bl4ckscor3.mod.scarecrows.handler;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
-import bl4ckscor3.mod.scarecrows.types.ScaryScarecrow;
-import bl4ckscor3.mod.scarecrows.types.SpookyScarecrow;
-import bl4ckscor3.mod.scarecrows.types.SpoopyScarecrow;
-import bl4ckscor3.mod.scarecrows.types.SuperScaryScarecrow;
-import bl4ckscor3.mod.scarecrows.types.SuperSpookyScarecrow;
-import bl4ckscor3.mod.scarecrows.types.SuperSpoopyScarecrow;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -27,15 +21,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @EventBusSubscriber
 public class PlaceHandler
 {
-	private static final ScarecrowType[] TYPES = new ScarecrowType[] {
-			new SpoopyScarecrow(),
-			new SuperSpoopyScarecrow(),
-			new SpookyScarecrow(),
-			new SuperSpookyScarecrow(),
-			new ScaryScarecrow(),
-			new SuperScaryScarecrow()
-	};
-
 	@SubscribeEvent
 	public static void onRightClickBlock(RightClickBlock event) //stick placement logic
 	{
@@ -64,7 +49,7 @@ public class PlaceHandler
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 
-		for(ScarecrowType type : TYPES)
+		for(ScarecrowType type : ScarecrowType.TYPES)
 		{
 			Block block = event.getPlacedBlock().getBlock();
 
@@ -76,7 +61,7 @@ public class PlaceHandler
 				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos))
 				{
 					type.destroy(world, pos);
-					type.spawn(world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN); //-1 because of the feet
+					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN); //-1 because of the feet
 				}
 			}
 		}
