@@ -1,6 +1,7 @@
 {
 	"textures": {
-		"0": "blocks/dirt"
+		"0": "blocks/redstone_lamp_on",
+		"particle": "blocks/redstone_lamp_on"
 	},
 	"elements": [
 		{
