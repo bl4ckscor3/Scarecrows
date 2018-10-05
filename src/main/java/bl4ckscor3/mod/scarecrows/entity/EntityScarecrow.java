@@ -26,6 +26,13 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
+	public void onUpdate()
+	{
+		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
+			setDead();
+	}
+
+	@Override
 	protected void entityInit() {}
 
 	@Override
