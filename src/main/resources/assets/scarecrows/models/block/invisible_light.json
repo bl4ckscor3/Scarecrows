@@ -1,6 +1,6 @@
 {
 	"textures": {
-		"0": "block/dirt"
+		"0": "blocks/dirt"
 	},
 	"elements": [
 		{
