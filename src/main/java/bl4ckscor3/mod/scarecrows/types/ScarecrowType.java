@@ -2,6 +2,7 @@ package bl4ckscor3.mod.scarecrows.types;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
+import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -28,6 +29,13 @@ public abstract class ScarecrowType
 	 * @return true if the scarecrow is correctly built, false otherwhise
 	 */
 	public abstract boolean checkStructure(World world, BlockPos pos);
+
+	/**
+	 * Destroy the structure of this scarecrow
+	 * @param world The world to destroy in
+	 * @param pos The position to start destroying from (the pumpkin)
+	 */
+	public abstract void destroy(World world, BlockPos pos);
 
 	/**
 	 * Defines the height of the scarecrow, used for correctly defining the spawn position
@@ -78,5 +86,19 @@ public abstract class ScarecrowType
 				stateNorth.getBlock() == Blocks.AIR && stateSouth.getBlock() == Blocks.AIR)
 			return true;
 		else return false;
+	}
+
+	/**
+	 * Spawns the scarecrow entity
+	 * @param world The world to spawn in
+	 * @param pos The position to spawn at
+	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
+	 */
+	public final void spawn(World world, BlockPos pos, boolean isLit)
+	{
+		if(isLit)
+			world.setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
+
+		world.spawnEntity(new EntityScarecrow(world, pos, height, range, scareAnimals));
 	}
 }

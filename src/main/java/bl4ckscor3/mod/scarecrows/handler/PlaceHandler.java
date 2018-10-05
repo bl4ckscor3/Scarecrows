@@ -11,6 +11,7 @@ import bl4ckscor3.mod.scarecrows.types.SuperSpookyScarecrow;
 import bl4ckscor3.mod.scarecrows.types.SuperSpoopyScarecrow;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -69,10 +70,14 @@ public class PlaceHandler
 
 			if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
 			{
-				boolean isLit = block == Blocks.LIT_PUMPKIN;
+				BlockPos groundPos = pos.down(type.getHeight());
+				IBlockState groundState = world.getBlockState(groundPos);
 
-				if((isLit ? world.getBlockState(pos.up()).getBlock() == Blocks.AIR : true) && type.checkStructure(world, pos)) //check for empty space to place the light TODO: place where jackolantern was?
-					type.spawn(world, pos.down(type.getHeight() - 1), isLit); //-1 because of the feet
+				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos))
+				{
+					type.destroy(world, pos);
+					type.spawn(world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN); //-1 because of the feet
+				}
 			}
 		}
 	}

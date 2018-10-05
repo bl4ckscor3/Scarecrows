@@ -27,4 +27,16 @@ public class SuperSpoopyScarecrow extends ScarecrowType
 
 		return hasArms(world, pos) && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == BlockStoneBrick.EnumType.CHISELED;
 	}
+
+	@Override
+	public void destroy(World world, BlockPos pos)
+	{
+		world.destroyBlock(pos, false); //pumpkin
+		pos = pos.down();
+		world.destroyBlock(pos.west(), false); //a potential arm
+		world.destroyBlock(pos.north(), false); //a potential arm
+		world.destroyBlock(pos.south(), false); //a potential arm
+		world.destroyBlock(pos.east(), false); //a potential arm
+		world.destroyBlock(pos, false); //arm attachement block
+	}
 }

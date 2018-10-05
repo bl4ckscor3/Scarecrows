@@ -56,6 +56,16 @@ public class Scarecrows
 	}
 
 	@SubscribeEvent
+	public static void registerEntities(RegistryEvent.Register<EntityEntry> event)
+	{
+		event.getRegistry().register(EntityEntryBuilder.create()
+				.id(new ResourceLocation(MODID, "scarecrow"), 0)
+				.entity(EntityScarecrow.class)
+				.name(PREFIX + "scarecrow")
+				.tracker(256, 20, false).build());
+	}
+
+	@SubscribeEvent
 	public static void onConfigChanged(OnConfigChangedEvent event)
 	{
 		if(event.getModID().equals(MODID))

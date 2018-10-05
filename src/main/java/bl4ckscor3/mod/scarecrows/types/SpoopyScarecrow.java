@@ -25,4 +25,16 @@ public class SpoopyScarecrow extends ScarecrowType
 
 		return hasArms(world, pos) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
 	}
+
+	@Override
+	public void destroy(World world, BlockPos pos)
+	{
+		world.destroyBlock(pos, false); //pumpkin
+		pos = pos.down();
+		world.destroyBlock(pos.west(), false); //a potential arm
+		world.destroyBlock(pos.north(), false); //a potential arm
+		world.destroyBlock(pos.south(), false); //a potential arm
+		world.destroyBlock(pos.east(), false); //a potential arm
+		world.destroyBlock(pos, false); //arm attachement block
+	}
 }
