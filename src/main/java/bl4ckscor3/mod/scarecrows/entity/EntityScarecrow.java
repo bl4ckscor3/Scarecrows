@@ -1,14 +1,30 @@
 package bl4ckscor3.mod.scarecrows.entity;
 
+import java.util.List;
+
 import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityShulker;
+import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityScarecrow extends Entity
 {
-	private ScarecrowType type;
+	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(EntityScarecrow.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(EntityScarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
 	private boolean isLit;
 
 	public EntityScarecrow(World world)
@@ -22,8 +38,16 @@ public class EntityScarecrow extends Entity
 
 		setSize(1.0F, height);
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-		this.type = type;
+		dataManager.set(TYPE, type);
 		this.isLit = isLit;
+		dataManager.set(AREA, new AxisAlignedBB(posX, posY, posZ, posX, posY, posZ).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
+	}
+
+	@Override
+	protected void entityInit()
+	{
+		dataManager.register(TYPE, null);
+		dataManager.register(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
 	}
 
 	@Override
@@ -31,6 +55,27 @@ public class EntityScarecrow extends Entity
 	{
 		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
 			setDead();
+
+		scare(EntityMob.class, EntityDragon.class, EntityGhast.class, EntityShulker.class, EntitySlime.class);
+
+		if(dataManager.get(TYPE).shouldScareAnimals())
+			scare(EntityAmbientCreature.class, EntityAnimal.class, EntitySquid.class);
+	}
+
+	private void scare(Class<? extends EntityLiving>... entityTypes)
+	{
+		for(Class<? extends EntityLiving> clazz : entityTypes)
+		{
+			List<EntityLiving> entities = world.<EntityLiving>getEntitiesWithinAABB(clazz, dataManager.get(AREA));
+
+			for(EntityLiving entity : entities)
+			{
+				if(entity.canEntityBeSeen(this))
+				{
+					//TODO: add ai to run away
+				}
+			}
+		}
 	}
 
 	@Override
@@ -41,14 +86,11 @@ public class EntityScarecrow extends Entity
 		if(!world.isRemote)
 		{
 			if(isLit)
-				world.destroyBlock(getPosition().up(type.getHeight() - 1), false);
+				world.destroyBlock(getPosition().up(dataManager.get(TYPE).getHeight() - 1), false);
 
-			type.dropMaterials(world, getPosition(), isLit);
+			dataManager.get(TYPE).dropMaterials(world, getPosition(), isLit);
 		}
 	}
-
-	@Override
-	protected void entityInit() {}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag)
@@ -59,7 +101,7 @@ public class EntityScarecrow extends Entity
 		{
 			if(st.getName().equals(name))
 			{
-				type = st;
+				dataManager.set(TYPE, st);
 				return;
 			}
 		}
@@ -68,6 +110,6 @@ public class EntityScarecrow extends Entity
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag)
 	{
-		tag.setString("scarecrow_type", type.getName());
+		tag.setString("scarecrow_type", dataManager.get(TYPE).getName());
 	}
 }
