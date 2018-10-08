@@ -62,6 +62,10 @@ public class EntityScarecrow extends Entity
 			scare(EntityAmbientCreature.class, EntityAnimal.class, EntitySquid.class);
 	}
 
+	/**
+	 * Makes specific types of entities within this scarecrow's range run away from this scarecrow
+	 * @param entityTypes The types of entity to run away
+	 */
 	private void scare(Class<? extends EntityLiving>... entityTypes)
 	{
 		for(Class<? extends EntityLiving> clazz : entityTypes)
@@ -113,11 +117,17 @@ public class EntityScarecrow extends Entity
 		tag.setString("scarecrow_type", getType().getName());
 	}
 
+	/**
+	 * @return The type of this scarecrow
+	 */
 	public ScarecrowType getType()
 	{
 		return dataManager.get(TYPE);
 	}
 
+	/**
+	 * @return The area this scarecrow is affecting
+	 */
 	public AxisAlignedBB getArea()
 	{
 		return dataManager.get(AREA);

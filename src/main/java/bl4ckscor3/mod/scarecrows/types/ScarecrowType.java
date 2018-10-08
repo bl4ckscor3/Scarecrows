@@ -26,6 +26,12 @@ public abstract class ScarecrowType
 	private int range;
 	private boolean scareAnimals;
 
+	/**
+	 * @param name The name of this type, needs to be unique to all others in the TYPES array
+	 * @param height The height of this scarecrow type in blocks
+	 * @param range The range in blocks in which this scarecrow will be effective in
+	 * @param scareAnimals true if this scarecrow should scare away animals, false otherwise
+	 */
 	public ScarecrowType(String name, int height, int range, boolean scareAnimals)
 	{
 		this.name = name;
@@ -38,7 +44,7 @@ public abstract class ScarecrowType
 	 * Checks whether this scarecrow is built correctly
 	 * @param world The world to check in
 	 * @param pos The position to start checking from (the pumpkin)
-	 * @return true if the scarecrow is correctly built, false otherwhise
+	 * @return true if the scarecrow is correctly built, false otherwise
 	 */
 	public abstract boolean checkStructure(World world, BlockPos pos);
 
