@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.util;
 
 import java.io.IOException;
 
-import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;

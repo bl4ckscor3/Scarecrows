@@ -1,6 +1,7 @@
-package bl4ckscor3.mod.scarecrows.types;
+package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
+import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -8,18 +9,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ScaryScarecrow extends ScarecrowType
+public class SuperSpoopyScarecrow extends ScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin
-	 *  AEA				- A: Arm
-	 *   R				- E: Endstone
-	 *   R				- R: End Rod
+	 *  ABA				- A: Arm
+	 *					- C: Chiseled Stone Bricks
 	 */
 
-	public ScaryScarecrow()
+	public SuperSpoopyScarecrow()
 	{
-		super("scary_scarecrow", 4, Configuration.scary_scarecrow.RANGE, Configuration.scary_scarecrow.SCARE_ANIMALS);
+		super("super_spoopy_scarecrow", 2, Configuration.super_spoopy_scarecrow.RANGE, Configuration.super_spoopy_scarecrow.SCARE_ANIMALS);
 	}
 
 	@Override
@@ -27,13 +27,7 @@ public class ScaryScarecrow extends ScarecrowType
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.END_STONE)
-		{
-			if(world.getBlockState(pos.down()).getBlock() == Blocks.END_ROD && world.getBlockState(pos.down().down()).getBlock() == Blocks.END_ROD)
-				return true;
-		}
-
-		return false;
+		return hasArms(world, pos) && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == BlockStoneBrick.EnumType.CHISELED;
 	}
 
 	@Override
@@ -46,14 +40,11 @@ public class ScaryScarecrow extends ScarecrowType
 		world.destroyBlock(pos.south(), false); //a potential arm
 		world.destroyBlock(pos.east(), false); //a potential arm
 		world.destroyBlock(pos, false); //arm attachement block
-		pos = pos.down();
-		world.destroyBlock(pos, false); //leg
-		world.destroyBlock(pos.down(), false); //foot
 	}
 
 	@Override
 	public ItemStack[] getDrops()
 	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_ROD, 2)};
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.STONEBRICK, 1, 3)};
 	}
 }

@@ -1,4 +1,4 @@
-package bl4ckscor3.mod.scarecrows.types;
+package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
 import net.minecraft.block.state.IBlockState;
@@ -8,18 +8,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SuperScaryScarecrow extends ScarecrowType
+public class ScaryScarecrow extends ScarecrowType
 {
 	/*
 	 *   P				- P: Pumpkin
-	 *  ABA				- A: Arm
-	 *   R				- B: Purpur Pillar
+	 *  AEA				- A: Arm
+	 *   R				- E: Endstone
 	 *   R				- R: End Rod
 	 */
 
-	public SuperScaryScarecrow()
+	public ScaryScarecrow()
 	{
-		super("super_scary_scarecrow", 4, Configuration.super_scary_scarecrow.RANGE, Configuration.super_scary_scarecrow.SCARE_ANIMALS);
+		super("scary_scarecrow", 4, Configuration.scary_scarecrow.RANGE, Configuration.scary_scarecrow.SCARE_ANIMALS);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class SuperScaryScarecrow extends ScarecrowType
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.PURPUR_PILLAR)
+		if(hasArms(world, pos) && state.getBlock() == Blocks.END_STONE)
 		{
 			if(world.getBlockState(pos.down()).getBlock() == Blocks.END_ROD && world.getBlockState(pos.down().down()).getBlock() == Blocks.END_ROD)
 				return true;
@@ -54,6 +54,6 @@ public class SuperScaryScarecrow extends ScarecrowType
 	@Override
 	public ItemStack[] getDrops()
 	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.PURPUR_PILLAR), new ItemStack(Blocks.END_ROD, 2)};
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_ROD, 2)};
 	}
 }

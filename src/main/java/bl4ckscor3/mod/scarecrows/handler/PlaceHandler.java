@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.handler;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
-import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;

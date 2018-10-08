@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.entity;
 
 import java.util.List;
 
-import bl4ckscor3.mod.scarecrows.types.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;

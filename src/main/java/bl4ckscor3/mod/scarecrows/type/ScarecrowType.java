@@ -1,4 +1,4 @@
-package bl4ckscor3.mod.scarecrows.types;
+package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
