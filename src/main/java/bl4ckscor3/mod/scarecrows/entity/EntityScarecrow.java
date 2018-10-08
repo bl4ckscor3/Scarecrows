@@ -58,7 +58,7 @@ public class EntityScarecrow extends Entity
 
 		scare(EntityMob.class, EntityDragon.class, EntityGhast.class, EntityShulker.class, EntitySlime.class);
 
-		if(dataManager.get(TYPE).shouldScareAnimals())
+		if(getType().shouldScareAnimals())
 			scare(EntityAmbientCreature.class, EntityAnimal.class, EntitySquid.class);
 	}
 
@@ -66,7 +66,7 @@ public class EntityScarecrow extends Entity
 	{
 		for(Class<? extends EntityLiving> clazz : entityTypes)
 		{
-			List<EntityLiving> entities = world.<EntityLiving>getEntitiesWithinAABB(clazz, dataManager.get(AREA));
+			List<EntityLiving> entities = world.<EntityLiving>getEntitiesWithinAABB(clazz, getArea());
 
 			for(EntityLiving entity : entities)
 			{
@@ -86,9 +86,9 @@ public class EntityScarecrow extends Entity
 		if(!world.isRemote)
 		{
 			if(isLit)
-				world.destroyBlock(getPosition().up(dataManager.get(TYPE).getHeight() - 1), false);
+				world.destroyBlock(getPosition().up(getType().getHeight() - 1), false);
 
-			dataManager.get(TYPE).dropMaterials(world, getPosition(), isLit);
+			getType().dropMaterials(world, getPosition(), isLit);
 		}
 	}
 
@@ -110,6 +110,16 @@ public class EntityScarecrow extends Entity
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag)
 	{
-		tag.setString("scarecrow_type", dataManager.get(TYPE).getName());
+		tag.setString("scarecrow_type", getType().getName());
+	}
+
+	public ScarecrowType getType()
+	{
+		return dataManager.get(TYPE);
+	}
+
+	public AxisAlignedBB getArea()
+	{
+		return dataManager.get(AREA);
 	}
 }
