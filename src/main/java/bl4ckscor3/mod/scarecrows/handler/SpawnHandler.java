@@ -6,7 +6,7 @@ import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class SpawnHandler
 {
 	@SubscribeEvent
-	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
+	public static void onSpecialSpawn(SpecialSpawn event)
 	{
 		Entity entity = event.getEntity();
 		boolean animal = EntityUtil.isAttackableAnimal(entity);
