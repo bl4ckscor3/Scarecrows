@@ -1,7 +1,9 @@
 package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
+import bl4ckscor3.mod.scarecrows.model.ModelScaryScarecrow;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -55,5 +57,11 @@ public class SuperScaryScarecrow extends ScarecrowType
 	public ItemStack[] getDrops()
 	{
 		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.PURPUR_PILLAR), new ItemStack(Blocks.END_ROD, 2)};
+	}
+
+	@Override
+	public ModelBase getModel()
+	{
+		return new ModelScaryScarecrow();
 	}
 }

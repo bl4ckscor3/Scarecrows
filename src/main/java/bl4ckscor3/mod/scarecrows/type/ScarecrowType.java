@@ -5,6 +5,7 @@ import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -59,6 +60,11 @@ public abstract class ScarecrowType
 	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
 	 */
 	public abstract ItemStack[] getDrops();
+
+	/**
+	 * @return The model this scarecrow will use
+	 */
+	public abstract ModelBase getModel();
 
 	/**
 	 * @return The name of the scarecrow
