@@ -99,7 +99,7 @@ public class EntityScarecrow extends Entity
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag)
 	{
-		String name = tag.getString("scarecrow_type");
+		String name = tag.getString("type");
 
 		for(ScarecrowType st : ScarecrowType.TYPES)
 		{
@@ -109,12 +109,28 @@ public class EntityScarecrow extends Entity
 				return;
 			}
 		}
+
+		dataManager.set(AREA, new AxisAlignedBB(
+				tag.getDouble("areaMinX"),
+				tag.getDouble("areaMinY"),
+				tag.getDouble("areaMinZ"),
+				tag.getDouble("areaMaxX"),
+				tag.getDouble("areaMaxY"),
+				tag.getDouble("areaMaxZ")));
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag)
 	{
-		tag.setString("scarecrow_type", getType().getName());
+		AxisAlignedBB area = getArea();
+
+		tag.setString("type", getType().getName());
+		tag.setDouble("areaMinX", area.minX);
+		tag.setDouble("areaMinY", area.minY);
+		tag.setDouble("areaMinZ", area.minZ);
+		tag.setDouble("areaMaxX", area.maxX);
+		tag.setDouble("areaMaxY", area.maxY);
+		tag.setDouble("areaMaxZ", area.maxZ);
 	}
 
 	/**
