@@ -131,13 +131,14 @@ public abstract class ScarecrowType
 	 * @param world The world to spawn in
 	 * @param pos The position to spawn at
 	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
+	 * @param facing The facing of the spawned scarecrow entity
 	 */
-	public final void spawn(ScarecrowType type, World world, BlockPos pos, boolean isLit)
+	public final void spawn(ScarecrowType type, World world, BlockPos pos, boolean isLit, EnumFacing facing)
 	{
 		if(isLit)
 			world.setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
 
-		world.spawnEntity(new EntityScarecrow(type, world, pos, isLit));
+		world.spawnEntity(new EntityScarecrow(type, world, pos, isLit, facing));
 	}
 
 	/**

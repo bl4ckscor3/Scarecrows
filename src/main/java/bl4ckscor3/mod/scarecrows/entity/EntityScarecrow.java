@@ -16,7 +16,9 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,6 +26,7 @@ import net.minecraft.world.World;
 public class EntityScarecrow extends Entity
 {
 	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(EntityScarecrow.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityScarecrow.class, DataSerializers.FLOAT);
 	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(EntityScarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
 	private boolean isLit;
 
@@ -32,7 +35,7 @@ public class EntityScarecrow extends Entity
 		super(world);
 	}
 
-	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit)
+	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit, EnumFacing facing)
 	{
 		super(world);
 
@@ -40,6 +43,7 @@ public class EntityScarecrow extends Entity
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 		dataManager.set(TYPE, type);
 		this.isLit = isLit;
+		dataManager.set(ROTATION, facing.getHorizontalAngle() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
 		dataManager.set(AREA, new AxisAlignedBB(posX, posY, posZ, posX, posY, posZ).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
 
@@ -47,6 +51,7 @@ public class EntityScarecrow extends Entity
 	protected void entityInit()
 	{
 		dataManager.register(TYPE, null);
+		dataManager.register(ROTATION, 0F);
 		dataManager.register(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
 	}
 
@@ -110,6 +115,7 @@ public class EntityScarecrow extends Entity
 			}
 		}
 
+		dataManager.set(ROTATION, tag.getFloat("rotation"));
 		dataManager.set(AREA, new AxisAlignedBB(
 				tag.getDouble("areaMinX"),
 				tag.getDouble("areaMinY"),
@@ -125,6 +131,7 @@ public class EntityScarecrow extends Entity
 		AxisAlignedBB area = getArea();
 
 		tag.setString("type", getType().getName());
+		tag.setFloat("rotation", getRotation());
 		tag.setDouble("areaMinX", area.minX);
 		tag.setDouble("areaMinY", area.minY);
 		tag.setDouble("areaMinZ", area.minZ);
@@ -139,6 +146,14 @@ public class EntityScarecrow extends Entity
 	public ScarecrowType getType()
 	{
 		return dataManager.get(TYPE);
+	}
+
+	/**
+	 * @return The rotation of the entity for rendering
+	 */
+	public Float getRotation()
+	{
+		return dataManager.get(ROTATION);
 	}
 
 	/**

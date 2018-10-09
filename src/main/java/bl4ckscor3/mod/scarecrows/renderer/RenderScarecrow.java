@@ -32,6 +32,7 @@ public class RenderScarecrow extends Render<EntityScarecrow>
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y + 1.5F, z);
 		GlStateManager.scale(-1, -1, 1);
+		GlStateManager.rotate(entity.getRotation(), 0, 1, 0);
 		bindEntityTexture(entity);
 		RENDER_INFO.get(entity.getType().getName()).getSecond().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();

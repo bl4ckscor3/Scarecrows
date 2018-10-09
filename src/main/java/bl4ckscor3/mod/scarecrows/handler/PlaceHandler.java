@@ -4,6 +4,7 @@ import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -61,7 +62,7 @@ public class PlaceHandler
 				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos))
 				{
 					type.destroy(world, pos);
-					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN); //-1 because of the feet
+					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN, event.getState().getValue(BlockPumpkin.FACING)); //-1 because of the feet
 				}
 			}
 		}
