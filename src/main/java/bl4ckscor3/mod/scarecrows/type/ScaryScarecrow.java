@@ -60,8 +60,8 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ModelBase getModel()
+	public ModelBase getModel(boolean isLit)
 	{
-		return new ModelScaryScarecrow();
+		return new ModelScaryScarecrow(isLit);
 	}
 }

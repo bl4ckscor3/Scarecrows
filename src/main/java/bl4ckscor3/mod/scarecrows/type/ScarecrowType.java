@@ -62,9 +62,10 @@ public abstract class ScarecrowType
 	public abstract ItemStack[] getDrops();
 
 	/**
+	 * @param isLit Whether this model should show up as lit or not
 	 * @return The model this scarecrow will use
 	 */
-	public abstract ModelBase getModel();
+	public abstract ModelBase getModel(boolean isLit);
 
 	/**
 	 * @return The name of the scarecrow

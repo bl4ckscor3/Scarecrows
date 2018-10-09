@@ -26,9 +26,9 @@ import net.minecraft.world.World;
 public class EntityScarecrow extends Entity
 {
 	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(EntityScarecrow.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>createKey(EntityScarecrow.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityScarecrow.class, DataSerializers.FLOAT);
 	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(EntityScarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
-	private boolean isLit;
 
 	public EntityScarecrow(World world)
 	{
@@ -42,7 +42,7 @@ public class EntityScarecrow extends Entity
 		setSize(1.0F, height);
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 		dataManager.set(TYPE, type);
-		this.isLit = isLit;
+		dataManager.set(LIT, isLit);
 		dataManager.set(ROTATION, facing.getHorizontalAngle() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
 		dataManager.set(AREA, new AxisAlignedBB(posX, posY, posZ, posX, posY, posZ).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
@@ -51,6 +51,7 @@ public class EntityScarecrow extends Entity
 	protected void entityInit()
 	{
 		dataManager.register(TYPE, null);
+		dataManager.register(LIT, false);
 		dataManager.register(ROTATION, 0F);
 		dataManager.register(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
 	}
@@ -94,10 +95,10 @@ public class EntityScarecrow extends Entity
 
 		if(!world.isRemote)
 		{
-			if(isLit)
+			if(isLit())
 				world.destroyBlock(getPosition().up(getType().getHeight() - 1), false);
 
-			getType().dropMaterials(world, getPosition(), isLit);
+			getType().dropMaterials(world, getPosition(), isLit());
 		}
 	}
 
@@ -115,6 +116,7 @@ public class EntityScarecrow extends Entity
 			}
 		}
 
+		dataManager.set(LIT, tag.getBoolean("isLit"));
 		dataManager.set(ROTATION, tag.getFloat("rotation"));
 		dataManager.set(AREA, new AxisAlignedBB(
 				tag.getDouble("areaMinX"),
@@ -131,6 +133,7 @@ public class EntityScarecrow extends Entity
 		AxisAlignedBB area = getArea();
 
 		tag.setString("type", getType().getName());
+		tag.setBoolean("isLit", isLit());
 		tag.setFloat("rotation", getRotation());
 		tag.setDouble("areaMinX", area.minX);
 		tag.setDouble("areaMinY", area.minY);
@@ -146,6 +149,14 @@ public class EntityScarecrow extends Entity
 	public ScarecrowType getType()
 	{
 		return dataManager.get(TYPE);
+	}
+
+	/**
+	 * @return true if this entity gives off light, false otherwhise
+	 */
+	public boolean isLit()
+	{
+		return dataManager.get(LIT);
 	}
 
 	/**
