@@ -2,11 +2,13 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
 import bl4ckscor3.mod.scarecrows.model.ModelScaryScarecrow;
+import net.minecraft.block.BlockEndRod;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -31,7 +33,11 @@ public class SuperScaryScarecrow extends ScarecrowType
 
 		if(hasArms(world, pos) && state.getBlock() == Blocks.PURPUR_PILLAR)
 		{
-			if(world.getBlockState(pos.down()).getBlock() == Blocks.END_ROD && world.getBlockState(pos.down().down()).getBlock() == Blocks.END_ROD)
+			IBlockState topState = world.getBlockState(pos.down());
+			IBlockState bottomState = world.getBlockState(pos.down(2));
+
+			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(BlockEndRod.FACING) == EnumFacing.DOWN &&
+					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(BlockEndRod.FACING) == EnumFacing.UP)
 				return true;
 		}
 
