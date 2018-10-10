@@ -37,7 +37,7 @@ public class RenderScarecrow extends Render<EntityScarecrow>
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y + 1.5F, z);
-		GlStateManager.scale(-1, -1, 1);
+		GlStateManager.scale(-1, -1, 1); //rotate model rightside up
 		GlStateManager.rotate(entity.getRotation(), 0, 1, 0);
 		bindEntityTexture(entity);
 

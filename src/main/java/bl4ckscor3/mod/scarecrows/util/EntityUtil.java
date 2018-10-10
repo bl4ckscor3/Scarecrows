@@ -1,6 +1,12 @@
 package bl4ckscor3.mod.scarecrows.util;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityMob;
@@ -9,6 +15,9 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil
 {
@@ -30,5 +39,80 @@ public class EntityUtil
 	public static boolean isAttackableAnimal(Entity entity)
 	{
 		return entity instanceof EntityAmbientCreature || entity instanceof EntityAnimal || entity instanceof EntitySquid;
+	}
+
+	/**
+	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 */
+	public static Vec3d generateRandomPos(EntityLiving entity, int xz, int y, @Nullable Vec3d target, boolean b)
+	{
+		PathNavigate pathnavigate = entity.getNavigator();
+		Random random = entity.getRNG();
+		boolean flag = false;
+		boolean flag1 = false;
+		int k1 = 0;
+		int i = 0;
+		int j = 0;
+
+		for(int k = 0; k < 10; ++k)
+		{
+			int l = random.nextInt(2 * xz + 1) - xz;
+			int i1 = random.nextInt(2 * y + 1) - y;
+			int j1 = random.nextInt(2 * xz + 1) - xz;
+
+			if(target == null || l * target.x + j1 * target.z >= 0.0D)
+			{
+				BlockPos blockpos1 = new BlockPos(l + entity.posX, i1 + entity.posY, j1 + entity.posZ);
+
+				if(!flag && pathnavigate.canEntityStandOnPos(blockpos1))
+				{
+					if(!b)
+					{
+						blockpos1 = moveAboveSolid(blockpos1, entity);
+
+						if(isWaterDestination(blockpos1, entity))
+							continue;
+					}
+
+					k1 = l;
+					i = i1;
+					j = j1;
+					flag1 = true;
+				}
+			}
+		}
+
+		if(flag1)
+			return new Vec3d(k1 + entity.posX, i + entity.posY, j + entity.posZ);
+		else
+			return null;
+	}
+
+	/**
+	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 */
+	private static BlockPos moveAboveSolid(BlockPos pos, EntityLiving entity)
+	{
+		if(!entity.world.getBlockState(pos).getMaterial().isSolid())
+			return pos;
+		else
+		{
+			BlockPos blockpos;
+
+			for(blockpos = pos.up(); blockpos.getY() < entity.world.getHeight() && entity.world.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.up())
+			{
+				;
+			}
+
+			return blockpos;
+		}
+	}
+
+	/**
+	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 */
+	private static boolean isWaterDestination(BlockPos pos, EntityLiving entity)
+	{
+		return entity.world.getBlockState(pos).getMaterial() == Material.WATER;
 	}
 }

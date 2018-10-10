@@ -1,19 +1,8 @@
 package bl4ckscor3.mod.scarecrows.entity;
 
-import java.util.List;
-
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityShulker;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -61,31 +50,6 @@ public class EntityScarecrow extends Entity
 	{
 		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
 			setDead();
-
-		scare(EntityMob.class, EntityDragon.class, EntityGhast.class, EntityShulker.class, EntitySlime.class);
-
-		if(getType().shouldScareAnimals())
-			scare(EntityAmbientCreature.class, EntityAnimal.class, EntitySquid.class);
-	}
-
-	/**
-	 * Makes specific types of entities within this scarecrow's range run away from this scarecrow
-	 * @param entityTypes The types of entity to run away
-	 */
-	private void scare(Class<? extends EntityLiving>... entityTypes)
-	{
-		for(Class<? extends EntityLiving> clazz : entityTypes)
-		{
-			List<EntityLiving> entities = world.<EntityLiving>getEntitiesWithinAABB(clazz, getArea());
-
-			for(EntityLiving entity : entities)
-			{
-				if(entity.canEntityBeSeen(this))
-				{
-					//TODO: add ai to run away
-				}
-			}
-		}
 	}
 
 	@Override

@@ -2,10 +2,14 @@ package bl4ckscor3.mod.scarecrows.handler;
 
 import java.util.List;
 
+import com.google.common.base.Predicates;
+
+import bl4ckscor3.mod.scarecrows.ai.EntityAIRunAway;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,7 +25,7 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<EntityScarecrow> scarecrows = event.getWorld().<EntityScarecrow>getEntities(EntityScarecrow.class, (x) -> { return true; });
+			List<EntityScarecrow> scarecrows = event.getWorld().<EntityScarecrow>getEntities(EntityScarecrow.class, Predicates.alwaysTrue());
 
 			for(EntityScarecrow scarecrow : scarecrows)
 			{
@@ -36,5 +40,12 @@ public class SpawnHandler
 				}
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
+	{
+		if(EntityUtil.isAttackableMonster(event.getEntity()) || EntityUtil.isAttackableAnimal(event.getEntity()))
+			((EntityLiving)event.getEntity()).targetTasks.addTask(3, new EntityAIRunAway((EntityLiving)event.getEntity()));
 	}
 }
