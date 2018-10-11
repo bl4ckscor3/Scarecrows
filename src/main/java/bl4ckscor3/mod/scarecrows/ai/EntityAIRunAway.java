@@ -2,6 +2,7 @@ package bl4ckscor3.mod.scarecrows.ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -10,12 +11,18 @@ import com.google.common.base.Predicates;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityAIRunAway extends EntityAIBase
@@ -28,6 +35,8 @@ public class EntityAIRunAway extends EntityAIBase
 	private Path path;
 	/** The PathNavigate of our entity */
 	private final PathNavigate navigation;
+	private long ticksSinceSound = 0;
+	private final Random rand = new Random();
 
 	public EntityAIRunAway(EntityLiving entity)
 	{
@@ -139,7 +148,33 @@ public class EntityAIRunAway extends EntityAIBase
 	 */
 	public void updateTask()
 	{
-		//TODO: entity sounds and dust particles from running
+		if(ticksSinceSound == 0)
+		{
+			entity.playLivingSound();
+			entity.spawnRunningParticles();
+			ticksSinceSound = 10;
+		}
+		else
+			ticksSinceSound--;
+
+		createRunningParticles();
 		entity.getNavigator().setSpeed(speed);
+	}
+
+	protected void createRunningParticles()
+	{
+		int i = MathHelper.floor(entity.posX);
+		int j = MathHelper.floor(entity.posY - 0.20000000298023224D);
+		int k = MathHelper.floor(entity.posZ);
+		BlockPos blockpos = new BlockPos(i, j, k);
+		IBlockState iblockstate = entity.world.getBlockState(blockpos);
+
+		if(!iblockstate.getBlock().addRunningEffects(iblockstate, entity.world, blockpos, entity))
+		{
+			if(iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
+			{
+				entity.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, entity.posX + (rand.nextFloat() - 0.5D) * entity.width, entity.getEntityBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.width, -entity.motionX * 4.0D, 1.5D, -entity.motionZ * 4.0D, Block.getStateId(iblockstate));
+			}
+		}
 	}
 }
