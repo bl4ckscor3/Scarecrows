@@ -2,7 +2,6 @@ package bl4ckscor3.mod.scarecrows.block;
 
 import java.util.Random;
 
-import bl4ckscor3.mod.scarecrows.Scarecrows;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -36,7 +35,6 @@ public class BlockArm extends Block
 		setHardness(0.25F);
 		setResistance(1.0F);
 		setSoundType(SoundType.WOOD);
-		setTranslationKey(Scarecrows.PREFIX + NAME);
 	}
 
 	@Override

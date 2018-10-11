@@ -172,9 +172,7 @@ public class EntityAIRunAway extends EntityAIBase
 		if(!iblockstate.getBlock().addRunningEffects(iblockstate, entity.world, blockpos, entity))
 		{
 			if(iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
-			{
 				entity.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, entity.posX + (rand.nextFloat() - 0.5D) * entity.width, entity.getEntityBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.width, -entity.motionX * 4.0D, 1.5D, -entity.motionZ * 4.0D, Block.getStateId(iblockstate));
-			}
 		}
 	}
 }
