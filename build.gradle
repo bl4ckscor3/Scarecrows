@@ -10,8 +10,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "1.12.x-v1.0"
-group = "bl4ckscor3.mod.scarecrow" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "scarecrow"
+group = "bl4ckscor3.mod.scarecrows" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "scarecrows"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
