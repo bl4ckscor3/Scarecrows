@@ -6,6 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -23,11 +24,11 @@ public class SpoopyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos)
+	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		pos = pos.down();
 
-		return hasArms(world, pos) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
+		return hasArms(world, pos, pumpkinFacing) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
 	}
 
 	@Override

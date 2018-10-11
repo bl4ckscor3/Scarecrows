@@ -45,9 +45,10 @@ public abstract class ScarecrowType
 	 * Checks whether this scarecrow is built correctly
 	 * @param world The world to check in
 	 * @param pos The position to start checking from (the pumpkin)
+	 * @param pumpkinFacing The facing of the pumpkin
 	 * @return true if the scarecrow is correctly built, false otherwise
 	 */
-	public abstract boolean checkStructure(World world, BlockPos pos);
+	public abstract boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing);
 
 	/**
 	 * Destroy the structure of this scarecrow
@@ -103,8 +104,9 @@ public abstract class ScarecrowType
 	 * Checks whether this scarecrow has arms
 	 * @param world The world the scarecrow is in
 	 * @param pos The block to which the arms should be attached
+	 * @param pumpkinFacing The facing of the pumpkin, used to determin if the arms are placed on the correct sides
 	 */
-	public final boolean hasArms(World world, BlockPos pos)
+	public final boolean hasArms(World world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		BlockPos posNorth = pos.north();
 		BlockPos posEast = pos.east();
@@ -115,11 +117,13 @@ public abstract class ScarecrowType
 		IBlockState stateSouth = world.getBlockState(posSouth);
 		IBlockState stateWest = world.getBlockState(posWest);
 
-		if(stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(BlockArm.FACING) == EnumFacing.NORTH &&
+		if((pumpkinFacing == EnumFacing.EAST || pumpkinFacing == EnumFacing.WEST) &&
+				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(BlockArm.FACING) == EnumFacing.NORTH &&
 				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.getValue(BlockArm.FACING) == EnumFacing.SOUTH &&
 				stateWest.getBlock() == Blocks.AIR && stateEast.getBlock() == Blocks.AIR)
 			return true;
-		else if(stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(BlockArm.FACING) == EnumFacing.EAST &&
+		else if((pumpkinFacing == EnumFacing.NORTH || pumpkinFacing == EnumFacing.SOUTH) &&
+				stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(BlockArm.FACING) == EnumFacing.EAST &&
 				stateWest.getBlock() == Scarecrows.ARM && stateWest.getValue(BlockArm.FACING) == EnumFacing.WEST &&
 				stateNorth.getBlock() == Blocks.AIR && stateSouth.getBlock() == Blocks.AIR)
 			return true;

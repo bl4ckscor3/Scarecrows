@@ -56,13 +56,14 @@ public class PlaceHandler
 
 			if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
 			{
+				EnumFacing pumpkinFacing = event.getState().getValue(BlockPumpkin.FACING);
 				BlockPos groundPos = pos.down(type.getHeight());
 				IBlockState groundState = world.getBlockState(groundPos);
 
-				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos))
+				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos, pumpkinFacing))
 				{
 					type.destroy(world, pos);
-					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN, event.getState().getValue(BlockPumpkin.FACING)); //-1 because of the feet
+					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN, pumpkinFacing); //-1 because of the feet
 				}
 			}
 		}

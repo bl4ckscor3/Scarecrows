@@ -27,11 +27,11 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos)
+	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.END_STONE)
+		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
 		{
 			IBlockState topState = world.getBlockState(pos.down());
 			IBlockState bottomState = world.getBlockState(pos.down(2));

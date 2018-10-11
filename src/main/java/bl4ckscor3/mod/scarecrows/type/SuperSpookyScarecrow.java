@@ -8,6 +8,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,11 +27,11 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos)
+	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos) && state.getBlock() == Blocks.QUARTZ_BLOCK && state.getValue(BlockQuartz.VARIANT) == BlockQuartz.EnumType.LINES_Y)
+		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_BLOCK && state.getValue(BlockQuartz.VARIANT) == BlockQuartz.EnumType.LINES_Y)
 		{
 			if(world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
