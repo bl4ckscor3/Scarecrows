@@ -59,7 +59,7 @@ public class EntityAIRunAway extends EntityAIBase
 
 			for(EntityScarecrow scarecrow : scarecrows)
 			{
-				if(!scarecrow.getType().shouldScareAnimals() && EntityUtil.isAttackableMonster(entity))
+				if(EntityUtil.isAttackableMonster(entity))
 				{
 					if(!shouldScare(scarecrow))
 						continue;
