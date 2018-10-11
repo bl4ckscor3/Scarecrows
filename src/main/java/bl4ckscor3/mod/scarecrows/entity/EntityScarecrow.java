@@ -76,7 +76,7 @@ public class EntityScarecrow extends Entity
 			if(st.getName().equals(name))
 			{
 				dataManager.set(TYPE, st);
-				return;
+				break;
 			}
 		}
 
