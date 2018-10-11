@@ -1,6 +1,5 @@
 package bl4ckscor3.mod.scarecrows.block;
 
-import bl4ckscor3.mod.scarecrows.Scarecrows;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -22,7 +21,6 @@ public class BlockInvisibleLight extends Block
 		setHardness(-1.0F);
 		setResistance(Float.MAX_VALUE);
 		setLightLevel(1.0F); //light level of a jack o lantern
-		setTranslationKey(Scarecrows.PREFIX + NAME);
 	}
 
 	@Override
