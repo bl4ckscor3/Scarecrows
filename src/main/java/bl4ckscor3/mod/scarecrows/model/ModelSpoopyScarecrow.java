@@ -16,7 +16,7 @@ public class ModelSpoopyScarecrow extends ModelBase
 		textureWidth = 64;
 		textureHeight = 64;
 
-		head = new ModelRenderer(this, 0, isLit ? 42 : 22);
+		head = new ModelRenderer(this, 0, isLit ? 42 : 22); //offset texture for scarecrow with jack o' lantern
 		head.setRotationPoint(-5.0F, 0.0F, -5.0F);
 		head.addBox(0.0F, 0.0F, 0.0F, 10, 10, 10, 0.0F);
 

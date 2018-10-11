@@ -17,7 +17,7 @@ public class ModelSpookyScarecrow extends ModelBase
 		textureWidth = 64;
 		textureHeight = 96;
 
-		head = new ModelRenderer(this, 0, isLit ? 50 : 26);
+		head = new ModelRenderer(this, 0, isLit ? 50 : 26); //offset texture for scarecrow with jack o' lantern
 		head.setRotationPoint(-6.0F, -14.0F, -6.0F);
 		head.addBox(0.0F, 0.0F, 0.0F, 12, 12, 12, 0.0F);
 
@@ -43,11 +43,11 @@ public class ModelSpookyScarecrow extends ModelBase
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		body.render(scale);
 		head.render(scale);
+		body.render(scale);
 		rightArm.render(scale);
-		fence.render(scale);
 		leftArm.render(scale);
+		fence.render(scale);
 	}
 
 	public void setRotateAngles(ModelRenderer modelRenderer, float x, float y, float z)

@@ -6,20 +6,20 @@ import net.minecraft.entity.Entity;
 
 public class ModelScaryScarecrow extends ModelBase
 {
-	public ModelRenderer head;
-	public ModelRenderer body;
-	public ModelRenderer rightArm;
-	public ModelRenderer leftArm;
-	public ModelRenderer rodTop;
-	public ModelRenderer rod;
-	public ModelRenderer rodBottom;
+	private ModelRenderer head;
+	private ModelRenderer body;
+	private ModelRenderer rightArm;
+	private ModelRenderer leftArm;
+	private ModelRenderer rodTop;
+	private ModelRenderer rod;
+	private ModelRenderer rodBottom;
 
 	public ModelScaryScarecrow(boolean isLit)
 	{
 		textureWidth = 64;
 		textureHeight = 96;
 
-		head = new ModelRenderer(this, 0, isLit ? 59 : 31);
+		head = new ModelRenderer(this, 0, isLit ? 59 : 31); //offset texture for scarecrow with jack o' lantern
 		head.setRotationPoint(-7.0F, -29.0F, -7.0F);
 		head.addBox(0.0F, 0.0F, 0.0F, 14, 14, 14, 0.0F);
 
@@ -62,9 +62,6 @@ public class ModelScaryScarecrow extends ModelBase
 		rodBottom.render(scale);
 	}
 
-	/**
-	 * This is a helper function from Tabula to set the rotation of model parts
-	 */
 	public void setRotateAngles(ModelRenderer modelRenderer, float x, float y, float z)
 	{
 		modelRenderer.rotateAngleX = x;

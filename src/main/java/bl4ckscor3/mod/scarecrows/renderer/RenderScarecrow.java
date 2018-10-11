@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderScarecrow extends Render<EntityScarecrow>
 {
-	//used so the memory doesn't build up with new instances of resource locations and models each render tick
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
 	 *
