@@ -64,6 +64,31 @@ public class BlockArm extends Block
 			return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 
+	//borrowed code from BlockTorck
+	@Override
+	public boolean canPlaceBlockAt(World world, BlockPos pos)
+	{
+		for(EnumFacing facing : FACING.getAllowedValues())
+		{
+			if(canPlaceAt(world, pos, facing))
+				return true;
+		}
+
+		return false;
+	}
+
+	private boolean canPlaceAt(World world, BlockPos pos, EnumFacing facing)
+	{
+		BlockPos oppositePos = pos.offset(facing.getOpposite());
+		IBlockState oppositeState = world.getBlockState(oppositePos);
+
+		if(facing != EnumFacing.UP && facing != EnumFacing.DOWN)
+			return !isExceptBlockForAttachWithPiston(oppositeState.getBlock()) && oppositeState.getBlockFaceShape(world, oppositePos, facing) == BlockFaceShape.SOLID;
+		else
+			return false;
+	}
+	//end of borrowed code
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
 	{

@@ -31,11 +31,13 @@ public class PlaceHandler
 		{
 			BlockPos pos = event.getPos();
 			EnumFacing face = event.getFace();
+			BlockPos placeAt = pos.offset(face);
+			World world = event.getWorld();
 
-			if(face != EnumFacing.UP && face != EnumFacing.DOWN && event.getWorld().getBlockState(pos.offset(face)).getBlock() == Blocks.AIR)
+			if(Scarecrows.ARM.canPlaceBlockAt(world, placeAt) && world.getBlockState(placeAt).getBlock() == Blocks.AIR)
 			{
-				event.getWorld().setBlockState(pos.offset(face), Scarecrows.ARM.getDefaultState().withProperty(BlockArm.FACING, face));
-				event.getWorld().playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().withProperty(BlockArm.FACING, face));
+				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 				event.getEntityPlayer().swingArm(event.getHand());
 
 				if(!event.getEntityPlayer().isCreative())
