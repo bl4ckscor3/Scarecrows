@@ -66,18 +66,7 @@ public class BlockArm extends Block
 
 	//borrowed code from BlockTorck
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos)
-	{
-		for(EnumFacing facing : FACING.getAllowedValues())
-		{
-			if(canPlaceAt(world, pos, facing))
-				return true;
-		}
-
-		return false;
-	}
-
-	private boolean canPlaceAt(World world, BlockPos pos, EnumFacing facing)
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing facing)
 	{
 		BlockPos oppositePos = pos.offset(facing.getOpposite());
 		IBlockState oppositeState = world.getBlockState(oppositePos);
