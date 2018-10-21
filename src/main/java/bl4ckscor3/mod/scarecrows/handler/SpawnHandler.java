@@ -1,5 +1,6 @@
 package bl4ckscor3.mod.scarecrows.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Predicates;
@@ -25,7 +26,7 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<EntityScarecrow> scarecrows = event.getWorld().<EntityScarecrow>getEntities(EntityScarecrow.class, Predicates.alwaysTrue());
+			List<EntityScarecrow> scarecrows = new ArrayList<EntityScarecrow>(event.getWorld().<EntityScarecrow>getEntities(EntityScarecrow.class, Predicates.alwaysTrue()));
 
 			for(EntityScarecrow scarecrow : scarecrows)
 			{

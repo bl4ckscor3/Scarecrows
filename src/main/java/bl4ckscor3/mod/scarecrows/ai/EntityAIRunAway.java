@@ -58,7 +58,7 @@ public class EntityAIRunAway extends EntityAIBase
 	 */
 	public boolean shouldExecute()
 	{
-		List<EntityScarecrow> list = entity.world.getEntities(EntityScarecrow.class, Predicates.and(EntitySelectors.CAN_AI_TARGET, canBeSeenSelector));
+		List<EntityScarecrow> list = new ArrayList<EntityScarecrow>(entity.world.getEntities(EntityScarecrow.class, Predicates.and(EntitySelectors.CAN_AI_TARGET, canBeSeenSelector)));
 
 		if(list.isEmpty())
 			return false;
