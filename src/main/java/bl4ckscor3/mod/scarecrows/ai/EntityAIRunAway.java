@@ -7,7 +7,6 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
@@ -18,7 +17,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -58,7 +56,7 @@ public class EntityAIRunAway extends EntityAIBase
 	 */
 	public boolean shouldExecute()
 	{
-		List<EntityScarecrow> list = new ArrayList<EntityScarecrow>(entity.world.getEntities(EntityScarecrow.class, Predicates.and(EntitySelectors.CAN_AI_TARGET, canBeSeenSelector)));
+		List<EntityScarecrow> list = EntityUtil.getLoadedScarecrows(entity.world, canBeSeenSelector);
 
 		if(list.isEmpty())
 			return false;
