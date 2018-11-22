@@ -1,3 +1,9 @@
+### v1.0.3
+
+- Fix a crash with the AI
+- Fix a crash with placing sticks
+- Fix sticks sometimes not placing correctly
+
 ### v1.0.2
 
 - Fix arms being placeable everywhere
