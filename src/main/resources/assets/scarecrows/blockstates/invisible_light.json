@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": { "model": "scarecrows:invisible_light" }
+		"": { "model": "scarecrows:block/invisible_light" }
 	}
 }

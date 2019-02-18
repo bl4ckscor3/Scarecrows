@@ -1,69 +1,97 @@
 package bl4ckscor3.mod.scarecrows;
 
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.Comment;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Config(modid=Scarecrows.MODID)
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+
 public class Configuration
 {
-	public static Spoopy spoopy_scarecrow = new Spoopy();
-	public static SuperSpoopy super_spoopy_scarecrow = new SuperSpoopy();
-	public static Spooky spooky_scarecrow = new Spooky();
-	public static SuperSpooky super_spooky_scarecrow = new SuperSpooky();
-	public static Scary scary_scarecrow = new Scary();
-	public static SuperScary super_scary_scarecrow = new SuperScary();
+	public static final ForgeConfigSpec CONFIG_SPEC;
+	public static final Configuration CONFIG;
 
-	public static class Spoopy
+	public final IntValue spoopyRange;
+	public final BooleanValue spoopyScareAnimals;
+	public final IntValue superSpoopyRange;
+	public final BooleanValue superSpoopyScareAnimals;
+	public final IntValue spookyRange;
+	public final BooleanValue spookyScareAnimals;
+	public final IntValue superSpookyRange;
+	public final BooleanValue superSpookyScareAnimals;
+	public final IntValue scaryRange;
+	public final BooleanValue scaryScareAnimals;
+	public final IntValue superScaryRange;
+	public final BooleanValue superScaryScareAnimals;
+
+	static
 	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 10;
+		Pair<Configuration,ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
 
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = false;
+		CONFIG_SPEC = specPair.getRight();
+		CONFIG = specPair.getLeft();
 	}
 
-	public static class SuperSpoopy
+	Configuration(ForgeConfigSpec.Builder builder)
 	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 10;
+		builder.comment("Spoopy Scarecrow Configuration")
+		.push("spoopy");
+		spoopyRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 10, 0, Integer.MAX_VALUE);
+		spoopyScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", false);
+		builder.pop();
 
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = true;
-	}
+		builder.comment("Super Spoopy Scarecrow Configuration")
+		.push("spoopy");
+		superSpoopyRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 10, 0, Integer.MAX_VALUE);
+		superSpoopyScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", true);
+		builder.pop();
 
-	public static class Spooky
-	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 25;
+		builder.comment("Spooky Scarecrow Configuration")
+		.push("spoopy");
+		spookyRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
+		spookyScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", false);
+		builder.pop();
 
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = false;
-	}
+		builder.comment("Super Spooky Scarecrow Configuration")
+		.push("spoopy");
+		superSpookyRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
+		superSpookyScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", true);
+		builder.pop();
 
-	public static class SuperSpooky
-	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 25;
+		builder.comment("Scary Scarecrow Configuration")
+		.push("spoopy");
+		scaryRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
+		scaryScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", false);
+		builder.pop();
 
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = true;
-	}
-
-	public static class Scary
-	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 50;
-
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = false;
-	}
-
-	public static class SuperScary
-	{
-		@Comment("The effect range of this scarecrow")
-		public int RANGE = 50;
-
-		@Comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
-		public boolean SCARE_ANIMALS = true;
+		builder.comment("Super Scary Scarecrow Configuration")
+		.push("spoopy");
+		superScaryRange = builder
+				.comment("The effect range of this scarecrow")
+				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
+		superScaryScareAnimals = builder
+				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
+				.define("scareAnimals", true);
+		builder.pop();
 	}
 }

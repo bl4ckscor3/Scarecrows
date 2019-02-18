@@ -1,0 +1,25 @@
+modLoader="javafml" #mandatory
+loaderVersion="[25,)" #mandatory
+
+[[mods]] #mandatory
+	modId="scarecrows" #mandatory
+	version="v1.0.3" #mandatory
+	displayName="Scarecrows" #mandatory
+	description='''Adds scarecrows that keep monsters (and animals if you want) off your lawn.''' #mandatory
+	issueTrackerURL="https://github.com/bl4ckscor3/Scarecrows/issues"
+	displayURL="http://minecraft.curseforge.com/projects/scarecrows"
+	authors="bl4ckscor3"
+
+[[dependencies.scarecrows]]
+    modId="forge"
+    mandatory=true
+    versionRange="[25,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.scarecrows]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
+    ordering="NONE"
+    side="BOTH"

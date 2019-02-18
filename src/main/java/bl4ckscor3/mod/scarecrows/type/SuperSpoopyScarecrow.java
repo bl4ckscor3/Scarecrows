@@ -2,15 +2,14 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
 import bl4ckscor3.mod.scarecrows.model.ModelSpoopyScarecrow;
-import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 
 public class SuperSpoopyScarecrow extends ScarecrowType
 {
@@ -22,19 +21,19 @@ public class SuperSpoopyScarecrow extends ScarecrowType
 
 	public SuperSpoopyScarecrow()
 	{
-		super("super_spoopy_scarecrow", 2, Configuration.super_spoopy_scarecrow.RANGE, Configuration.super_spoopy_scarecrow.SCARE_ANIMALS);
+		super("super_spoopy_scarecrow", 2, Configuration.CONFIG.superSpoopyRange.get(), Configuration.CONFIG.superSpoopyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
+	public boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		return hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.STONEBRICK && state.getValue(BlockStoneBrick.VARIANT) == BlockStoneBrick.EnumType.CHISELED;
+		return hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.CHISELED_STONE_BRICKS;
 	}
 
 	@Override
-	public void destroy(World world, BlockPos pos)
+	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
 		pos = pos.down();
@@ -48,7 +47,7 @@ public class SuperSpoopyScarecrow extends ScarecrowType
 	@Override
 	public ItemStack[] getDrops()
 	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.STONEBRICK, 1, 3)};
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CHISELED_STONE_BRICKS)};
 	}
 
 	@Override

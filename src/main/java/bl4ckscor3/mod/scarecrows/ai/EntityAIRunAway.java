@@ -10,15 +10,15 @@ import com.google.common.base.Predicate;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.init.Particles;
+import net.minecraft.particles.BlockParticleData;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -43,7 +43,7 @@ public class EntityAIRunAway extends EntityAIBase
 			@Override
 			public boolean apply(@Nullable Entity e)
 			{
-				return e.isEntityAlive() && entity.getEntitySenses().canSee(e);
+				return e.isAlive() && entity.getEntitySenses().canSee(e);
 			}
 		};
 		this.entity = entity;
@@ -72,7 +72,7 @@ public class EntityAIRunAway extends EntityAIBase
 						continue;
 					else return true;
 				}
-				else if(scarecrow.getType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
+				else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
 				{
 					if(!shouldScare(scarecrow))
 						continue;
@@ -96,7 +96,7 @@ public class EntityAIRunAway extends EntityAIBase
 		{
 			if(e == entity)
 			{
-				if(e.getDistance(scarecrow) <= scarecrow.getType().getRange())
+				if(e.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange())
 				{
 					Vec3d scarecrowPos = new Vec3d(scarecrow.posX, scarecrow.posY, scarecrow.posZ);
 					Vec3d ownPos = new Vec3d(e.posX, e.posY, e.posZ);
@@ -148,7 +148,7 @@ public class EntityAIRunAway extends EntityAIBase
 	{
 		if(ticksSinceSound == 0)
 		{
-			entity.playLivingSound();
+			entity.playAmbientSound();
 			entity.spawnRunningParticles();
 			ticksSinceSound = 10;
 		}
@@ -162,15 +162,15 @@ public class EntityAIRunAway extends EntityAIBase
 	protected void createRunningParticles()
 	{
 		int i = MathHelper.floor(entity.posX);
-		int j = MathHelper.floor(entity.posY - 0.20000000298023224D);
+		int j = MathHelper.floor(entity.posY - 0.2F);
 		int k = MathHelper.floor(entity.posZ);
 		BlockPos blockpos = new BlockPos(i, j, k);
 		IBlockState iblockstate = entity.world.getBlockState(blockpos);
 
-		if(!iblockstate.getBlock().addRunningEffects(iblockstate, entity.world, blockpos, entity))
+		if(!iblockstate.addRunningEffects(entity.world, blockpos, entity))
 		{
 			if(iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
-				entity.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, entity.posX + (rand.nextFloat() - 0.5D) * entity.width, entity.getEntityBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.width, -entity.motionX * 4.0D, 1.5D, -entity.motionZ * 4.0D, Block.getStateId(iblockstate));
+				entity.world.addParticle(new BlockParticleData(Particles.BLOCK, iblockstate), entity.posX + (rand.nextFloat() - 0.5D) * entity.width, entity.getBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.width, -entity.motionX * 4.0D, 1.5D, -entity.motionZ * 4.0D);
 		}
 	}
 }

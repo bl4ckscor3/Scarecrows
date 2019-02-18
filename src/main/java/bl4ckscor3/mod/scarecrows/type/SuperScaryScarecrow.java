@@ -4,13 +4,13 @@ import bl4ckscor3.mod.scarecrows.Configuration;
 import bl4ckscor3.mod.scarecrows.model.ModelScaryScarecrow;
 import net.minecraft.block.BlockEndRod;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 
 public class SuperScaryScarecrow extends ScarecrowType
 {
@@ -23,11 +23,11 @@ public class SuperScaryScarecrow extends ScarecrowType
 
 	public SuperScaryScarecrow()
 	{
-		super("super_scary_scarecrow", 4, Configuration.super_scary_scarecrow.RANGE, Configuration.super_scary_scarecrow.SCARE_ANIMALS);
+		super("super_scary_scarecrow", 4, Configuration.CONFIG.superScaryRange.get(), Configuration.CONFIG.superScaryScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
+	public boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
@@ -36,8 +36,8 @@ public class SuperScaryScarecrow extends ScarecrowType
 			IBlockState topState = world.getBlockState(pos.down());
 			IBlockState bottomState = world.getBlockState(pos.down(2));
 
-			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(BlockEndRod.FACING) == EnumFacing.DOWN &&
-					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(BlockEndRod.FACING) == EnumFacing.UP)
+			if(topState.getBlock() == Blocks.END_ROD && topState.get(BlockEndRod.FACING) == EnumFacing.DOWN &&
+					bottomState.getBlock() == Blocks.END_ROD && bottomState.get(BlockEndRod.FACING) == EnumFacing.UP)
 				return true;
 		}
 
@@ -45,7 +45,7 @@ public class SuperScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(World world, BlockPos pos)
+	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
 		pos = pos.down();

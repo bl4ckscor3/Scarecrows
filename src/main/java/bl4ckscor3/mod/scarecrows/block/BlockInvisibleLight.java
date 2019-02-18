@@ -5,9 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
 public class BlockInvisibleLight extends Block
 {
@@ -15,28 +16,21 @@ public class BlockInvisibleLight extends Block
 
 	public BlockInvisibleLight()
 	{
-		super(Material.ROCK);
+		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1.0F, Float.MAX_VALUE).lightValue(15)); //light level of a jack o lantern
 
 		setRegistryName(NAME);
-		setHardness(-1.0F);
-		setResistance(Float.MAX_VALUE);
-		setLightLevel(1.0F); //light level of a jack o lantern
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public VoxelShape getShape(IBlockState state, IBlockReader source, BlockPos pos)
 	{
-		float px = 1.0F / 16.0F;
-		float start = 7.5F * px;
-		float end = 8.5F * px;
-
-		return new AxisAlignedBB(start, start, start, end, end, end);
+		return Block.makeCuboidShape(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
+	public VoxelShape getCollisionShape(IBlockState state, IBlockReader world, BlockPos pos)
 	{
-		return null;
+		return VoxelShapes.empty();
 	}
 
 	@Override
@@ -46,25 +40,13 @@ public class BlockInvisibleLight extends Block
 	}
 
 	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	public BlockFaceShape getBlockFaceShape(IBlockReader world, IBlockState state, BlockPos pos, EnumFacing face)
 	{
 		return BlockFaceShape.UNDEFINED;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullBlock(IBlockState state)
+	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos)
 	{
 		return false;
 	}

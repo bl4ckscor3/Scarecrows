@@ -1,13 +1,10 @@
 package bl4ckscor3.mod.scarecrows.util;
 
-import java.io.IOException;
-
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class CustomDataSerializers
 {
@@ -16,13 +13,13 @@ public class CustomDataSerializers
 		@Override
 		public void write(PacketBuffer buf, ScarecrowType value)
 		{
-			ByteBufUtils.writeUTF8String(buf, value.getName());
+			buf.writeString(value.getName());
 		}
 
 		@Override
-		public ScarecrowType read(PacketBuffer buf) throws IOException
+		public ScarecrowType read(PacketBuffer buf)
 		{
-			String bufferedName = ByteBufUtils.readUTF8String(buf);
+			String bufferedName = buf.readString(Integer.MAX_VALUE);
 
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
@@ -60,7 +57,7 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public AxisAlignedBB read(PacketBuffer buf) throws IOException
+		public AxisAlignedBB read(PacketBuffer buf)
 		{
 			return new AxisAlignedBB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
 		}

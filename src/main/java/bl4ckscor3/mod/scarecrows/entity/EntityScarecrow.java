@@ -1,5 +1,6 @@
 package bl4ckscor3.mod.scarecrows.entity;
 
+import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
@@ -21,12 +22,12 @@ public class EntityScarecrow extends Entity
 
 	public EntityScarecrow(World world)
 	{
-		super(world);
+		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
 	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit, EnumFacing facing)
 	{
-		super(world);
+		this(world);
 
 		setSize(1.0F, height);
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
@@ -37,7 +38,7 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
-	protected void entityInit()
+	protected void registerData()
 	{
 		dataManager.register(TYPE, null);
 		dataManager.register(LIT, false);
@@ -46,28 +47,28 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
-	public void onUpdate()
+	public void tick()
 	{
 		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
-			setDead();
+			remove();
 	}
 
 	@Override
-	public void setDead()
+	public void remove()
 	{
-		super.setDead();
+		super.remove();
 
 		if(!world.isRemote)
 		{
 			if(isLit())
-				world.destroyBlock(getPosition().up(getType().getHeight() - 1), false);
+				world.destroyBlock(getPosition().up(getScarecrowType().getHeight() - 1), false);
 
-			getType().dropMaterials(world, getPosition(), isLit());
+			getScarecrowType().dropMaterials(world, getPosition(), isLit());
 		}
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound tag)
+	protected void readAdditional(NBTTagCompound tag)
 	{
 		String name = tag.getString("type");
 
@@ -92,25 +93,25 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound tag)
+	protected void writeAdditional(NBTTagCompound tag)
 	{
 		AxisAlignedBB area = getArea();
 
-		tag.setString("type", getType().getName());
-		tag.setBoolean("isLit", isLit());
-		tag.setFloat("rotation", getRotation());
-		tag.setDouble("areaMinX", area.minX);
-		tag.setDouble("areaMinY", area.minY);
-		tag.setDouble("areaMinZ", area.minZ);
-		tag.setDouble("areaMaxX", area.maxX);
-		tag.setDouble("areaMaxY", area.maxY);
-		tag.setDouble("areaMaxZ", area.maxZ);
+		tag.putString("type", getScarecrowType().getName());
+		tag.putBoolean("isLit", isLit());
+		tag.putFloat("rotation", getRotation());
+		tag.putDouble("areaMinX", area.minX);
+		tag.putDouble("areaMinY", area.minY);
+		tag.putDouble("areaMinZ", area.minZ);
+		tag.putDouble("areaMaxX", area.maxX);
+		tag.putDouble("areaMaxY", area.maxY);
+		tag.putDouble("areaMaxZ", area.maxZ);
 	}
 
 	/**
 	 * @return The type of this scarecrow
 	 */
-	public ScarecrowType getType()
+	public ScarecrowType getScarecrowType()
 	{
 		return dataManager.get(TYPE);
 	}

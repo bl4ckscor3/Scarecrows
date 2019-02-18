@@ -6,10 +6,10 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderScarecrow extends Render<EntityScarecrow>
@@ -21,9 +21,9 @@ public class RenderScarecrow extends Render<EntityScarecrow>
 	 */
 	public static final HashMap<String,Triple<ResourceLocation,ModelBase,ModelBase>> RENDER_INFO = new HashMap<String,Triple<ResourceLocation,ModelBase,ModelBase>>();
 
-	public RenderScarecrow()
+	public RenderScarecrow(RenderManager manager)
 	{
-		super(Minecraft.getMinecraft().getRenderManager());
+		super(manager);
 
 		for(ScarecrowType type : ScarecrowType.TYPES)
 		{
@@ -35,15 +35,15 @@ public class RenderScarecrow extends Render<EntityScarecrow>
 	public void doRender(EntityScarecrow entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y + 1.5F, z);
-		GlStateManager.scale(-1, -1, 1); //rotate model rightside up
-		GlStateManager.rotate(entity.getRotation(), 0, 1, 0);
+		GlStateManager.translated(x, y + 1.5F, z);
+		GlStateManager.scalef(-1, -1, 1); //rotate model rightside up
+		GlStateManager.rotatef(entity.getRotation(), 0, 1, 0);
 		bindEntityTexture(entity);
 
 		if(entity.isLit())
-			RENDER_INFO.get(entity.getType().getName()).getRight().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 		else
-			RENDER_INFO.get(entity.getType().getName()).getMiddle().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
 		GlStateManager.popMatrix();
 	}
@@ -51,6 +51,6 @@ public class RenderScarecrow extends Render<EntityScarecrow>
 	@Override
 	protected ResourceLocation getEntityTexture(EntityScarecrow entity)
 	{
-		return RENDER_INFO.get(entity.getType().getName()).getLeft();
+		return RENDER_INFO.get(entity.getScarecrowType().getName()).getLeft();
 	}
 }

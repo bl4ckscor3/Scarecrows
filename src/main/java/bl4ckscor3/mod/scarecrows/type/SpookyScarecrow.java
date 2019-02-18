@@ -3,13 +3,13 @@ package bl4ckscor3.mod.scarecrows.type;
 import bl4ckscor3.mod.scarecrows.Configuration;
 import bl4ckscor3.mod.scarecrows.model.ModelSpookyScarecrow;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 
 public class SpookyScarecrow extends ScarecrowType
 {
@@ -22,11 +22,11 @@ public class SpookyScarecrow extends ScarecrowType
 
 	public SpookyScarecrow()
 	{
-		super("spooky_scarecrow", 3, Configuration.spooky_scarecrow.RANGE, Configuration.spooky_scarecrow.SCARE_ANIMALS);
+		super("spooky_scarecrow", 3, Configuration.CONFIG.spookyRange.get(), Configuration.CONFIG.spookyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
+	public boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
@@ -40,7 +40,7 @@ public class SpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(World world, BlockPos pos)
+	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
 		pos = pos.down();

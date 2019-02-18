@@ -5,11 +5,12 @@ import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public abstract class ScarecrowType
@@ -48,14 +49,14 @@ public abstract class ScarecrowType
 	 * @param pumpkinFacing The facing of the pumpkin
 	 * @return true if the scarecrow is correctly built, false otherwise
 	 */
-	public abstract boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing);
+	public abstract boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing);
 
 	/**
 	 * Destroy the structure of this scarecrow
 	 * @param world The world to destroy in
 	 * @param pos The position to start destroying from (the pumpkin)
 	 */
-	public abstract void destroy(World world, BlockPos pos);
+	public abstract void destroy(IWorld world, BlockPos pos);
 
 	/**
 	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
@@ -106,7 +107,7 @@ public abstract class ScarecrowType
 	 * @param pos The block to which the arms should be attached
 	 * @param pumpkinFacing The facing of the pumpkin, used to determin if the arms are placed on the correct sides
 	 */
-	public final boolean hasArms(World world, BlockPos pos, EnumFacing pumpkinFacing)
+	public final boolean hasArms(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		BlockPos posNorth = pos.north();
 		BlockPos posEast = pos.east();
@@ -118,14 +119,14 @@ public abstract class ScarecrowType
 		IBlockState stateWest = world.getBlockState(posWest);
 
 		if((pumpkinFacing == EnumFacing.EAST || pumpkinFacing == EnumFacing.WEST) &&
-				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(BlockArm.FACING) == EnumFacing.NORTH &&
-				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.getValue(BlockArm.FACING) == EnumFacing.SOUTH &&
-				stateWest.getBlock() == Blocks.AIR && stateEast.getBlock() == Blocks.AIR)
+				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.get(BlockArm.FACING) == EnumFacing.NORTH &&
+				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.get(BlockArm.FACING) == EnumFacing.SOUTH &&
+				stateWest.isAir(world, pos) && stateEast.isAir(world, pos))
 			return true;
 		else if((pumpkinFacing == EnumFacing.NORTH || pumpkinFacing == EnumFacing.SOUTH) &&
-				stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(BlockArm.FACING) == EnumFacing.EAST &&
-				stateWest.getBlock() == Scarecrows.ARM && stateWest.getValue(BlockArm.FACING) == EnumFacing.WEST &&
-				stateNorth.getBlock() == Blocks.AIR && stateSouth.getBlock() == Blocks.AIR)
+				stateEast.getBlock() == Scarecrows.ARM && stateEast.get(BlockArm.FACING) == EnumFacing.EAST &&
+				stateWest.getBlock() == Scarecrows.ARM && stateWest.get(BlockArm.FACING) == EnumFacing.WEST &&
+				stateNorth.isAir(world, pos) && stateSouth.isAir(world, pos))
 			return true;
 		else return false;
 	}
@@ -138,12 +139,12 @@ public abstract class ScarecrowType
 	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
 	 * @param facing The facing of the spawned scarecrow entity
 	 */
-	public final void spawn(ScarecrowType type, World world, BlockPos pos, boolean isLit, EnumFacing facing)
+	public final void spawn(ScarecrowType type, IWorld world, BlockPos pos, boolean isLit, EnumFacing facing)
 	{
 		if(isLit)
-			world.setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
+			((World)world).setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
 
-		world.spawnEntity(new EntityScarecrow(type, world, pos, isLit, facing));
+		world.spawnEntity(new EntityScarecrow(type, (World)world, pos, isLit, facing));
 	}
 
 	/**
@@ -154,7 +155,7 @@ public abstract class ScarecrowType
 	 */
 	public final void dropMaterials(World world, BlockPos pos, boolean dropLight)
 	{
-		Block.spawnAsEntity(world, pos, new ItemStack(dropLight ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
+		Block.spawnAsEntity(world, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
 
 		for(ItemStack stack : getDrops())
 		{

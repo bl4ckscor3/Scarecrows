@@ -2,15 +2,14 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
 import bl4ckscor3.mod.scarecrows.model.ModelSpookyScarecrow;
-import net.minecraft.block.BlockQuartz;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 
 public class SuperSpookyScarecrow extends ScarecrowType
 {
@@ -23,15 +22,15 @@ public class SuperSpookyScarecrow extends ScarecrowType
 
 	public SuperSpookyScarecrow()
 	{
-		super("super_spooky_scarecrow", 3, Configuration.super_spooky_scarecrow.RANGE, Configuration.super_spooky_scarecrow.SCARE_ANIMALS);
+		super("super_spooky_scarecrow", 3, Configuration.CONFIG.superSpookyRange.get(), Configuration.CONFIG.superSpookyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(World world, BlockPos pos, EnumFacing pumpkinFacing)
+	public boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
 	{
 		IBlockState state = world.getBlockState(pos = pos.down());
 
-		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_BLOCK && state.getValue(BlockQuartz.VARIANT) == BlockQuartz.EnumType.LINES_Y)
+		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_PILLAR)
 		{
 			if(world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
@@ -41,7 +40,7 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(World world, BlockPos pos)
+	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
 		pos = pos.down();
@@ -56,7 +55,7 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	@Override
 	public ItemStack[] getDrops()
 	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.QUARTZ_BLOCK, 1, 2), new ItemStack(Blocks.NETHER_BRICK_FENCE)};
+		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.QUARTZ_PILLAR), new ItemStack(Blocks.NETHER_BRICK_FENCE)};
 	}
 
 	@Override

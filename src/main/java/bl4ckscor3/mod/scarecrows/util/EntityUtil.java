@@ -23,6 +23,7 @@ import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityUtil
@@ -92,6 +93,14 @@ public class EntityUtil
 			return new Vec3d(k1 + entity.posX, i + entity.posY, j + entity.posZ);
 		else
 			return null;
+	}
+
+	/**
+	 * See below
+	 */
+	public static ArrayList<EntityScarecrow> getLoadedScarecrows(IWorld world, Predicate <? super EntityScarecrow> filter)
+	{
+		return getLoadedScarecrows((World)world, filter);
 	}
 
 	/**
