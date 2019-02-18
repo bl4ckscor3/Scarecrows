@@ -51,12 +51,11 @@ public class PlaceHandler
 	{
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
+		Block block = event.getPlacedBlock().getBlock();
 
-		for(ScarecrowType type : ScarecrowType.TYPES)
+		if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
 		{
-			Block block = event.getPlacedBlock().getBlock();
-
-			if(block == Blocks.PUMPKIN || block == Blocks.LIT_PUMPKIN) //structure only ever activates when placing a pumpkin or jack o lantern
+			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
 				EnumFacing pumpkinFacing = event.getState().getValue(BlockPumpkin.FACING);
 				BlockPos groundPos = pos.down(type.getHeight());
