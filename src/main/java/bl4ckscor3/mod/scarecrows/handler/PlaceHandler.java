@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -47,17 +48,32 @@ public class PlaceHandler
 	}
 
 	@SubscribeEvent
-	public static void onPlace(RightClickBlock event) //scarecrow structure logic
+	public static void onPlace(PlaceEvent event)
 	{
-		IWorld world = event.getWorld();
-		BlockPos pos = event.getPos();
-		Block block = world.getBlockState(pos).getBlock();
+		tryBuildScarecrow(event.getWorld(), event.getPos(), event.getPlacedBlock());
+	}
+
+	@SubscribeEvent
+	public static void onRightClick(RightClickBlock event) //scarecrow structure logic
+	{
+		tryBuildScarecrow(event.getWorld(), event.getPos(), event.getWorld().getBlockState(event.getPos()));
+	}
+
+	/**
+	 * Tries to build a scarecrow
+	 * @param world The world to build the scarecrow in
+	 * @param pos The position of the block that was placed/rightclicked
+	 * @param state The state of the block that was placed/rightclicked
+	 */
+	private static void tryBuildScarecrow(IWorld world, BlockPos pos, IBlockState state)
+	{
+		Block block = state.getBlock();
 
 		if(block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) //structure only ever activates when placing a carved pumpkin or jack o lantern
 		{
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
-				EnumFacing pumpkinFacing = world.getBlockState(pos).get(BlockCarvedPumpkin.FACING);
+				EnumFacing pumpkinFacing = state.get(BlockCarvedPumpkin.FACING);
 				BlockPos groundPos = pos.down(type.getHeight());
 				IBlockState groundState = world.getBlockState(groundPos);
 
