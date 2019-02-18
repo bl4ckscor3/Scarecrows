@@ -65,6 +65,7 @@ public class PlaceHandler
 				{
 					type.destroy(world, pos);
 					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.LIT_PUMPKIN, pumpkinFacing); //-1 because of the feet
+					return;
 				}
 			}
 		}
