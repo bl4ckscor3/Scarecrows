@@ -46,6 +46,6 @@ public class SpawnHandler
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{
 		if(EntityUtil.isAttackableMonster(event.getEntity()) || EntityUtil.isAttackableAnimal(event.getEntity()))
-			((EntityLiving)event.getEntity()).targetTasks.addTask(0, new EntityAIRunAway((EntityLiving)event.getEntity()));
+			((EntityLiving)event.getEntity()).tasks.addTask(0, new EntityAIRunAway((EntityLiving)event.getEntity()));
 	}
 }
