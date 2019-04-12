@@ -48,7 +48,6 @@ public class SpawnHandler
 	{
 		if(EntityUtil.isAttackableMonster(event.getEntity()) || EntityUtil.isAttackableAnimal(event.getEntity()))
 		{
-			System.out.println(event.getEntity().getName().toString());
 			((EntityLiving)event.getEntity()).targetTasks.addTask(0, new EntityAIRunAway((EntityLiving)event.getEntity()));
 		}
 	}
