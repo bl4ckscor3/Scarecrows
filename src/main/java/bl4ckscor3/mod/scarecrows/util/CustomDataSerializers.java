@@ -19,7 +19,7 @@ public class CustomDataSerializers
 		@Override
 		public ScarecrowType read(PacketBuffer buf)
 		{
-			String bufferedName = buf.readString(Integer.MAX_VALUE);
+			String bufferedName = buf.readString(Integer.MAX_VALUE / 4);
 
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{

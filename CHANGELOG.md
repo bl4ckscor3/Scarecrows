@@ -1,3 +1,8 @@
+### v1.0.4
+
+- Fix entities not always running away
+- Remove debug output
+
 ### v1.0.3
 
 - Fix a crash with the AI
