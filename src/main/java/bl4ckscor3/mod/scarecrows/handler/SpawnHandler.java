@@ -11,7 +11,8 @@ import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -19,7 +20,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 public class SpawnHandler
 {
 	@SubscribeEvent
-	public static void onSpecialSpawn(SpecialSpawn event)
+	public static void onCheckSpawn(CheckSpawn event)
 	{
 		Entity entity = event.getEntity();
 		boolean animal = EntityUtil.isAttackableAnimal(entity);
@@ -33,11 +34,11 @@ public class SpawnHandler
 				if(entity.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((EntityLiving)entity).canEntityBeSeen(scarecrow))
 				{
 					if(animal && scarecrow.getScarecrowType().shouldScareAnimals())
-						event.setCanceled(true);
+						event.setResult(Result.DENY);
 					else if(!animal)
-						event.setCanceled(true);
+						event.setResult(Result.DENY);
 
-					return;
+					return; //needed so the loop stops
 				}
 			}
 		}

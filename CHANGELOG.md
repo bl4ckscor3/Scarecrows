@@ -1,4 +1,5 @@
 ### v1.0.5
+- Fix entities being able to spawn in a scarecrow's radius
 - Fix configuration not being generated correctly
 
 ### v1.0.4
