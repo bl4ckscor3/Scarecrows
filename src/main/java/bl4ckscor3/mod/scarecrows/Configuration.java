@@ -45,7 +45,7 @@ public class Configuration
 		builder.pop();
 
 		builder.comment("Super Spoopy Scarecrow Configuration")
-		.push("spoopy");
+		.push("super_spoopy");
 		superSpoopyRange = builder
 				.comment("The effect range of this scarecrow")
 				.defineInRange("range", 10, 0, Integer.MAX_VALUE);
@@ -55,7 +55,7 @@ public class Configuration
 		builder.pop();
 
 		builder.comment("Spooky Scarecrow Configuration")
-		.push("spoopy");
+		.push("spooky");
 		spookyRange = builder
 				.comment("The effect range of this scarecrow")
 				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
@@ -65,7 +65,7 @@ public class Configuration
 		builder.pop();
 
 		builder.comment("Super Spooky Scarecrow Configuration")
-		.push("spoopy");
+		.push("super_spooky");
 		superSpookyRange = builder
 				.comment("The effect range of this scarecrow")
 				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
@@ -75,7 +75,7 @@ public class Configuration
 		builder.pop();
 
 		builder.comment("Scary Scarecrow Configuration")
-		.push("spoopy");
+		.push("scary");
 		scaryRange = builder
 				.comment("The effect range of this scarecrow")
 				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
@@ -85,7 +85,7 @@ public class Configuration
 		builder.pop();
 
 		builder.comment("Super Scary Scarecrow Configuration")
-		.push("spoopy");
+		.push("super_scary");
 		superScaryRange = builder
 				.comment("The effect range of this scarecrow")
 				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
