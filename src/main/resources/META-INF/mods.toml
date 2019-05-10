@@ -13,7 +13,7 @@ loaderVersion="[25,)" #mandatory
 [[dependencies.scarecrows]]
     modId="forge"
     mandatory=true
-    versionRange="[25,)"
+    versionRange="[25.0.168,)"
     ordering="NONE"
     side="BOTH"
 

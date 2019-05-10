@@ -11,14 +11,14 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.13.2-v1.0.5'
+version = '1.13.2-v1.0.6'
 group = 'bl4ckscor3.mod.scarecrows'
 archivesBaseName = 'scarecrows'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190406-1.13.2'
+    mappings channel: 'snapshot', version: '20190510-1.13.2'
 	
     runs {
         client = {
@@ -37,7 +37,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.13.2-25.0.110'
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.193'
 }
 
 jar {

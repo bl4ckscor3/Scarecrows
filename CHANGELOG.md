@@ -1,4 +1,5 @@
 ### v1.0.6
+- Fix the mod not working with Forge 25.0.168+. This means that the minimum Forge version is now 25.0.168
 - Fix a crash
 
 ### v1.0.5

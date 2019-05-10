@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
-import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -48,7 +48,7 @@ public class PlaceHandler
 	}
 
 	@SubscribeEvent
-	public static void onPlace(PlaceEvent event)
+	public static void onPlace(EntityPlaceEvent event)
 	{
 		tryBuildScarecrow(event.getWorld(), event.getPos(), event.getPlacedBlock());
 	}
