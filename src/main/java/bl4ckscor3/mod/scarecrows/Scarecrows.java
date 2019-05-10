@@ -20,14 +20,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ObjectHolder;
 
-@Mod(Scarecrows.MODID )
+@Mod(Scarecrows.MODID)
 @EventBusSubscriber(bus=Bus.MOD)
 public class Scarecrows
 {
 	public static final String MODID = "scarecrows";
-	public static final String NAME = "Scarecrows";
-	public static final String VERSION = "v1.0.3";
-	public static final String MC_VERSION = "1.12";
 	public static final String PREFIX = MODID + ":";
 
 	@ObjectHolder(Scarecrows.PREFIX + BlockArm.NAME)

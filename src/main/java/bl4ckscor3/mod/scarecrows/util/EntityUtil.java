@@ -100,7 +100,9 @@ public class EntityUtil
 	 */
 	public static ArrayList<EntityScarecrow> getLoadedScarecrows(IWorld world, Predicate <? super EntityScarecrow> filter)
 	{
-		return getLoadedScarecrows((World)world, filter);
+		if(world instanceof World)
+			return getLoadedScarecrows((World)world, filter);
+		else return new ArrayList<>();
 	}
 
 	/**
