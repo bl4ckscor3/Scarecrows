@@ -4,14 +4,17 @@ import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityScarecrow extends Entity
 {
@@ -20,16 +23,20 @@ public class EntityScarecrow extends Entity
 	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityScarecrow.class, DataSerializers.FLOAT);
 	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(EntityScarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
 
+	public EntityScarecrow(EntityType<EntityScarecrow> type, World world)
+	{
+		super(type, world);
+	}
+
 	public EntityScarecrow(World world)
 	{
 		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
-	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit, EnumFacing facing)
+	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		this(world);
 
-		setSize(1.0F, height);
 		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 		dataManager.set(TYPE, type);
 		dataManager.set(LIT, isLit);
@@ -68,7 +75,7 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
-	protected void readAdditional(NBTTagCompound tag)
+	protected void readAdditional(CompoundNBT tag)
 	{
 		String name = tag.getString("type");
 
@@ -93,7 +100,7 @@ public class EntityScarecrow extends Entity
 	}
 
 	@Override
-	protected void writeAdditional(NBTTagCompound tag)
+	protected void writeAdditional(CompoundNBT tag)
 	{
 		AxisAlignedBB area = getArea();
 
@@ -138,5 +145,11 @@ public class EntityScarecrow extends Entity
 	public AxisAlignedBB getArea()
 	{
 		return dataManager.get(AREA);
+	}
+
+	@Override
+	public IPacket<?> createSpawnPacket()
+	{
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

@@ -1,29 +1,33 @@
 package bl4ckscor3.mod.scarecrows.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 
+import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityShulker;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.ShulkerEntity;
+import net.minecraft.entity.monster.SlimeEntity;
+import net.minecraft.entity.passive.AmbientEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.SquidEntity;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 
 public class EntityUtil
@@ -35,7 +39,7 @@ public class EntityUtil
 	 */
 	public static boolean isAttackableMonster(Entity entity)
 	{
-		return entity instanceof EntityMob || entity instanceof EntityDragon || entity instanceof EntityGhast || entity instanceof EntityShulker || entity instanceof EntitySlime;
+		return entity instanceof MonsterEntity || entity instanceof EnderDragonEntity || entity instanceof GhastEntity || entity instanceof ShulkerEntity || entity instanceof SlimeEntity;
 	}
 
 	/**
@@ -45,15 +49,15 @@ public class EntityUtil
 	 */
 	public static boolean isAttackableAnimal(Entity entity)
 	{
-		return entity instanceof EntityAmbientCreature || entity instanceof EntityAnimal || entity instanceof EntitySquid;
+		return entity instanceof AmbientEntity || entity instanceof AnimalEntity || entity instanceof SquidEntity;
 	}
 
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	public static Vec3d generateRandomPos(EntityLiving entity, int xz, int y, @Nullable Vec3d target, boolean b)
+	public static Vec3d generateRandomPos(MobEntity entity, int xz, int y, @Nullable Vec3d target, boolean b)
 	{
-		PathNavigate pathnavigate = entity.getNavigator();
+		PathNavigator pathnavigate = entity.getNavigator();
 		Random random = entity.getRNG();
 		boolean flag = false;
 		boolean flag1 = false;
@@ -109,16 +113,22 @@ public class EntityUtil
 	 * This may fix a ConcurrentModificationException that occurs from time to time - Note that this is a fori loop, not a for each
 	 *
 	 * @param world The world to get the entities from
-	 * @see {@link net.minecraft.world.World#getEntities(Class, com.google.common.base.Predicate)}
+	 * @see {@link net.minecraft.world.ServerWorld#getEntities(Class, com.google.common.base.Predicate)}
 	 */
 	public static ArrayList<EntityScarecrow> getLoadedScarecrows(World world, Predicate <? super EntityScarecrow> filter)
 	{
 		ArrayList<EntityScarecrow> list = Lists.<EntityScarecrow>newArrayList();
 
-		for(int i = 0; i < world.loadedEntityList.size(); i++)
+		if(world instanceof ServerWorld)
 		{
-			if(EntityScarecrow.class.isAssignableFrom(world.loadedEntityList.get(i).getClass()) && filter.apply((EntityScarecrow)world.loadedEntityList.get(i)))
-				list.add((EntityScarecrow)world.loadedEntityList.get(i));
+			ServerWorld serverWorld = (ServerWorld)world;
+			List<Entity> loadedEntityList = serverWorld.getEntities(Scarecrows.SCARECROW_ENTITY_TYPE, Predicates.alwaysTrue());
+
+			for(int i = 0; i < loadedEntityList.size(); i++)
+			{
+				if(loadedEntityList.get(i).getType() == Scarecrows.SCARECROW_ENTITY_TYPE && filter.apply((EntityScarecrow)loadedEntityList.get(i)))
+					list.add((EntityScarecrow)loadedEntityList.get(i));
+			}
 		}
 
 		return list;
@@ -127,7 +137,7 @@ public class EntityUtil
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	private static BlockPos moveAboveSolid(BlockPos pos, EntityLiving entity)
+	private static BlockPos moveAboveSolid(BlockPos pos, MobEntity entity)
 	{
 		if(!entity.world.getBlockState(pos).getMaterial().isSolid())
 			return pos;
@@ -147,7 +157,7 @@ public class EntityUtil
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	private static boolean isWaterDestination(BlockPos pos, EntityLiving entity)
+	private static boolean isWaterDestination(BlockPos pos, MobEntity entity)
 	{
 		return entity.world.getBlockState(pos).getMaterial() == Material.WATER;
 	}

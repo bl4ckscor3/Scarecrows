@@ -1,11 +1,10 @@
 package bl4ckscor3.mod.scarecrows.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
@@ -22,37 +21,19 @@ public class BlockInvisibleLight extends Block
 	}
 
 	@Override
-	public VoxelShape getShape(IBlockState state, IBlockReader source, BlockPos pos)
+	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
 	{
 		return Block.makeCuboidShape(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(IBlockState state, IBlockReader world, BlockPos pos)
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext ctx)
 	{
 		return VoxelShapes.empty();
 	}
 
 	@Override
-	public float getAmbientOcclusionLightValue(IBlockState state)
-	{
-		return 1.0F;
-	}
-
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockReader world, IBlockState state, BlockPos pos, EnumFacing face)
-	{
-		return BlockFaceShape.UNDEFINED;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
 	{
 		return false;
 	}

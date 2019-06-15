@@ -3,17 +3,15 @@ package bl4ckscor3.mod.scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.block.BlockInvisibleLight;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
-import bl4ckscor3.mod.scarecrows.renderer.RenderScarecrow;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.datasync.DataSerializers;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -32,14 +30,13 @@ public class Scarecrows
 	@ObjectHolder(Scarecrows.PREFIX + BlockInvisibleLight.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
 
-	public static final EntityType<EntityScarecrow> SCARECROW_ENTITY_TYPE = EntityType.register(PREFIX + "scarecrow", EntityType.Builder.create(EntityScarecrow.class, EntityScarecrow::new).tracker(256, 20, false));
+	public static final EntityType<EntityScarecrow> SCARECROW_ENTITY_TYPE = (EntityType<EntityScarecrow>)EntityType.Builder.<EntityScarecrow>create(EntityScarecrow::new, EntityClassification.MISC).size(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new EntityScarecrow(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
 
 	public Scarecrows()
 	{
 		DataSerializers.registerSerializer(CustomDataSerializers.AXISALIGNEDBB);
 		DataSerializers.registerSerializer(CustomDataSerializers.SCARECROWTYPE);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
-		MinecraftForge.EVENT_BUS.addListener(this::onModelRegistry);
 	}
 
 	@SubscribeEvent
@@ -49,8 +46,9 @@ public class Scarecrows
 		event.getRegistry().register(new BlockInvisibleLight());
 	}
 
-	public void onModelRegistry(ModelRegistryEvent event)
+	@SubscribeEvent
+	public static void registerEntities(RegistryEvent.Register<EntityType<?>> event)
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EntityScarecrow.class, manager -> new RenderScarecrow(manager));
+		event.getRegistry().register(SCARECROW_ENTITY_TYPE);
 	}
 }

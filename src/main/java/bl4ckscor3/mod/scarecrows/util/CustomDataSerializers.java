@@ -3,12 +3,12 @@ package bl4ckscor3.mod.scarecrows.util;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializer;
+import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public class CustomDataSerializers
 {
-	public static final DataSerializer<ScarecrowType> SCARECROWTYPE = new DataSerializer<ScarecrowType>()
+	public static final IDataSerializer<ScarecrowType> SCARECROWTYPE = new IDataSerializer<ScarecrowType>()
 	{
 		@Override
 		public void write(PacketBuffer buf, ScarecrowType value)
@@ -43,7 +43,7 @@ public class CustomDataSerializers
 		}
 	};
 
-	public static final DataSerializer<AxisAlignedBB> AXISALIGNEDBB = new DataSerializer<AxisAlignedBB>()
+	public static final IDataSerializer<AxisAlignedBB> AXISALIGNEDBB = new IDataSerializer<AxisAlignedBB>()
 	{
 		@Override
 		public void write(PacketBuffer buf, AxisAlignedBB value)

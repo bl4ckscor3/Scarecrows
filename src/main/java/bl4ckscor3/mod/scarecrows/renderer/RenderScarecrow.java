@@ -4,30 +4,31 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.tuple.Triple;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderScarecrow extends Render<EntityScarecrow>
+public class RenderScarecrow extends EntityRenderer<EntityScarecrow>
 {
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
 	 *
 	 * Triple: texture, model with normal pumpkin, model with jack o' lantern
 	 */
-	public static final HashMap<String,Triple<ResourceLocation,ModelBase,ModelBase>> RENDER_INFO = new HashMap<String,Triple<ResourceLocation,ModelBase,ModelBase>>();
+	public static final HashMap<String,Triple<ResourceLocation,EntityModel<EntityScarecrow>,EntityModel<EntityScarecrow>>> RENDER_INFO = new HashMap<String,Triple<ResourceLocation,EntityModel<EntityScarecrow>,EntityModel<EntityScarecrow>>>();
 
-	public RenderScarecrow(RenderManager manager)
+	public RenderScarecrow(EntityRendererManager manager)
 	{
 		super(manager);
 
 		for(ScarecrowType type : ScarecrowType.TYPES)
 		{
-			RENDER_INFO.put(type.getName(), Triple.<ResourceLocation,ModelBase,ModelBase>of(new ResourceLocation("scarecrows:textures/entity/" + type.getName() + ".png"), type.getModel(false), type.getModel(true)));
+			RENDER_INFO.put(type.getName(), Triple.<ResourceLocation,EntityModel<EntityScarecrow>,EntityModel<EntityScarecrow>>of(new ResourceLocation("scarecrows:textures/entity/" + type.getName() + ".png"), type.getModel(false), type.getModel(true)));
 		}
 	}
 

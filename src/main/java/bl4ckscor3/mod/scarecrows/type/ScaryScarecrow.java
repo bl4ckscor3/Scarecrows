@@ -1,14 +1,15 @@
 package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
+import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.model.ModelScaryScarecrow;
-import net.minecraft.block.BlockEndRod;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.EndRodBlock;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 
@@ -27,17 +28,17 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(IWorld world, BlockPos pos, EnumFacing pumpkinFacing)
+	public boolean checkStructure(IWorld world, BlockPos pos, Direction pumpkinFacing)
 	{
-		IBlockState state = world.getBlockState(pos = pos.down());
+		BlockState state = world.getBlockState(pos = pos.down());
 
 		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
 		{
-			IBlockState topState = world.getBlockState(pos.down());
-			IBlockState bottomState = world.getBlockState(pos.down(2));
+			BlockState topState = world.getBlockState(pos.down());
+			BlockState bottomState = world.getBlockState(pos.down(2));
 
-			if(topState.getBlock() == Blocks.END_ROD && topState.get(BlockEndRod.FACING) == EnumFacing.DOWN &&
-					bottomState.getBlock() == Blocks.END_ROD && bottomState.get(BlockEndRod.FACING) == EnumFacing.UP)
+			if(topState.getBlock() == Blocks.END_ROD && topState.get(EndRodBlock.FACING) == Direction.DOWN &&
+					bottomState.getBlock() == Blocks.END_ROD && bottomState.get(EndRodBlock.FACING) == Direction.UP)
 				return true;
 		}
 
@@ -66,7 +67,7 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ModelBase getModel(boolean isLit)
+	public EntityModel<EntityScarecrow> getModel(boolean isLit)
 	{
 		return new ModelScaryScarecrow(isLit);
 	}

@@ -4,13 +4,13 @@ import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.BlockArm;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCarvedPumpkin;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CarvedPumpkinBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -31,11 +31,11 @@ public class PlaceHandler
 		if(held.getItem() == Items.STICK)
 		{
 			BlockPos pos = event.getPos();
-			EnumFacing face = event.getFace();
+			Direction face = event.getFace();
 			BlockPos placeAt = pos.offset(face);
 			World world = event.getWorld();
 
-			if(face != EnumFacing.UP && face != EnumFacing.DOWN && Scarecrows.ARM.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
+			if(face != Direction.UP && face != Direction.DOWN && Scarecrows.ARM.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
 			{
 				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(BlockArm.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -65,7 +65,7 @@ public class PlaceHandler
 	 * @param pos The position of the block that was placed/rightclicked
 	 * @param state The state of the block that was placed/rightclicked
 	 */
-	private static void tryBuildScarecrow(IWorld world, BlockPos pos, IBlockState state)
+	private static void tryBuildScarecrow(IWorld world, BlockPos pos, BlockState state)
 	{
 		Block block = state.getBlock();
 
@@ -73,9 +73,9 @@ public class PlaceHandler
 		{
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
-				EnumFacing pumpkinFacing = state.get(BlockCarvedPumpkin.FACING);
+				Direction pumpkinFacing = state.get(CarvedPumpkinBlock.FACING);
 				BlockPos groundPos = pos.down(type.getHeight());
-				IBlockState groundState = world.getBlockState(groundPos);
+				BlockState groundState = world.getBlockState(groundPos);
 
 				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos, pumpkinFacing))
 				{

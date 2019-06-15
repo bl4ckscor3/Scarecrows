@@ -1,6 +1,7 @@
 package bl4ckscor3.mod.scarecrows.ai;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 
@@ -10,33 +11,33 @@ import com.google.common.base.Predicate;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.init.Particles;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class EntityAIRunAway extends EntityAIBase
+public class EntityAIRunAway extends Goal
 {
 	private final Predicate<Entity> canBeSeenSelector;
-	private EntityLiving entity;
+	private MobEntity entity;
 	private final float speed = 1.5F;
 	private List<EntityScarecrow> scarecrows = new ArrayList<EntityScarecrow>();
 	/** The PathEntity of our entity */
 	private Path path;
 	/** The PathNavigate of our entity */
-	private final PathNavigate navigation;
+	private final PathNavigator navigation;
 	private long ticksSinceSound = 0;
 	private final Random rand = new Random();
 
-	public EntityAIRunAway(EntityLiving entity)
+	public EntityAIRunAway(MobEntity entity)
 	{
 		canBeSeenSelector = new Predicate<Entity>()
 		{
@@ -48,7 +49,7 @@ public class EntityAIRunAway extends EntityAIBase
 		};
 		this.entity = entity;
 		navigation = entity.getNavigator();
-		setMutexBits(1);
+		setMutexFlags(EnumSet.of(Flag.MOVE));
 	}
 
 	/**
@@ -90,9 +91,9 @@ public class EntityAIRunAway extends EntityAIBase
 	 */
 	private boolean shouldScare(EntityScarecrow scarecrow)
 	{
-		List<EntityLiving> entities = scarecrow.world.<EntityLiving>getEntitiesWithinAABB(entity.getClass(), scarecrow.getArea());
+		List<MobEntity> entities = scarecrow.world.<MobEntity>getEntitiesWithinAABB(entity.getClass(), scarecrow.getArea());
 
-		for(EntityLiving e : entities)
+		for(MobEntity e : entities)
 		{
 			if(e == entity)
 			{
@@ -165,12 +166,12 @@ public class EntityAIRunAway extends EntityAIBase
 		int j = MathHelper.floor(entity.posY - 0.2F);
 		int k = MathHelper.floor(entity.posZ);
 		BlockPos blockpos = new BlockPos(i, j, k);
-		IBlockState iblockstate = entity.world.getBlockState(blockpos);
+		BlockState iblockstate = entity.world.getBlockState(blockpos);
 
 		if(!iblockstate.addRunningEffects(entity.world, blockpos, entity))
 		{
-			if(iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
-				entity.world.addParticle(new BlockParticleData(Particles.BLOCK, iblockstate), entity.posX + (rand.nextFloat() - 0.5D) * entity.width, entity.getBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.width, -entity.motionX * 4.0D, 1.5D, -entity.motionZ * 4.0D);
+			if(iblockstate.getRenderType() != BlockRenderType.INVISIBLE)
+				entity.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, iblockstate), entity.posX + (rand.nextFloat() - 0.5D) * entity.getWidth(), entity.getBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.getWidth(), -entity.getMotion().x * 4.0D, 1.5D, -entity.getMotion().z * 4.0D);
 		}
 	}
 }

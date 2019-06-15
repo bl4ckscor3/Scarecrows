@@ -9,7 +9,7 @@ import bl4ckscor3.mod.scarecrows.ai.EntityAIRunAway;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.MobEntity;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -31,7 +31,7 @@ public class SpawnHandler
 
 			for(EntityScarecrow scarecrow : scarecrows)
 			{
-				if(entity.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((EntityLiving)entity).canEntityBeSeen(scarecrow))
+				if(entity.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((MobEntity)entity).canEntityBeSeen(scarecrow))
 				{
 					if(animal && scarecrow.getScarecrowType().shouldScareAnimals())
 						event.setResult(Result.DENY);
@@ -48,6 +48,6 @@ public class SpawnHandler
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{
 		if(EntityUtil.isAttackableMonster(event.getEntity()) || EntityUtil.isAttackableAnimal(event.getEntity()))
-			((EntityLiving)event.getEntity()).tasks.addTask(0, new EntityAIRunAway((EntityLiving)event.getEntity()));
+			((MobEntity)event.getEntity()).goalSelector.addGoal(0, new EntityAIRunAway((MobEntity)event.getEntity()));
 	}
 }
