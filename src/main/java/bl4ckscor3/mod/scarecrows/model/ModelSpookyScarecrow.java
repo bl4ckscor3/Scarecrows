@@ -41,7 +41,7 @@ public class ModelSpookyScarecrow extends EntityModel<EntityScarecrow>
 	}
 
 	@Override
-	public void render(EntityScarecrow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+	public void func_78088_a(EntityScarecrow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
 		head.render(scale);
 		body.render(scale);
