@@ -33,7 +33,7 @@ public class RenderScarecrow extends EntityRenderer<EntityScarecrow>
 	}
 
 	@Override
-	public void func_76986_a(EntityScarecrow entity, double x, double y, double z, float entityYaw, float partialTicks)
+	public void doRender(EntityScarecrow entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(x, y + 1.5F, z);
@@ -42,15 +42,15 @@ public class RenderScarecrow extends EntityRenderer<EntityScarecrow>
 		bindEntityTexture(entity);
 
 		if(entity.isLit())
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().func_78088_a(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 		else
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().func_78088_a(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
 		GlStateManager.popMatrix();
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(EntityScarecrow entity)
+	protected ResourceLocation getEntityTexture(EntityScarecrow entity)
 	{
 		return RENDER_INFO.get(entity.getScarecrowType().getName()).getLeft();
 	}

@@ -11,13 +11,13 @@ public class CustomDataSerializers
 	public static final IDataSerializer<ScarecrowType> SCARECROWTYPE = new IDataSerializer<ScarecrowType>()
 	{
 		@Override
-		public void func_187160_a(PacketBuffer buf, ScarecrowType value)
+		public void write(PacketBuffer buf, ScarecrowType value)
 		{
 			buf.writeString(value.getName());
 		}
 
 		@Override
-		public ScarecrowType func_187159_a(PacketBuffer buf)
+		public ScarecrowType read(PacketBuffer buf)
 		{
 			String bufferedName = buf.readString(Integer.MAX_VALUE / 4);
 
@@ -37,7 +37,7 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public ScarecrowType func_192717_a(ScarecrowType value)
+		public ScarecrowType copyValue(ScarecrowType value)
 		{
 			return value;
 		}
@@ -46,7 +46,7 @@ public class CustomDataSerializers
 	public static final IDataSerializer<AxisAlignedBB> AXISALIGNEDBB = new IDataSerializer<AxisAlignedBB>()
 	{
 		@Override
-		public void func_187160_a(PacketBuffer buf, AxisAlignedBB value)
+		public void write(PacketBuffer buf, AxisAlignedBB value)
 		{
 			buf.writeDouble(value.minX);
 			buf.writeDouble(value.minY);
@@ -57,7 +57,7 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public AxisAlignedBB func_187159_a(PacketBuffer buf)
+		public AxisAlignedBB read(PacketBuffer buf)
 		{
 			return new AxisAlignedBB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
 		}
@@ -69,7 +69,7 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public AxisAlignedBB func_192717_a(AxisAlignedBB value)
+		public AxisAlignedBB copyValue(AxisAlignedBB value)
 		{
 			return value.grow(0);
 		}
