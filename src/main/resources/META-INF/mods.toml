@@ -3,7 +3,7 @@ loaderVersion="[27,)" #mandatory
 
 [[mods]] #mandatory
 	modId="scarecrows" #mandatory
-	version="v1.0.6" #mandatory
+	version="v1.0.7" #mandatory
 	displayName="Scarecrows" #mandatory
 	description='''Adds scarecrows that keep monsters (and animals if you want) off your lawn.''' #mandatory
 	issueTrackerURL="https://github.com/bl4ckscor3/Scarecrows/issues"

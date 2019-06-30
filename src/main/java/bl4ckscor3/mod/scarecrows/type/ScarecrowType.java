@@ -12,6 +12,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ScarecrowType
 {
@@ -67,6 +69,7 @@ public abstract class ScarecrowType
 	 * @param isLit Whether this model should show up as lit or not
 	 * @return The model this scarecrow will use
 	 */
+	@OnlyIn(Dist.CLIENT)
 	public abstract EntityModel<EntityScarecrow> getModel(boolean isLit);
 
 	/**

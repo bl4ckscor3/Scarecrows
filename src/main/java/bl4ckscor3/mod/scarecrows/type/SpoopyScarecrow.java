@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class SpoopyScarecrow extends ScarecrowType
 {
@@ -51,6 +53,7 @@ public class SpoopyScarecrow extends ScarecrowType
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public EntityModel<EntityScarecrow> getModel(boolean isLit)
 	{
 		return new ModelSpoopyScarecrow(isLit);
