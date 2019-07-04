@@ -1,27 +1,18 @@
 package bl4ckscor3.mod.scarecrows.ai;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityAIRunAway extends Goal
@@ -29,55 +20,45 @@ public class EntityAIRunAway extends Goal
 	private final Predicate<Entity> canBeSeenSelector;
 	private MobEntity entity;
 	private final float speed = 1.5F;
-	private List<EntityScarecrow> scarecrows = new ArrayList<EntityScarecrow>();
 	/** The PathEntity of our entity */
 	private Path path;
 	/** The PathNavigate of our entity */
 	private final PathNavigator navigation;
 	private long ticksSinceSound = 0;
-	private final Random rand = new Random();
 
 	public EntityAIRunAway(MobEntity entity)
 	{
-		canBeSeenSelector = new Predicate<Entity>()
-		{
-			@Override
-			public boolean apply(@Nullable Entity e)
-			{
-				return e.isAlive() && entity.getEntitySenses().canSee(e);
-			}
-		};
+		canBeSeenSelector = e -> e.isAlive() && entity.getEntitySenses().canSee(e);
 		this.entity = entity;
 		navigation = entity.getNavigator();
 		setMutexFlags(EnumSet.of(Flag.MOVE));
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
+	@Override
 	public boolean shouldExecute()
 	{
-		List<EntityScarecrow> list = EntityUtil.getLoadedScarecrows(entity.world, canBeSeenSelector);
+		List<EntityScarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.getPosition());
 
 		if(list.isEmpty())
 			return false;
 		else
 		{
-			scarecrows = list;
-
-			for(EntityScarecrow scarecrow : scarecrows)
+			for(EntityScarecrow scarecrow : list)
 			{
-				if(EntityUtil.isAttackableMonster(entity))
+				if(canBeSeenSelector.apply(scarecrow))
 				{
-					if(!shouldScare(scarecrow))
-						continue;
-					else return true;
-				}
-				else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
-				{
-					if(!shouldScare(scarecrow))
-						continue;
-					else return true;
+					if(EntityUtil.isAttackableMonster(entity))
+					{
+						if(!shouldScare(scarecrow))
+							continue;
+						else return true;
+					}
+					else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
+					{
+						if(!shouldScare(scarecrow))
+							continue;
+						else return true;
+					}
 				}
 			}
 
@@ -118,34 +99,20 @@ public class EntityAIRunAway extends Goal
 		return false;
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
+	@Override
 	public boolean shouldContinueExecuting()
 	{
 		return !navigation.noPath();
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
+	@Override
 	public void startExecuting()
 	{
 		navigation.setPath(path, speed);
 	}
 
-	/**
-	 * Reset the task's internal state. Called when this task is interrupted by another one
-	 */
-	public void resetTask()
-	{
-		scarecrows.clear();
-	}
-
-	/**
-	 * Keep ticking a continuous task that has already been started
-	 */
-	public void updateTask()
+	@Override
+	public void tick()
 	{
 		if(ticksSinceSound == 0)
 		{
@@ -156,22 +123,6 @@ public class EntityAIRunAway extends Goal
 		else
 			ticksSinceSound--;
 
-		createRunningParticles();
 		entity.getNavigator().setSpeed(speed);
-	}
-
-	protected void createRunningParticles()
-	{
-		int i = MathHelper.floor(entity.posX);
-		int j = MathHelper.floor(entity.posY - 0.2F);
-		int k = MathHelper.floor(entity.posZ);
-		BlockPos blockpos = new BlockPos(i, j, k);
-		BlockState iblockstate = entity.world.getBlockState(blockpos);
-
-		if(!iblockstate.addRunningEffects(entity.world, blockpos, entity))
-		{
-			if(iblockstate.getRenderType() != BlockRenderType.INVISIBLE)
-				entity.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, iblockstate), entity.posX + (rand.nextFloat() - 0.5D) * entity.getWidth(), entity.getBoundingBox().minY + 0.1D, entity.posZ + (rand.nextFloat() - 0.5D) * entity.getWidth(), -entity.getMotion().x * 4.0D, 1.5D, -entity.getMotion().z * 4.0D);
-		}
 	}
 }

@@ -1,17 +1,9 @@
 package bl4ckscor3.mod.scarecrows.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
-
-import bl4ckscor3.mod.scarecrows.Scarecrows;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -26,9 +18,6 @@ import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.ServerWorld;
-import net.minecraft.world.World;
 
 public class EntityUtil
 {
@@ -97,41 +86,6 @@ public class EntityUtil
 			return new Vec3d(k1 + entity.posX, i + entity.posY, j + entity.posZ);
 		else
 			return null;
-	}
-
-	/**
-	 * See below
-	 */
-	public static ArrayList<EntityScarecrow> getLoadedScarecrows(IWorld world, Predicate <? super EntityScarecrow> filter)
-	{
-		if(world instanceof World)
-			return getLoadedScarecrows((World)world, filter);
-		else return new ArrayList<>();
-	}
-
-	/**
-	 * This may fix a ConcurrentModificationException that occurs from time to time - Note that this is a fori loop, not a for each
-	 *
-	 * @param world The world to get the entities from
-	 * @see {@link net.minecraft.world.ServerWorld#getEntities(Class, com.google.common.base.Predicate)}
-	 */
-	public static ArrayList<EntityScarecrow> getLoadedScarecrows(World world, Predicate <? super EntityScarecrow> filter)
-	{
-		ArrayList<EntityScarecrow> list = Lists.<EntityScarecrow>newArrayList();
-
-		if(world instanceof ServerWorld)
-		{
-			ServerWorld serverWorld = (ServerWorld)world;
-			List<Entity> loadedEntityList = serverWorld.getEntities(Scarecrows.SCARECROW_ENTITY_TYPE, Predicates.alwaysTrue());
-
-			for(int i = 0; i < loadedEntityList.size(); i++)
-			{
-				if(loadedEntityList.get(i).getType() == Scarecrows.SCARECROW_ENTITY_TYPE && filter.apply((EntityScarecrow)loadedEntityList.get(i)))
-					list.add((EntityScarecrow)loadedEntityList.get(i));
-			}
-		}
-
-		return list;
 	}
 
 	/**
