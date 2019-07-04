@@ -2,8 +2,9 @@ package bl4ckscor3.mod.scarecrows.handler;
 
 import java.util.List;
 
-import com.google.common.base.Predicates;
+import com.google.common.base.Predicate;
 
+import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.ai.EntityAIRunAway;
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
@@ -26,11 +27,13 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<EntityScarecrow> scarecrows = EntityUtil.getLoadedScarecrows(event.getWorld(), Predicates.alwaysTrue());
+			List<EntityScarecrow> scarecrows = ScarecrowTracker.getScarecrowsInRange(event.getWorld(), entity.getPosition());
 
 			for(EntityScarecrow scarecrow : scarecrows)
 			{
-				if(entity.getDistance(scarecrow) <= scarecrow.getType().getRange() && ((EntityLiving)entity).canEntityBeSeen(scarecrow))
+				Predicate<Entity> filter = e -> e.isEntityAlive() && ((EntityLiving)entity).getEntitySenses().canSee(e);
+
+				if(filter.apply(scarecrow) && entity.getDistance(scarecrow) <= scarecrow.getType().getRange() && ((EntityLiving)entity).canEntityBeSeen(scarecrow))
 				{
 					if(animal && scarecrow.getType().shouldScareAnimals())
 						event.setResult(Result.DENY);

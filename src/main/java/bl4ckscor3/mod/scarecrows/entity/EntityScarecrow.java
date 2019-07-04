@@ -1,5 +1,6 @@
 package bl4ckscor3.mod.scarecrows.entity;
 
+import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.entity.Entity;
@@ -43,6 +44,20 @@ public class EntityScarecrow extends Entity
 		dataManager.register(LIT, false);
 		dataManager.register(ROTATION, 0F);
 		dataManager.register(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
+	}
+
+	@Override
+	public void onAddedToWorld()
+	{
+		super.onAddedToWorld();
+		ScarecrowTracker.track(this);
+	}
+
+	@Override
+	public void onRemovedFromWorld()
+	{
+		super.onRemovedFromWorld();
+		ScarecrowTracker.stopTracking(this);
 	}
 
 	@Override

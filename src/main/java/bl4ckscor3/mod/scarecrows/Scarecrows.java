@@ -33,7 +33,7 @@ public class Scarecrows
 {
 	public static final String MODID = "scarecrows";
 	public static final String NAME = "Scarecrows";
-	public static final String VERSION = "v1.0.5";
+	public static final String VERSION = "v1.0.8";
 	public static final String MC_VERSION = "1.12";
 	public static final String PREFIX = MODID + ":";
 	@SidedProxy(clientSide="bl4ckscor3.mod.scarecrows.proxy.ClientProxy", serverSide="bl4ckscor3.mod.scarecrows.proxy.ServerProxy")
