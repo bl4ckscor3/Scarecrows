@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[27,)" #mandatory
+loaderVersion="[28,)" #mandatory
 
 [[mods]] #mandatory
 	modId="scarecrows" #mandatory
@@ -13,7 +13,7 @@ loaderVersion="[27,)" #mandatory
 [[dependencies.scarecrows]]
     modId="forge"
     mandatory=true
-    versionRange="[27,)"
+    versionRange="[28.0.34,)"
     ordering="NONE"
     side="BOTH"
 

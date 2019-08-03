@@ -13,6 +13,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityAIRunAway extends Goal
@@ -88,7 +89,7 @@ public class EntityAIRunAway extends Goal
 						return false;
 					else
 					{
-						path = navigation.getPathToXYZ(newPosition.x, newPosition.y, newPosition.z);
+						path = navigation.getPathToPos(new BlockPos(newPosition), 0);
 						return path != null;
 					}
 				}
