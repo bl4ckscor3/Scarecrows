@@ -1,8 +1,8 @@
 package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
-import bl4ckscor3.mod.scarecrows.block.BlockArm;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.block.ArmBlock;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -70,7 +70,7 @@ public abstract class ScarecrowType
 	 * @return The model this scarecrow will use
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public abstract EntityModel<EntityScarecrow> getModel(boolean isLit);
+	public abstract EntityModel<ScarecrowEntity> getModel(boolean isLit);
 
 	/**
 	 * @return The name of the scarecrow
@@ -122,13 +122,13 @@ public abstract class ScarecrowType
 		BlockState stateWest = world.getBlockState(posWest);
 
 		if((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
-				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.get(BlockArm.FACING) == Direction.NORTH &&
-				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.get(BlockArm.FACING) == Direction.SOUTH &&
+				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.get(ArmBlock.FACING) == Direction.NORTH &&
+				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.get(ArmBlock.FACING) == Direction.SOUTH &&
 				stateWest.isAir(world, pos) && stateEast.isAir(world, pos))
 			return true;
 		else if((pumpkinFacing == Direction.NORTH || pumpkinFacing == Direction.SOUTH) &&
-				stateEast.getBlock() == Scarecrows.ARM && stateEast.get(BlockArm.FACING) == Direction.EAST &&
-				stateWest.getBlock() == Scarecrows.ARM && stateWest.get(BlockArm.FACING) == Direction.WEST &&
+				stateEast.getBlock() == Scarecrows.ARM && stateEast.get(ArmBlock.FACING) == Direction.EAST &&
+				stateWest.getBlock() == Scarecrows.ARM && stateWest.get(ArmBlock.FACING) == Direction.WEST &&
 				stateNorth.isAir(world, pos) && stateSouth.isAir(world, pos))
 			return true;
 		else return false;
@@ -147,7 +147,7 @@ public abstract class ScarecrowType
 		if(isLit)
 			((World)world).setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
 
-		world.addEntity(new EntityScarecrow(type, (World)world, pos, isLit, facing));
+		world.addEntity(new ScarecrowEntity(type, (World)world, pos, isLit, facing));
 	}
 
 	/**

@@ -9,11 +9,11 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
-public class BlockInvisibleLight extends Block
+public class InvisibleLightBlock extends Block
 {
 	public static final String NAME = "invisible_light";
 
-	public BlockInvisibleLight()
+	public InvisibleLightBlock()
 	{
 		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1.0F, Float.MAX_VALUE).lightValue(15)); //light level of a jack o lantern
 

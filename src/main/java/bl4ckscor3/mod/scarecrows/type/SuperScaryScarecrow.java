@@ -1,8 +1,8 @@
 package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Configuration;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
-import bl4ckscor3.mod.scarecrows.model.ModelScaryScarecrow;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.model.ScaryScarecrowModel;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EndRodBlock;
@@ -70,8 +70,8 @@ public class SuperScaryScarecrow extends ScarecrowType
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<EntityScarecrow> getModel(boolean isLit)
+	public EntityModel<ScarecrowEntity> getModel(boolean isLit)
 	{
-		return new ModelScaryScarecrow(isLit);
+		return new ScaryScarecrowModel(isLit);
 	}
 }

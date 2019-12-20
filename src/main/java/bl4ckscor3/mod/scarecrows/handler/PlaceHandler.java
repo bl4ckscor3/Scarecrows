@@ -1,7 +1,7 @@
 package bl4ckscor3.mod.scarecrows.handler;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
-import bl4ckscor3.mod.scarecrows.block.BlockArm;
+import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -37,7 +37,7 @@ public class PlaceHandler
 
 			if(face != Direction.UP && face != Direction.DOWN && Scarecrows.ARM.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
 			{
-				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(BlockArm.FACING, face));
+				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 				event.getPlayer().swingArm(event.getHand());
 

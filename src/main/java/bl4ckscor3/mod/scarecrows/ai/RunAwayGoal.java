@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -16,7 +16,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class EntityAIRunAway extends Goal
+public class RunAwayGoal extends Goal
 {
 	private final Predicate<Entity> canBeSeenSelector;
 	private MobEntity entity;
@@ -27,7 +27,7 @@ public class EntityAIRunAway extends Goal
 	private final PathNavigator navigation;
 	private long ticksSinceSound = 0;
 
-	public EntityAIRunAway(MobEntity entity)
+	public RunAwayGoal(MobEntity entity)
 	{
 		canBeSeenSelector = e -> e.isAlive() && entity.getEntitySenses().canSee(e);
 		this.entity = entity;
@@ -38,13 +38,13 @@ public class EntityAIRunAway extends Goal
 	@Override
 	public boolean shouldExecute()
 	{
-		List<EntityScarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.getPosition());
+		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.getPosition());
 
 		if(list.isEmpty())
 			return false;
 		else
 		{
-			for(EntityScarecrow scarecrow : list)
+			for(ScarecrowEntity scarecrow : list)
 			{
 				if(canBeSeenSelector.apply(scarecrow))
 				{
@@ -71,7 +71,7 @@ public class EntityAIRunAway extends Goal
 	 * @param scarecrow The scarecrow that potentially scares this entity
 	 * @return true if this ai task should execute, false otherwhise
 	 */
-	private boolean shouldScare(EntityScarecrow scarecrow)
+	private boolean shouldScare(ScarecrowEntity scarecrow)
 	{
 		List<MobEntity> entities = scarecrow.world.<MobEntity>getEntitiesWithinAABB(entity.getClass(), scarecrow.getArea());
 

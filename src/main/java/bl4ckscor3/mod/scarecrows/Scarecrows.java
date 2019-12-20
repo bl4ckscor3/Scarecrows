@@ -1,8 +1,8 @@
 package bl4ckscor3.mod.scarecrows;
 
-import bl4ckscor3.mod.scarecrows.block.BlockArm;
-import bl4ckscor3.mod.scarecrows.block.BlockInvisibleLight;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.block.ArmBlock;
+import bl4ckscor3.mod.scarecrows.block.InvisibleLightBlock;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
@@ -25,12 +25,12 @@ public class Scarecrows
 	public static final String MODID = "scarecrows";
 	public static final String PREFIX = MODID + ":";
 
-	@ObjectHolder(Scarecrows.PREFIX + BlockArm.NAME)
+	@ObjectHolder(Scarecrows.PREFIX + ArmBlock.NAME)
 	public static final Block ARM = null;
-	@ObjectHolder(Scarecrows.PREFIX + BlockInvisibleLight.NAME)
+	@ObjectHolder(Scarecrows.PREFIX + InvisibleLightBlock.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
 
-	public static final EntityType<EntityScarecrow> SCARECROW_ENTITY_TYPE = (EntityType<EntityScarecrow>)EntityType.Builder.<EntityScarecrow>create(EntityScarecrow::new, EntityClassification.MISC).size(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new EntityScarecrow(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
+	public static final EntityType<ScarecrowEntity> SCARECROW_ENTITY_TYPE = (EntityType<ScarecrowEntity>)EntityType.Builder.<ScarecrowEntity>create(ScarecrowEntity::new, EntityClassification.MISC).size(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new ScarecrowEntity(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
 
 	public Scarecrows()
 	{
@@ -42,8 +42,8 @@ public class Scarecrows
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		event.getRegistry().register(new BlockArm());
-		event.getRegistry().register(new BlockInvisibleLight());
+		event.getRegistry().register(new ArmBlock());
+		event.getRegistry().register(new InvisibleLightBlock());
 	}
 
 	@SubscribeEvent

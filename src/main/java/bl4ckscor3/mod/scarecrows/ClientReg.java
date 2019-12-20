@@ -1,6 +1,6 @@
 package bl4ckscor3.mod.scarecrows;
 
-import bl4ckscor3.mod.scarecrows.renderer.RenderScarecrow;
+import bl4ckscor3.mod.scarecrows.renderer.ScarecrowRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -14,6 +14,6 @@ public class ClientReg
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		RenderingRegistry.registerEntityRenderingHandler(Scarecrows.SCARECROW_ENTITY_TYPE, RenderScarecrow::new);
+		RenderingRegistry.registerEntityRenderingHandler(Scarecrows.SCARECROW_ENTITY_TYPE, ScarecrowRenderer::new);
 	}
 }

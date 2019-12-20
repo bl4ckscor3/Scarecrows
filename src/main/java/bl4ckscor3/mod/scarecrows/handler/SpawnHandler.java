@@ -6,8 +6,8 @@ import com.google.common.base.Predicate;
 
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
-import bl4ckscor3.mod.scarecrows.ai.EntityAIRunAway;
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.ai.RunAwayGoal;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -32,9 +32,9 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<EntityScarecrow> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.getPosition());
+			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.getPosition());
 
-			for(EntityScarecrow scarecrow : scarecrows)
+			for(ScarecrowEntity scarecrow : scarecrows)
 			{
 				Predicate<Entity> filter = e -> e.isAlive() && ((MobEntity)entity).getEntitySenses().canSee(e);
 
@@ -55,6 +55,6 @@ public class SpawnHandler
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{
 		if(EntityUtil.isAttackableMonster(event.getEntity()) || EntityUtil.isAttackableAnimal(event.getEntity()))
-			((MobEntity)event.getEntity()).goalSelector.addGoal(0, new EntityAIRunAway((MobEntity)event.getEntity()));
+			((MobEntity)event.getEntity()).goalSelector.addGoal(0, new RunAwayGoal((MobEntity)event.getEntity()));
 	}
 }

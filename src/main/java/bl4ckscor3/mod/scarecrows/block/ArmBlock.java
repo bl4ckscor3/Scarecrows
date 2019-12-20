@@ -19,12 +19,12 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BlockArm extends Block
+public class ArmBlock extends Block
 {
 	public static final String NAME = "arm";
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-	public BlockArm()
+	public ArmBlock()
 	{
 		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.25F, 1.0F).sound(SoundType.WOOD));
 

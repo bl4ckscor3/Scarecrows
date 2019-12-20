@@ -3,39 +3,44 @@ package bl4ckscor3.mod.scarecrows.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelSpoopyScarecrow extends EntityModel<EntityScarecrow>
+public class SpookyScarecrowModel extends EntityModel<ScarecrowEntity>
 {
 	private ModelRenderer head;
 	private ModelRenderer body;
 	private ModelRenderer rightArm;
 	private ModelRenderer leftArm;
+	private ModelRenderer fence;
 
-	public ModelSpoopyScarecrow(boolean isLit)
+	public SpookyScarecrowModel(boolean isLit)
 	{
 		textureWidth = 64;
-		textureHeight = 64;
+		textureHeight = 96;
 
-		head = new ModelRenderer(this, 0, isLit ? 42 : 22); //offset texture for scarecrow with jack o' lantern
-		head.setRotationPoint(-5.0F, 0.0F, -5.0F);
-		head.func_228300_a_(0.0F, 0.0F, 0.0F, 10, 10, 10);
+		head = new ModelRenderer(this, 0, isLit ? 50 : 26); //offset texture for scarecrow with jack o' lantern
+		head.setRotationPoint(-6.0F, -14.0F, -6.0F);
+		head.func_228300_a_(0.0F, 0.0F, 0.0F, 12, 12, 12);
 
 		body = new ModelRenderer(this, 0, 0);
-		body.setRotationPoint(-4.0F, 10.0F, -4.0F);
-		body.func_228300_a_(0.0F, 0.0F, 0.0F, 8, 14, 8);
+		body.setRotationPoint(-5.0F, -2.0F, -5.0F);
+		body.func_228300_a_(0.0F, 0.0F, 0.0F, 10, 16, 10);
 
-		rightArm = new ModelRenderer(this, 40, 0);
-		rightArm.setRotationPoint(-9.5F, 12.0F, -0.5F);
-		rightArm.func_228300_a_(0.0F, 0.0F, 0.0F, 1, 8, 1);
+		rightArm = new ModelRenderer(this, 50, 0);
+		rightArm.setRotationPoint(-12.0F, 0.0F, -0.5F);
+		rightArm.func_228300_a_(0.0F, 0.0F, 0.0F, 1, 10, 1);
 		setRotateAngles(rightArm, 0.0F, 0.0F, -0.7853981633974483F);
 
-		leftArm = new ModelRenderer(this, 33, 0);
-		leftArm.setRotationPoint(9.5F, 12.0F, -0.5F);
-		leftArm.func_228300_a_(-1.0F, 0.0F, 0.0F, 1, 8, 1);
+		leftArm = new ModelRenderer(this, 44, 0);
+		leftArm.setRotationPoint(12.0F, 0.0F, -0.5F);
+		leftArm.func_228300_a_(-1.0F, 0.0F, 0.0F, 1, 10, 1);
 		setRotateAngles(leftArm, 0.0F, 0.0F, 0.7853981633974483F);
+
+		fence = new ModelRenderer(this, 56, 0);
+		fence.setRotationPoint(-1.0F, 14.0F, -1.1F);
+		fence.func_228300_a_(0.0F, 0.0F, 0.0F, 2, 10, 2);
 	}
 
 	@Override
@@ -45,6 +50,7 @@ public class ModelSpoopyScarecrow extends EntityModel<EntityScarecrow>
 		body.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 		rightArm.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 		leftArm.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+		fence.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 	}
 
 	public void setRotateAngles(ModelRenderer modelRenderer, float x, float y, float z)
@@ -55,5 +61,5 @@ public class ModelSpoopyScarecrow extends EntityModel<EntityScarecrow>
 	}
 
 	@Override
-	public void func_225597_a_(EntityScarecrow entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {}
+	public void func_225597_a_(ScarecrowEntity entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {}
 }

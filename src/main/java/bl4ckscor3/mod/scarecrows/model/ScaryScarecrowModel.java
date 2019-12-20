@@ -3,11 +3,11 @@ package bl4ckscor3.mod.scarecrows.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
+import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelScaryScarecrow extends EntityModel<EntityScarecrow>
+public class ScaryScarecrowModel extends EntityModel<ScarecrowEntity>
 {
 	private ModelRenderer head;
 	private ModelRenderer body;
@@ -17,7 +17,7 @@ public class ModelScaryScarecrow extends EntityModel<EntityScarecrow>
 	private ModelRenderer rod;
 	private ModelRenderer rodBottom;
 
-	public ModelScaryScarecrow(boolean isLit)
+	public ScaryScarecrowModel(boolean isLit)
 	{
 		textureWidth = 64;
 		textureHeight = 96;
@@ -72,5 +72,5 @@ public class ModelScaryScarecrow extends EntityModel<EntityScarecrow>
 	}
 
 	@Override
-	public void func_225597_a_(EntityScarecrow entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {}
+	public void func_225597_a_(ScarecrowEntity entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {}
 }

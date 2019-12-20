@@ -17,24 +17,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class EntityScarecrow extends Entity
+public class ScarecrowEntity extends Entity
 {
-	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(EntityScarecrow.class, CustomDataSerializers.SCARECROWTYPE);
-	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>createKey(EntityScarecrow.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(EntityScarecrow.class, DataSerializers.FLOAT);
-	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(EntityScarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
+	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>createKey(ScarecrowEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(ScarecrowEntity.class, DataSerializers.FLOAT);
+	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
 
-	public EntityScarecrow(EntityType<EntityScarecrow> type, World world)
+	public ScarecrowEntity(EntityType<ScarecrowEntity> type, World world)
 	{
 		super(type, world);
 	}
 
-	public EntityScarecrow(World world)
+	public ScarecrowEntity(World world)
 	{
 		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
-	public EntityScarecrow(ScarecrowType type, World world, BlockPos pos, boolean isLit, Direction facing)
+	public ScarecrowEntity(ScarecrowType type, World world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		this(world);
 
