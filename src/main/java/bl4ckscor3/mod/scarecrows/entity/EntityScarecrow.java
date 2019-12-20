@@ -42,7 +42,7 @@ public class EntityScarecrow extends Entity
 		dataManager.set(TYPE, type);
 		dataManager.set(LIT, isLit);
 		dataManager.set(ROTATION, facing.getHorizontalAngle() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
-		dataManager.set(AREA, new AxisAlignedBB(posX, posY, posZ, posX, posY, posZ).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
+		dataManager.set(AREA, new AxisAlignedBB(func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), func_226277_ct_(), func_226278_cu_(), func_226281_cx_()).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
 
 	@Override

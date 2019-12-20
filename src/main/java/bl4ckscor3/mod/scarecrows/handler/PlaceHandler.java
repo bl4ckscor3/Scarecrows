@@ -39,9 +39,9 @@ public class PlaceHandler
 			{
 				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(BlockArm.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-				event.getEntityPlayer().swingArm(event.getHand());
+				event.getPlayer().swingArm(event.getHand());
 
-				if(!event.getEntityPlayer().isCreative())
+				if(!event.getPlayer().isCreative())
 					held.shrink(1);
 			}
 		}

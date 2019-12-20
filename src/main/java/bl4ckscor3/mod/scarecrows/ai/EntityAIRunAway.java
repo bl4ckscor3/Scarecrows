@@ -81,8 +81,8 @@ public class EntityAIRunAway extends Goal
 			{
 				if(e.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange())
 				{
-					Vec3d scarecrowPos = new Vec3d(scarecrow.posX, scarecrow.posY, scarecrow.posZ);
-					Vec3d ownPos = new Vec3d(e.posX, e.posY, e.posZ);
+					Vec3d scarecrowPos = new Vec3d(scarecrow.func_226277_ct_(), scarecrow.func_226278_cu_(), scarecrow.func_226281_cx_());
+					Vec3d ownPos = new Vec3d(e.func_226277_ct_(), e.func_226278_cu_(), e.func_226281_cx_());
 					Vec3d newPosition = EntityUtil.generateRandomPos(e, 16, 7, ownPos.subtract(scarecrowPos), true);
 
 					if(newPosition == null || scarecrow.getDistanceSq(newPosition.x, newPosition.y, newPosition.z) < scarecrow.getDistanceSq(e))

@@ -62,7 +62,7 @@ public class EntityUtil
 
 			if(target == null || l * target.x + j1 * target.z >= 0.0D)
 			{
-				BlockPos blockpos1 = new BlockPos(l + entity.posX, i1 + entity.posY, j1 + entity.posZ);
+				BlockPos blockpos1 = new BlockPos(l + entity.func_226277_ct_(), i1 + entity.func_226278_cu_(), j1 + entity.func_226281_cx_());
 
 				if(!flag && pathnavigate.canEntityStandOnPos(blockpos1))
 				{
@@ -83,7 +83,7 @@ public class EntityUtil
 		}
 
 		if(flag1)
-			return new Vec3d(k1 + entity.posX, i + entity.posY, j + entity.posZ);
+			return new Vec3d(k1 + entity.func_226277_ct_(), i + entity.func_226278_cu_(), j + entity.func_226281_cx_());
 		else
 			return null;
 	}
