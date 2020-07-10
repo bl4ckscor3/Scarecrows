@@ -35,7 +35,7 @@ public class PlaceHandler
 			BlockPos placeAt = pos.offset(face);
 			World world = event.getWorld();
 
-			if(face != Direction.UP && face != Direction.DOWN && Scarecrows.ARM.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
+			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
 			{
 				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);

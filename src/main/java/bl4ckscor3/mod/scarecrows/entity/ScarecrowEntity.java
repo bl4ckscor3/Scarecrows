@@ -42,7 +42,7 @@ public class ScarecrowEntity extends Entity
 		dataManager.set(TYPE, type);
 		dataManager.set(LIT, isLit);
 		dataManager.set(ROTATION, facing.getHorizontalAngle() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
-		dataManager.set(AREA, new AxisAlignedBB(func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), func_226277_ct_(), func_226278_cu_(), func_226281_cx_()).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
+		dataManager.set(AREA, new AxisAlignedBB(getPosX(), getPosY(), getPosZ(), getPosX(), getPosY(), getPosZ()).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ScarecrowEntity extends Entity
 	@Override
 	public void tick()
 	{
-		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
+		if(world.getBlockState(func_233580_cy_().down()).getBlock().isAir(world.getBlockState(func_233580_cy_().down()), world, func_233580_cy_()))
 			remove();
 	}
 
@@ -83,9 +83,9 @@ public class ScarecrowEntity extends Entity
 		if(!world.isRemote)
 		{
 			if(isLit())
-				world.destroyBlock(getPosition().up(getScarecrowType().getHeight() - 1), false);
+				world.destroyBlock(func_233580_cy_().up(getScarecrowType().getHeight() - 1), false);
 
-			getScarecrowType().dropMaterials(world, getPosition(), isLit());
+			getScarecrowType().dropMaterials(world, func_233580_cy_(), isLit());
 		}
 	}
 

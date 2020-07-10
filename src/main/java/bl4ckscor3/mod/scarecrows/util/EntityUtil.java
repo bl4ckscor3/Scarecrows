@@ -17,7 +17,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class EntityUtil
 {
@@ -44,7 +44,7 @@ public class EntityUtil
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	public static Vec3d generateRandomPos(MobEntity entity, int xz, int y, @Nullable Vec3d target, boolean b)
+	public static Vector3d generateRandomPos(MobEntity entity, int xz, int y, @Nullable Vector3d target, boolean b)
 	{
 		PathNavigator pathnavigate = entity.getNavigator();
 		Random random = entity.getRNG();
@@ -62,7 +62,7 @@ public class EntityUtil
 
 			if(target == null || l * target.x + j1 * target.z >= 0.0D)
 			{
-				BlockPos blockpos1 = new BlockPos(l + entity.func_226277_ct_(), i1 + entity.func_226278_cu_(), j1 + entity.func_226281_cx_());
+				BlockPos blockpos1 = new BlockPos(l + entity.getPosX(), i1 + entity.getPosY(), j1 + entity.getPosZ());
 
 				if(!flag && pathnavigate.canEntityStandOnPos(blockpos1))
 				{
@@ -83,7 +83,7 @@ public class EntityUtil
 		}
 
 		if(flag1)
-			return new Vec3d(k1 + entity.func_226277_ct_(), i + entity.func_226278_cu_(), j + entity.func_226281_cx_());
+			return new Vector3d(k1 + entity.getPosX(), i + entity.getPosY(), j + entity.getPosZ());
 		else
 			return null;
 	}

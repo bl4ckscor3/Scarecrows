@@ -10,14 +10,13 @@ import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 {
@@ -39,17 +38,17 @@ public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 	}
 
 	@Override
-	public void func_225623_a_(ScarecrowEntity entity, float partialTicks, float p_225623_3_, MatrixStack stack, IRenderTypeBuffer buffer, int p_225623_6_)
+	public void render(ScarecrowEntity entity, float partialTicks, float p_225623_3_, MatrixStack stack, IRenderTypeBuffer buffer, int p_225623_6_)
 	{
-		stack.func_227861_a_(0.0D, 1.5D, 0.0D); //translate
-		stack.func_227862_a_(-1, -1, 1); //rotate model rightside up (scale)
-		stack.func_227863_a_(new Quaternion(Vector3f.field_229181_d_, entity.getRotation(), true)); //rotate, Y_AXIS
+		stack.translate(0.0D, 1.5D, 0.0D);
+		stack.scale(-1, -1, 1);
+		stack.rotate(Vector3f.YP.rotationDegrees(entity.getRotation()));
 		Minecraft.getInstance().textureManager.bindTexture(getEntityTexture(entity));
 
 		if(entity.isLit())
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().func_225598_a_(stack, buffer.getBuffer(RenderType.func_228634_a_(getEntityTexture(entity))), p_225623_6_, OverlayTexture.field_229196_a_, 1.0F, 1.0F, 1.0F, 1.0F); //render
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().render(stack, buffer.getBuffer(RenderType.getEntitySolid(getEntityTexture(entity))), p_225623_6_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 		else
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().func_225598_a_(stack, buffer.getBuffer(RenderType.func_228634_a_(getEntityTexture(entity))), p_225623_6_, OverlayTexture.field_229196_a_, 1.0F, 1.0F, 1.0F, 1.0F); //render
+			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().render(stack, buffer.getBuffer(RenderType.getEntitySolid(getEntityTexture(entity))), p_225623_6_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override

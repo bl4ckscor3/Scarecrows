@@ -26,7 +26,7 @@ public class ArmBlock extends Block
 
 	public ArmBlock()
 	{
-		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.25F, 1.0F).sound(SoundType.WOOD));
+		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.25F, 1.0F).sound(SoundType.WOOD).setOpaque((state, world, pos) -> false));
 
 		setRegistryName(NAME);
 		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
@@ -56,8 +56,7 @@ public class ArmBlock extends Block
 			return Block.makeCuboidShape(0, 0, 0, 16, 16, 16);
 	}
 
-	@Override
-	public boolean canBeConnectedTo(BlockState state, IBlockReader world, BlockPos pos, Direction facing)
+	public static boolean canBeConnectedTo(BlockState state, IBlockReader world, BlockPos pos, Direction facing)
 	{
 		BlockPos oppositePos = pos.offset(facing.getOpposite());
 		BlockState oppositeState = world.getBlockState(oppositePos);
@@ -84,11 +83,5 @@ public class ArmBlock extends Block
 	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
 	{
 		return new ItemStack(Items.STICK);
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
-	{
-		return false;
 	}
 }

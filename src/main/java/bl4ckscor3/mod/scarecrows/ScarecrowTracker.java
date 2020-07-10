@@ -10,8 +10,10 @@ import java.util.Map;
 
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 
 /**
@@ -20,7 +22,7 @@ import net.minecraft.world.World;
  */
 public class ScarecrowTracker
 {
-	private static final Map<Integer,Collection<Integer>> trackedScarecrows = new HashMap<>();
+	private static final Map<RegistryKey<DimensionType>,Collection<Integer>> trackedScarecrows = new HashMap<>();
 
 	/**
 	 * Starts tracking a scarecrow
@@ -76,12 +78,12 @@ public class ScarecrowTracker
 	 */
 	private static Collection<Integer> getTrackedScarecrows(World world)
 	{
-		Collection<Integer> scarecrows = trackedScarecrows.get(world.getDimension().getType().getId());
+		Collection<Integer> scarecrows = trackedScarecrows.get(world.func_234922_V_());
 
 		if(scarecrows == null)
 		{
-			scarecrows = new HashSet<Integer>();
-			trackedScarecrows.put(world.getDimension().getType().getId(), scarecrows);
+			scarecrows = new HashSet<>();
+			trackedScarecrows.put(world.func_234922_V_(), scarecrows);
 		}
 
 		return scarecrows;

@@ -15,7 +15,7 @@ public class InvisibleLightBlock extends Block
 
 	public InvisibleLightBlock()
 	{
-		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1.0F, Float.MAX_VALUE).lightValue(15)); //light level of a jack o lantern
+		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1.0F, Float.MAX_VALUE).setLightLevel(state -> 15).setOpaque((state, world, pos) -> false)); //light level of a jack o lantern
 
 		setRegistryName(NAME);
 	}
@@ -30,11 +30,5 @@ public class InvisibleLightBlock extends Block
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext ctx)
 	{
 		return VoxelShapes.empty();
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
-	{
-		return false;
 	}
 }
