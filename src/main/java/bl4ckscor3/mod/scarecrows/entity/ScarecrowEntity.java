@@ -71,7 +71,7 @@ public class ScarecrowEntity extends Entity
 	@Override
 	public void tick()
 	{
-		if(world.getBlockState(func_233580_cy_().down()).getBlock().isAir(world.getBlockState(func_233580_cy_().down()), world, func_233580_cy_()))
+		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
 			remove();
 	}
 
@@ -83,9 +83,9 @@ public class ScarecrowEntity extends Entity
 		if(!world.isRemote)
 		{
 			if(isLit())
-				world.destroyBlock(func_233580_cy_().up(getScarecrowType().getHeight() - 1), false);
+				world.destroyBlock(getPosition().up(getScarecrowType().getHeight() - 1), false);
 
-			getScarecrowType().dropMaterials(world, func_233580_cy_(), isLit());
+			getScarecrowType().dropMaterials(world, getPosition(), isLit());
 		}
 	}
 

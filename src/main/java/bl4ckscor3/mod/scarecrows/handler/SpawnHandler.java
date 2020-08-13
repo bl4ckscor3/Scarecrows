@@ -32,7 +32,7 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.func_233580_cy_());
+			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.getPosition());
 
 			for(ScarecrowEntity scarecrow : scarecrows)
 			{

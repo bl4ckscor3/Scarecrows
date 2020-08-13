@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 
 /**
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
  */
 public class ScarecrowTracker
 {
-	private static final Map<RegistryKey<DimensionType>,Collection<Integer>> trackedScarecrows = new HashMap<>();
+	private static final Map<RegistryKey<World>,Collection<Integer>> trackedScarecrows = new HashMap<>();
 
 	/**
 	 * Starts tracking a scarecrow
@@ -78,12 +77,12 @@ public class ScarecrowTracker
 	 */
 	private static Collection<Integer> getTrackedScarecrows(World world)
 	{
-		Collection<Integer> scarecrows = trackedScarecrows.get(world.func_234922_V_());
+		Collection<Integer> scarecrows = trackedScarecrows.get(world.func_234923_W_());
 
 		if(scarecrows == null)
 		{
 			scarecrows = new HashSet<>();
-			trackedScarecrows.put(world.func_234922_V_(), scarecrows);
+			trackedScarecrows.put(world.func_234923_W_(), scarecrows);
 		}
 
 		return scarecrows;

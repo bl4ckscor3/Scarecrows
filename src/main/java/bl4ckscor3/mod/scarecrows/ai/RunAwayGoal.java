@@ -45,7 +45,7 @@ public class RunAwayGoal extends Goal
 	@Override
 	public boolean shouldExecute()
 	{
-		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.func_233580_cy_());
+		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.getPosition());
 
 		if(list.isEmpty())
 			return false;

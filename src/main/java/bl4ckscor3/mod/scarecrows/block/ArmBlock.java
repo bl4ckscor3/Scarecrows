@@ -62,7 +62,7 @@ public class ArmBlock extends Block
 		BlockState oppositeState = world.getBlockState(oppositePos);
 
 		if(facing != Direction.UP && facing != Direction.DOWN)
-			return Block.hasSolidSide(oppositeState, world, oppositePos, facing);
+			return oppositeState.isSolidSide(world, oppositePos, facing);
 		else
 			return false;
 	}
