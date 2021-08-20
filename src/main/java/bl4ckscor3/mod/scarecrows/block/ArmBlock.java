@@ -19,50 +19,52 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import net.minecraft.block.AbstractBlock;
+
 public class ArmBlock extends Block
 {
 	public static final String NAME = "arm";
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
 	public ArmBlock()
 	{
-		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.25F, 1.0F).sound(SoundType.WOOD).setOpaque((state, world, pos) -> false));
+		super(AbstractBlock.Properties.of(Material.WOOD).strength(0.25F, 1.0F).sound(SoundType.WOOD).isRedstoneConductor((state, world, pos) -> false));
 
 		setRegistryName(NAME);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
 	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean flag)
 	{
-		if(pos.offset(state.get(FACING).getOpposite()).equals(fromPos) && world.isAirBlock(fromPos))
+		if(pos.relative(state.getValue(FACING).getOpposite()).equals(fromPos) && world.isEmptyBlock(fromPos))
 			world.destroyBlock(pos, true);
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
 	{
-		Direction facing = state.get(FACING);
+		Direction facing = state.getValue(FACING);
 
 		if(facing == Direction.SOUTH)
-			return Block.makeCuboidShape(7.5D, 7, 0, 8.5D, 16, 8.5D);
+			return Block.box(7.5D, 7, 0, 8.5D, 16, 8.5D);
 		else if(facing == Direction.WEST)
-			return Block.makeCuboidShape(8, 7, 7.5D, 16, 16, 8.5D);
+			return Block.box(8, 7, 7.5D, 16, 16, 8.5D);
 		else if(facing == Direction.NORTH)
-			return Block.makeCuboidShape(7.5D, 7, 8, 8.5D, 16, 16);
+			return Block.box(7.5D, 7, 8, 8.5D, 16, 16);
 		else if(facing == Direction.EAST)
-			return Block.makeCuboidShape(0, 7, 7.5D, 8.5D, 16, 8.5D);
+			return Block.box(0, 7, 7.5D, 8.5D, 16, 8.5D);
 		else
-			return Block.makeCuboidShape(0, 0, 0, 16, 16, 16);
+			return Block.box(0, 0, 0, 16, 16, 16);
 	}
 
 	public static boolean canBeConnectedTo(BlockState state, IBlockReader world, BlockPos pos, Direction facing)
 	{
-		BlockPos oppositePos = pos.offset(facing.getOpposite());
+		BlockPos oppositePos = pos.relative(facing.getOpposite());
 		BlockState oppositeState = world.getBlockState(oppositePos);
 
 		if(facing != Direction.UP && facing != Direction.DOWN)
-			return oppositeState.isSolidSide(world, oppositePos, facing);
+			return oppositeState.isFaceSturdy(world, oppositePos, facing);
 		else
 			return false;
 	}
@@ -74,7 +76,7 @@ public class ArmBlock extends Block
 	}
 
 	@Override
-	protected void fillStateContainer(Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

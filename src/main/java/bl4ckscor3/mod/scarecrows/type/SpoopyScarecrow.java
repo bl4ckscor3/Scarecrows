@@ -29,7 +29,7 @@ public class SpoopyScarecrow extends ScarecrowType
 	@Override
 	public boolean checkStructure(IWorld world, BlockPos pos, Direction pumpkinFacing)
 	{
-		pos = pos.down();
+		pos = pos.below();
 
 		return hasArms(world, pos, pumpkinFacing) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
 	}
@@ -38,7 +38,7 @@ public class SpoopyScarecrow extends ScarecrowType
 	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
-		pos = pos.down();
+		pos = pos.below();
 		world.destroyBlock(pos.west(), false); //a potential arm
 		world.destroyBlock(pos.north(), false); //a potential arm
 		world.destroyBlock(pos.south(), false); //a potential arm

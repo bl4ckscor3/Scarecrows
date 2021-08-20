@@ -46,8 +46,8 @@ public class EntityUtil
 	 */
 	public static Vector3d generateRandomPos(MobEntity entity, int xz, int y, @Nullable Vector3d target, boolean b)
 	{
-		PathNavigator pathnavigate = entity.getNavigator();
-		Random random = entity.getRNG();
+		PathNavigator pathnavigate = entity.getNavigation();
+		Random random = entity.getRandom();
 		boolean flag = false;
 		boolean flag1 = false;
 		int k1 = 0;
@@ -62,9 +62,9 @@ public class EntityUtil
 
 			if(target == null || l * target.x + j1 * target.z >= 0.0D)
 			{
-				BlockPos blockpos1 = new BlockPos(l + entity.getPosX(), i1 + entity.getPosY(), j1 + entity.getPosZ());
+				BlockPos blockpos1 = new BlockPos(l + entity.getX(), i1 + entity.getY(), j1 + entity.getZ());
 
-				if(!flag && pathnavigate.canEntityStandOnPos(blockpos1))
+				if(!flag && pathnavigate.isStableDestination(blockpos1))
 				{
 					if(!b)
 					{
@@ -83,7 +83,7 @@ public class EntityUtil
 		}
 
 		if(flag1)
-			return new Vector3d(k1 + entity.getPosX(), i + entity.getPosY(), j + entity.getPosZ());
+			return new Vector3d(k1 + entity.getX(), i + entity.getY(), j + entity.getZ());
 		else
 			return null;
 	}
@@ -93,13 +93,13 @@ public class EntityUtil
 	 */
 	private static BlockPos moveAboveSolid(BlockPos pos, MobEntity entity)
 	{
-		if(!entity.world.getBlockState(pos).getMaterial().isSolid())
+		if(!entity.level.getBlockState(pos).getMaterial().isSolid())
 			return pos;
 		else
 		{
 			BlockPos blockpos;
 
-			for(blockpos = pos.up(); blockpos.getY() < entity.world.getHeight() && entity.world.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.up())
+			for(blockpos = pos.above(); blockpos.getY() < entity.level.getMaxBuildHeight() && entity.level.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.above())
 			{
 				;
 			}
@@ -113,6 +113,6 @@ public class EntityUtil
 	 */
 	private static boolean isWaterDestination(BlockPos pos, MobEntity entity)
 	{
-		return entity.world.getBlockState(pos).getMaterial() == Material.WATER;
+		return entity.level.getBlockState(pos).getMaterial() == Material.WATER;
 	}
 }

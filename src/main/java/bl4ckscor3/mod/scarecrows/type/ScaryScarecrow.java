@@ -32,15 +32,15 @@ public class ScaryScarecrow extends ScarecrowType
 	@Override
 	public boolean checkStructure(IWorld world, BlockPos pos, Direction pumpkinFacing)
 	{
-		BlockState state = world.getBlockState(pos = pos.down());
+		BlockState state = world.getBlockState(pos = pos.below());
 
 		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
 		{
-			BlockState topState = world.getBlockState(pos.down());
-			BlockState bottomState = world.getBlockState(pos.down(2));
+			BlockState topState = world.getBlockState(pos.below());
+			BlockState bottomState = world.getBlockState(pos.below(2));
 
-			if(topState.getBlock() == Blocks.END_ROD && topState.get(EndRodBlock.FACING) == Direction.DOWN &&
-					bottomState.getBlock() == Blocks.END_ROD && bottomState.get(EndRodBlock.FACING) == Direction.UP)
+			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(EndRodBlock.FACING) == Direction.DOWN &&
+					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(EndRodBlock.FACING) == Direction.UP)
 				return true;
 		}
 
@@ -51,15 +51,15 @@ public class ScaryScarecrow extends ScarecrowType
 	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
-		pos = pos.down();
+		pos = pos.below();
 		world.destroyBlock(pos.west(), false); //a potential arm
 		world.destroyBlock(pos.north(), false); //a potential arm
 		world.destroyBlock(pos.south(), false); //a potential arm
 		world.destroyBlock(pos.east(), false); //a potential arm
 		world.destroyBlock(pos, false); //arm attachement block
-		pos = pos.down();
+		pos = pos.below();
 		world.destroyBlock(pos, false); //leg
-		world.destroyBlock(pos.down(), false); //foot
+		world.destroyBlock(pos.below(), false); //foot
 	}
 
 	@Override

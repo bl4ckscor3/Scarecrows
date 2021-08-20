@@ -32,13 +32,13 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.getPosition());
+			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange((World)event.getWorld(), entity.blockPosition());
 
 			for(ScarecrowEntity scarecrow : scarecrows)
 			{
-				Predicate<Entity> filter = e -> e.isAlive() && ((MobEntity)entity).getEntitySenses().canSee(e);
+				Predicate<Entity> filter = e -> e.isAlive() && ((MobEntity)entity).getSensing().canSee(e);
 
-				if(filter.apply(scarecrow) && entity.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((MobEntity)entity).canEntityBeSeen(scarecrow))
+				if(filter.apply(scarecrow) && entity.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((MobEntity)entity).canSee(scarecrow))
 				{
 					if(animal && scarecrow.getScarecrowType().shouldScareAnimals())
 						event.setResult(Result.DENY);

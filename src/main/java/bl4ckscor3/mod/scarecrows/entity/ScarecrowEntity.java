@@ -19,10 +19,10 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class ScarecrowEntity extends Entity
 {
-	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>createKey(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
-	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>createKey(ScarecrowEntity.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>createKey(ScarecrowEntity.class, DataSerializers.FLOAT);
-	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>createKey(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
+	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>defineId(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>defineId(ScarecrowEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>defineId(ScarecrowEntity.class, DataSerializers.FLOAT);
+	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>defineId(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
 
 	public ScarecrowEntity(EntityType<ScarecrowEntity> type, World world)
 	{
@@ -38,20 +38,20 @@ public class ScarecrowEntity extends Entity
 	{
 		this(world);
 
-		setPosition(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-		dataManager.set(TYPE, type);
-		dataManager.set(LIT, isLit);
-		dataManager.set(ROTATION, facing.getHorizontalAngle() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
-		dataManager.set(AREA, new AxisAlignedBB(getPosX(), getPosY(), getPosZ(), getPosX(), getPosY(), getPosZ()).grow(type.getRange(), type.getHeight() * 3, type.getRange()));
+		setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+		entityData.set(TYPE, type);
+		entityData.set(LIT, isLit);
+		entityData.set(ROTATION, facing.toYRot() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
+		entityData.set(AREA, new AxisAlignedBB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
 
 	@Override
-	protected void registerData()
+	protected void defineSynchedData()
 	{
-		dataManager.register(TYPE, null);
-		dataManager.register(LIT, false);
-		dataManager.register(ROTATION, 0F);
-		dataManager.register(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
+		entityData.define(TYPE, null);
+		entityData.define(LIT, false);
+		entityData.define(ROTATION, 0F);
+		entityData.define(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ScarecrowEntity extends Entity
 	@Override
 	public void tick()
 	{
-		if(world.getBlockState(getPosition().down()).getBlock().isAir(world.getBlockState(getPosition().down()), world, getPosition()))
+		if(level.getBlockState(blockPosition().below()).getBlock().isAir(level.getBlockState(blockPosition().below()), level, blockPosition()))
 			remove();
 	}
 
@@ -80,17 +80,17 @@ public class ScarecrowEntity extends Entity
 	{
 		super.remove();
 
-		if(!world.isRemote)
+		if(!level.isClientSide)
 		{
 			if(isLit())
-				world.destroyBlock(getPosition().up(getScarecrowType().getHeight() - 1), false);
+				level.destroyBlock(blockPosition().above(getScarecrowType().getHeight() - 1), false);
 
-			getScarecrowType().dropMaterials(world, getPosition(), isLit());
+			getScarecrowType().dropMaterials(level, blockPosition(), isLit());
 		}
 	}
 
 	@Override
-	protected void readAdditional(CompoundNBT tag)
+	protected void readAdditionalSaveData(CompoundNBT tag)
 	{
 		String name = tag.getString("type");
 
@@ -98,14 +98,14 @@ public class ScarecrowEntity extends Entity
 		{
 			if(st.getName().equals(name))
 			{
-				dataManager.set(TYPE, st);
+				entityData.set(TYPE, st);
 				break;
 			}
 		}
 
-		dataManager.set(LIT, tag.getBoolean("isLit"));
-		dataManager.set(ROTATION, tag.getFloat("rotation"));
-		dataManager.set(AREA, new AxisAlignedBB(
+		entityData.set(LIT, tag.getBoolean("isLit"));
+		entityData.set(ROTATION, tag.getFloat("rotation"));
+		entityData.set(AREA, new AxisAlignedBB(
 				tag.getDouble("areaMinX"),
 				tag.getDouble("areaMinY"),
 				tag.getDouble("areaMinZ"),
@@ -115,7 +115,7 @@ public class ScarecrowEntity extends Entity
 	}
 
 	@Override
-	protected void writeAdditional(CompoundNBT tag)
+	protected void addAdditionalSaveData(CompoundNBT tag)
 	{
 		AxisAlignedBB area = getArea();
 
@@ -135,7 +135,7 @@ public class ScarecrowEntity extends Entity
 	 */
 	public ScarecrowType getScarecrowType()
 	{
-		return dataManager.get(TYPE);
+		return entityData.get(TYPE);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class ScarecrowEntity extends Entity
 	 */
 	public boolean isLit()
 	{
-		return dataManager.get(LIT);
+		return entityData.get(LIT);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ScarecrowEntity extends Entity
 	 */
 	public Float getRotation()
 	{
-		return dataManager.get(ROTATION);
+		return entityData.get(ROTATION);
 	}
 
 	/**
@@ -159,11 +159,11 @@ public class ScarecrowEntity extends Entity
 	 */
 	public AxisAlignedBB getArea()
 	{
-		return dataManager.get(AREA);
+		return entityData.get(AREA);
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket()
+	public IPacket<?> getAddEntityPacket()
 	{
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}

@@ -13,13 +13,13 @@ public class CustomDataSerializers
 		@Override
 		public void write(PacketBuffer buf, ScarecrowType value)
 		{
-			buf.writeString(value.getName());
+			buf.writeUtf(value.getName());
 		}
 
 		@Override
 		public ScarecrowType read(PacketBuffer buf)
 		{
-			String bufferedName = buf.readString(Integer.MAX_VALUE / 4);
+			String bufferedName = buf.readUtf(Integer.MAX_VALUE / 4);
 
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
@@ -31,13 +31,13 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public DataParameter<ScarecrowType> createKey(int id)
+		public DataParameter<ScarecrowType> createAccessor(int id)
 		{
 			return new DataParameter<ScarecrowType>(id, this);
 		}
 
 		@Override
-		public ScarecrowType copyValue(ScarecrowType value)
+		public ScarecrowType copy(ScarecrowType value)
 		{
 			return value;
 		}
@@ -63,15 +63,15 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public DataParameter<AxisAlignedBB> createKey(int id)
+		public DataParameter<AxisAlignedBB> createAccessor(int id)
 		{
 			return new DataParameter<AxisAlignedBB>(id, this);
 		}
 
 		@Override
-		public AxisAlignedBB copyValue(AxisAlignedBB value)
+		public AxisAlignedBB copy(AxisAlignedBB value)
 		{
-			return value.grow(0);
+			return value.inflate(0);
 		}
 	};
 }

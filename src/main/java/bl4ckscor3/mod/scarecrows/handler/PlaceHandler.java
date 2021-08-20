@@ -32,14 +32,14 @@ public class PlaceHandler
 		{
 			BlockPos pos = event.getPos();
 			Direction face = event.getFace();
-			BlockPos placeAt = pos.offset(face);
+			BlockPos placeAt = pos.relative(face);
 			World world = event.getWorld();
 
-			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isAirBlock(placeAt))
+			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isEmptyBlock(placeAt))
 			{
-				world.setBlockState(placeAt, Scarecrows.ARM.getDefaultState().with(ArmBlock.FACING, face));
+				world.setBlockAndUpdate(placeAt, Scarecrows.ARM.defaultBlockState().setValue(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-				event.getPlayer().swingArm(event.getHand());
+				event.getPlayer().swing(event.getHand());
 
 				if(!event.getPlayer().isCreative())
 					held.shrink(1);
@@ -73,14 +73,14 @@ public class PlaceHandler
 		{
 			for(ScarecrowType type : ScarecrowType.TYPES)
 			{
-				Direction pumpkinFacing = state.get(CarvedPumpkinBlock.FACING);
-				BlockPos groundPos = pos.down(type.getHeight());
+				Direction pumpkinFacing = state.getValue(CarvedPumpkinBlock.FACING);
+				BlockPos groundPos = pos.below(type.getHeight());
 				BlockState groundState = world.getBlockState(groundPos);
 
 				if(!groundState.getBlock().isAir(groundState, world, groundPos) && type.checkStructure(world, pos, pumpkinFacing))
 				{
 					type.destroy(world, pos);
-					type.spawn(type, world, pos.down(type.getHeight() - 1), block == Blocks.JACK_O_LANTERN, pumpkinFacing); //-1 because of the feet
+					type.spawn(type, world, pos.below(type.getHeight() - 1), block == Blocks.JACK_O_LANTERN, pumpkinFacing); //-1 because of the feet
 					return;
 				}
 			}

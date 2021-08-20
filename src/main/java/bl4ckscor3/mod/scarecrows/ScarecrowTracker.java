@@ -29,7 +29,7 @@ public class ScarecrowTracker
 	 */
 	public static void track(ScarecrowEntity entity)
 	{
-		getTrackedScarecrows(entity.getEntityWorld()).add(entity.getEntityId());
+		getTrackedScarecrows(entity.getCommandSenderWorld()).add(entity.getId());
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class ScarecrowTracker
 	 */
 	public static void stopTracking(ScarecrowEntity entity)
 	{
-		getTrackedScarecrows(entity.getEntityWorld()).remove(entity.getEntityId());
+		getTrackedScarecrows(entity.getCommandSenderWorld()).remove(entity.getId());
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ScarecrowTracker
 		for(Iterator<Integer> it = scarecrows.iterator(); it.hasNext(); )
 		{
 			int scarecrowId = it.next();
-			Entity scarecrow = world.getEntityByID(scarecrowId);
+			Entity scarecrow = world.getEntity(scarecrowId);
 
 			if(scarecrow instanceof ScarecrowEntity)
 			{
@@ -77,12 +77,12 @@ public class ScarecrowTracker
 	 */
 	private static Collection<Integer> getTrackedScarecrows(World world)
 	{
-		Collection<Integer> scarecrows = trackedScarecrows.get(world.func_234923_W_());
+		Collection<Integer> scarecrows = trackedScarecrows.get(world.dimension());
 
 		if(scarecrows == null)
 		{
 			scarecrows = new HashSet<>();
-			trackedScarecrows.put(world.func_234923_W_(), scarecrows);
+			trackedScarecrows.put(world.dimension(), scarecrows);
 		}
 
 		return scarecrows;

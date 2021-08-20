@@ -23,6 +23,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 
+import net.minecraft.entity.ai.goal.Goal.Flag;
+
 public class RunAwayGoal extends Goal
 {
 	private final Predicate<Entity> canBeSeenSelector;
@@ -36,16 +38,16 @@ public class RunAwayGoal extends Goal
 
 	public RunAwayGoal(MobEntity entity)
 	{
-		canBeSeenSelector = e -> e.isAlive() && entity.getEntitySenses().canSee(e);
+		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().canSee(e);
 		this.entity = entity;
-		navigation = entity.getNavigator();
-		setMutexFlags(EnumSet.of(Flag.MOVE));
+		navigation = entity.getNavigation();
+		setFlags(EnumSet.of(Flag.MOVE));
 	}
 
 	@Override
-	public boolean shouldExecute()
+	public boolean canUse()
 	{
-		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.world, entity.getPosition());
+		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
 
 		if(list.isEmpty())
 			return false;
@@ -80,23 +82,23 @@ public class RunAwayGoal extends Goal
 	 */
 	private boolean shouldScare(ScarecrowEntity scarecrow)
 	{
-		List<MobEntity> entities = scarecrow.world.<MobEntity>getEntitiesWithinAABB(entity.getClass(), scarecrow.getArea());
+		List<MobEntity> entities = scarecrow.level.<MobEntity>getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 
 		for(MobEntity e : entities)
 		{
 			if(e == entity)
 			{
-				if(e.getDistance(scarecrow) <= scarecrow.getScarecrowType().getRange())
+				if(e.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange())
 				{
-					Vector3d scarecrowPos = new Vector3d(scarecrow.getPosX(), scarecrow.getPosY(), scarecrow.getPosZ());
-					Vector3d ownPos = new Vector3d(e.getPosX(), e.getPosY(), e.getPosZ());
+					Vector3d scarecrowPos = new Vector3d(scarecrow.getX(), scarecrow.getY(), scarecrow.getZ());
+					Vector3d ownPos = new Vector3d(e.getX(), e.getY(), e.getZ());
 					Vector3d newPosition = EntityUtil.generateRandomPos(e, 16, 7, ownPos.subtract(scarecrowPos), true);
 
-					if(newPosition == null || scarecrow.getDistanceSq(newPosition.x, newPosition.y, newPosition.z) < scarecrow.getDistanceSq(e))
+					if(newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
 						return false;
 					else
 					{
-						path = navigation.getPathToPos(new BlockPos(newPosition), 0);
+						path = navigation.createPath(new BlockPos(newPosition), 0);
 						return path != null;
 					}
 				}
@@ -108,15 +110,15 @@ public class RunAwayGoal extends Goal
 	}
 
 	@Override
-	public boolean shouldContinueExecuting()
+	public boolean canContinueToUse()
 	{
-		return !navigation.noPath();
+		return !navigation.isDone();
 	}
 
 	@Override
-	public void startExecuting()
+	public void start()
 	{
-		navigation.setPath(path, speed);
+		navigation.moveTo(path, speed);
 	}
 
 	@Override
@@ -131,24 +133,24 @@ public class RunAwayGoal extends Goal
 		else
 			ticksSinceSound--;
 
-		entity.getNavigator().setSpeed(speed);
+		entity.getNavigation().setSpeedModifier(speed);
 	}
 
 	private void createRunningParticles(Entity entity)
 	{
-		int x = MathHelper.floor(entity.getPosX());
-		int y = MathHelper.floor(entity.getPosY() - 0.2F);
-		int z = MathHelper.floor(entity.getPosZ());
+		int x = MathHelper.floor(entity.getX());
+		int y = MathHelper.floor(entity.getY() - 0.2F);
+		int z = MathHelper.floor(entity.getZ());
 		BlockPos pos = new BlockPos(x, y, z);
-		BlockState state = entity.world.getBlockState(pos);
+		BlockState state = entity.level.getBlockState(pos);
 
-		if(!state.addRunningEffects(entity.world, pos, entity) && state.getRenderType() != BlockRenderType.INVISIBLE)
+		if(!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != BlockRenderType.INVISIBLE)
 		{
-			Vector3d motion = entity.getMotion();
-			EntitySize size = entity.getSize(entity.getPose());
-			Random rand = entity.world.rand;
+			Vector3d motion = entity.getDeltaMovement();
+			EntitySize size = entity.getDimensions(entity.getPose());
+			Random rand = entity.level.random;
 
-			entity.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state).setPos(pos), entity.getPosX() + (rand.nextDouble() - 0.5D) * size.width, entity.getPosY() + 0.1D, entity.getPosZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
+			entity.level.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
 	}
 }

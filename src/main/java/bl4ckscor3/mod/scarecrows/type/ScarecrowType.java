@@ -122,13 +122,13 @@ public abstract class ScarecrowType
 		BlockState stateWest = world.getBlockState(posWest);
 
 		if((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
-				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.get(ArmBlock.FACING) == Direction.NORTH &&
-				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.get(ArmBlock.FACING) == Direction.SOUTH &&
+				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
+				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
 				stateWest.isAir(world, pos) && stateEast.isAir(world, pos))
 			return true;
 		else if((pumpkinFacing == Direction.NORTH || pumpkinFacing == Direction.SOUTH) &&
-				stateEast.getBlock() == Scarecrows.ARM && stateEast.get(ArmBlock.FACING) == Direction.EAST &&
-				stateWest.getBlock() == Scarecrows.ARM && stateWest.get(ArmBlock.FACING) == Direction.WEST &&
+				stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
+				stateWest.getBlock() == Scarecrows.ARM && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
 				stateNorth.isAir(world, pos) && stateSouth.isAir(world, pos))
 			return true;
 		else return false;
@@ -145,9 +145,9 @@ public abstract class ScarecrowType
 	public final void spawn(ScarecrowType type, IWorld world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		if(isLit)
-			((World)world).setBlockState(pos.up(height - 1), Scarecrows.INVISIBLE_LIGHT.getDefaultState());
+			((World)world).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
 
-		world.addEntity(new ScarecrowEntity(type, (World)world, pos, isLit, facing));
+		world.addFreshEntity(new ScarecrowEntity(type, (World)world, pos, isLit, facing));
 	}
 
 	/**
@@ -158,11 +158,11 @@ public abstract class ScarecrowType
 	 */
 	public final void dropMaterials(World world, BlockPos pos, boolean dropLight)
 	{
-		Block.spawnAsEntity(world, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+		Block.popResource(world, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
 
 		for(ItemStack stack : getDrops())
 		{
-			Block.spawnAsEntity(world, pos, stack);
+			Block.popResource(world, pos, stack);
 		}
 	}
 }

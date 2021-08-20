@@ -9,13 +9,15 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock;
+
 public class InvisibleLightBlock extends Block
 {
 	public static final String NAME = "invisible_light";
 
 	public InvisibleLightBlock()
 	{
-		super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1.0F, Float.MAX_VALUE).setLightLevel(state -> 15).setOpaque((state, world, pos) -> false)); //light level of a jack o lantern
+		super(AbstractBlock.Properties.of(Material.STONE).strength(-1.0F, Float.MAX_VALUE).lightLevel(state -> 15).isRedstoneConductor((state, world, pos) -> false)); //light level of a jack o lantern
 
 		setRegistryName(NAME);
 	}
@@ -23,7 +25,7 @@ public class InvisibleLightBlock extends Block
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
 	{
-		return Block.makeCuboidShape(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
+		return Block.box(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
 	}
 
 	@Override

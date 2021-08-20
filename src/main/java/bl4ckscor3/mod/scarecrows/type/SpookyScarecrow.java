@@ -31,11 +31,11 @@ public class SpookyScarecrow extends ScarecrowType
 	@Override
 	public boolean checkStructure(IWorld world, BlockPos pos, Direction pumpkinFacing)
 	{
-		BlockState state = world.getBlockState(pos = pos.down());
+		BlockState state = world.getBlockState(pos = pos.below());
 
 		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.NETHERRACK)
 		{
-			if(world.getBlockState(pos.down()).getBlock() == Blocks.NETHER_BRICK_FENCE)
+			if(world.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
 		}
 
@@ -46,13 +46,13 @@ public class SpookyScarecrow extends ScarecrowType
 	public void destroy(IWorld world, BlockPos pos)
 	{
 		world.destroyBlock(pos, false); //pumpkin
-		pos = pos.down();
+		pos = pos.below();
 		world.destroyBlock(pos.west(), false); //a potential arm
 		world.destroyBlock(pos.north(), false); //a potential arm
 		world.destroyBlock(pos.south(), false); //a potential arm
 		world.destroyBlock(pos.east(), false); //a potential arm
 		world.destroyBlock(pos, false); //arm attachement block
-		world.destroyBlock(pos.down(), false); //foot
+		world.destroyBlock(pos.below(), false); //foot
 	}
 
 	@Override
