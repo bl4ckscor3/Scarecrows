@@ -4,18 +4,18 @@ import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.core.Direction;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 public class ScarecrowEntity extends Entity
 {
@@ -71,14 +71,14 @@ public class ScarecrowEntity extends Entity
 	@Override
 	public void tick()
 	{
-		if(level.getBlockState(blockPosition().below()).getBlock().isAir(level.getBlockState(blockPosition().below()), level, blockPosition()))
-			remove();
+		if(level.getBlockState(blockPosition().below()).isAir())
+			remove(RemovalReason.KILLED);
 	}
 
 	@Override
-	public void remove()
+	public void remove(RemovalReason reason)
 	{
-		super.remove();
+		super.remove(reason);
 
 		if(!level.isClientSide)
 		{

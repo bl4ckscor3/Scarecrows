@@ -1,6 +1,5 @@
 package bl4ckscor3.mod.scarecrows.ai;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 
@@ -9,21 +8,19 @@ import com.google.common.base.Predicate;
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
 
 public class RunAwayGoal extends Goal
 {
@@ -38,10 +35,10 @@ public class RunAwayGoal extends Goal
 
 	public RunAwayGoal(Mob entity)
 	{
-		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().canSee(e);
+		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().hasLineOfSight(e);
 		this.entity = entity;
 		navigation = entity.getNavigation();
-		setFlags(EnumSet.of(Flag.MOVE));
+		//		setFlags(EnumSet.of(Flag.MOVE));
 	}
 
 	@Override
@@ -82,7 +79,7 @@ public class RunAwayGoal extends Goal
 	 */
 	private boolean shouldScare(ScarecrowEntity scarecrow)
 	{
-		List<Mob> entities = scarecrow.level.<Mob>getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
+		List<? extends Mob> entities = scarecrow.level.getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 
 		for(Mob e : entities)
 		{
@@ -91,8 +88,8 @@ public class RunAwayGoal extends Goal
 				if(e.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange())
 				{
 					Vec3 scarecrowPos = new Vec3(scarecrow.getX(), scarecrow.getY(), scarecrow.getZ());
-					Vec3 ownPos = new Vec3(e.getX(), e.getY(), e.getZ());
-					Vec3 newPosition = EntityUtil.generateRandomPos(e, 16, 7, ownPos.subtract(scarecrowPos), true);
+					Vec3 currentPos = new Vec3(e.getX(), e.getY(), e.getZ());
+					Vec3 newPosition = EntityUtil.generateRandomPos(e, 16, 7, currentPos.subtract(scarecrowPos), true);
 
 					if(newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
 						return false;

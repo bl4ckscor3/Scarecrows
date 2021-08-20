@@ -4,11 +4,10 @@ import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.block.InvisibleLightBlock;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -16,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.ObjectHolder;
 
 @Mod(Scarecrows.MODID)
@@ -34,8 +34,6 @@ public class Scarecrows
 
 	public Scarecrows()
 	{
-		EntityDataSerializers.registerSerializer(CustomDataSerializers.AXISALIGNEDBB);
-		EntityDataSerializers.registerSerializer(CustomDataSerializers.SCARECROWTYPE);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 	}
 
@@ -50,5 +48,12 @@ public class Scarecrows
 	public static void registerEntities(RegistryEvent.Register<EntityType<?>> event)
 	{
 		event.getRegistry().register(SCARECROW_ENTITY_TYPE);
+	}
+
+	@SubscribeEvent
+	public static void registerDataSerializerEntries(RegistryEvent.Register<DataSerializerEntry> event)
+	{
+		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.SCARECROWTYPE).setRegistryName("scarecrow_type"));
+		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.AXISALIGNEDBB).setRegistryName("aabb"));
 	}
 }

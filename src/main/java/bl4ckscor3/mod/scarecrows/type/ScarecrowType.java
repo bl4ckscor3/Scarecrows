@@ -3,21 +3,23 @@ package bl4ckscor3.mod.scarecrows.type;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ScarecrowType
 {
-	public static final ScarecrowType[] TYPES = new ScarecrowType[] {
+	public static final ScarecrowType[] TYPES = {
 			new SpoopyScarecrow(),
 			new SuperSpoopyScarecrow(),
 			new SpookyScarecrow(),
@@ -67,10 +69,18 @@ public abstract class ScarecrowType
 
 	/**
 	 * @param isLit Whether this model should show up as lit or not
-	 * @return The model this scarecrow will use
+	 * @return The model layer location this scarecrow will use
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public abstract EntityModel<ScarecrowEntity> getModel(boolean isLit);
+	public abstract ModelLayerLocation getModelLayerLocation(boolean isLit);
+
+	/**
+	 * Creates the model to be used for rendering this scarecrow
+	 * @param modelPart The baked model part
+	 * @return The model to render
+	 */
+	@OnlyIn(Dist.CLIENT)
+	public abstract EntityModel<ScarecrowEntity> createModel(ModelPart modelPart);
 
 	/**
 	 * @return The name of the scarecrow
@@ -107,7 +117,7 @@ public abstract class ScarecrowType
 	/**
 	 * Checks whether this scarecrow has arms
 	 * @param world The world the scarecrow is in
-	 * @param pos The block to which the arms should be attached
+	 * @param pos The block position to which the arms should be attached
 	 * @param pumpkinFacing The facing of the pumpkin, used to determin if the arms are placed on the correct sides
 	 */
 	public final boolean hasArms(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
@@ -124,12 +134,12 @@ public abstract class ScarecrowType
 		if((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
 				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
 				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
-				stateWest.isAir(world, pos) && stateEast.isAir(world, pos))
+				stateWest.isAir() && stateEast.isAir())
 			return true;
 		else if((pumpkinFacing == Direction.NORTH || pumpkinFacing == Direction.SOUTH) &&
 				stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
 				stateWest.getBlock() == Scarecrows.ARM && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
-				stateNorth.isAir(world, pos) && stateSouth.isAir(world, pos))
+				stateNorth.isAir() && stateSouth.isAir())
 			return true;
 		else return false;
 	}

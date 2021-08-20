@@ -4,19 +4,19 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.material.Material;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ambient.AmbientCreature;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.ambient.AmbientCreature;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Squid;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityUtil

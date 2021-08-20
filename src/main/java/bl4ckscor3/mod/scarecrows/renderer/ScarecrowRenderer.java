@@ -2,58 +2,62 @@ package bl4ckscor3.mod.scarecrows.renderer;
 
 import java.util.HashMap;
 
-import org.apache.commons.lang3.tuple.Triple;
-
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
 
 public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 {
+	private record RenderInfo(ResourceLocation textureLocation, EntityModel<ScarecrowEntity> unLitModel, EntityModel<ScarecrowEntity> litModel) {}
+
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
-	 *
-	 * Triple: texture, model with normal pumpkin, model with jack o' lantern
 	 */
-	public static final HashMap<String,Triple<ResourceLocation,EntityModel<ScarecrowEntity>,EntityModel<ScarecrowEntity>>> RENDER_INFO = new HashMap<>();
+	public static final HashMap<String,RenderInfo> RENDER_INFO = new HashMap<>();
 
-	public ScarecrowRenderer(EntityRenderDispatcher manager)
+	public ScarecrowRenderer(EntityRendererProvider.Context ctx)
 	{
-		super(manager);
+		super(ctx);
 
 		for(ScarecrowType type : ScarecrowType.TYPES)
 		{
-			RENDER_INFO.put(type.getName(), Triple.<ResourceLocation,EntityModel<ScarecrowEntity>,EntityModel<ScarecrowEntity>>of(new ResourceLocation("scarecrows:textures/entity/" + type.getName() + ".png"), type.getModel(false), type.getModel(true)));
+			RENDER_INFO.put(type.getName(), new RenderInfo(
+					new ResourceLocation("scarecrows", "textures/entity/" + type.getName() + ".png"),
+					type.createModel(ctx.bakeLayer(type.getModelLayerLocation(false))),
+					type.createModel(ctx.bakeLayer(type.getModelLayerLocation(true)))));
 		}
 	}
 
 	@Override
-	public void render(ScarecrowEntity entity, float partialTicks, float p_225623_3_, PoseStack stack, MultiBufferSource buffer, int p_225623_6_)
+	public void render(ScarecrowEntity entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight)
 	{
+		Model modelToRender;
+
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);
 		stack.mulPose(Vector3f.YP.rotationDegrees(entity.getRotation()));
-		Minecraft.getInstance().textureManager.bind(getTextureLocation(entity));
 
 		if(entity.isLit())
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getRight().renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), p_225623_6_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			modelToRender = RENDER_INFO.get(entity.getScarecrowType().getName()).litModel();
 		else
-			RENDER_INFO.get(entity.getScarecrowType().getName()).getMiddle().renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), p_225623_6_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+			modelToRender = RENDER_INFO.get(entity.getScarecrowType().getName()).unLitModel();
+
+		modelToRender.renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(ScarecrowEntity entity)
 	{
-		return RENDER_INFO.get(entity.getScarecrowType().getName()).getLeft();
+		return RENDER_INFO.get(entity.getScarecrowType().getName()).textureLocation();
 	}
 }
