@@ -4,19 +4,19 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.tuple.Triple;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 
 public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 {
@@ -27,7 +27,7 @@ public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 	 */
 	public static final HashMap<String,Triple<ResourceLocation,EntityModel<ScarecrowEntity>,EntityModel<ScarecrowEntity>>> RENDER_INFO = new HashMap<>();
 
-	public ScarecrowRenderer(EntityRendererManager manager)
+	public ScarecrowRenderer(EntityRenderDispatcher manager)
 	{
 		super(manager);
 
@@ -38,7 +38,7 @@ public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 	}
 
 	@Override
-	public void render(ScarecrowEntity entity, float partialTicks, float p_225623_3_, MatrixStack stack, IRenderTypeBuffer buffer, int p_225623_6_)
+	public void render(ScarecrowEntity entity, float partialTicks, float p_225623_3_, PoseStack stack, MultiBufferSource buffer, int p_225623_6_)
 	{
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);

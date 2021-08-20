@@ -9,34 +9,34 @@ import com.google.common.base.Predicate;
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
-import net.minecraft.entity.ai.goal.Goal.Flag;
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
 
 public class RunAwayGoal extends Goal
 {
 	private final Predicate<Entity> canBeSeenSelector;
-	private MobEntity entity;
+	private Mob entity;
 	private final float speed = 1.5F;
 	/** The PathEntity of our entity */
 	private Path path;
 	/** The PathNavigate of our entity */
-	private final PathNavigator navigation;
+	private final PathNavigation navigation;
 	private long ticksSinceSound = 0;
 
-	public RunAwayGoal(MobEntity entity)
+	public RunAwayGoal(Mob entity)
 	{
 		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().canSee(e);
 		this.entity = entity;
@@ -82,17 +82,17 @@ public class RunAwayGoal extends Goal
 	 */
 	private boolean shouldScare(ScarecrowEntity scarecrow)
 	{
-		List<MobEntity> entities = scarecrow.level.<MobEntity>getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
+		List<Mob> entities = scarecrow.level.<Mob>getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 
-		for(MobEntity e : entities)
+		for(Mob e : entities)
 		{
 			if(e == entity)
 			{
 				if(e.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange())
 				{
-					Vector3d scarecrowPos = new Vector3d(scarecrow.getX(), scarecrow.getY(), scarecrow.getZ());
-					Vector3d ownPos = new Vector3d(e.getX(), e.getY(), e.getZ());
-					Vector3d newPosition = EntityUtil.generateRandomPos(e, 16, 7, ownPos.subtract(scarecrowPos), true);
+					Vec3 scarecrowPos = new Vec3(scarecrow.getX(), scarecrow.getY(), scarecrow.getZ());
+					Vec3 ownPos = new Vec3(e.getX(), e.getY(), e.getZ());
+					Vec3 newPosition = EntityUtil.generateRandomPos(e, 16, 7, ownPos.subtract(scarecrowPos), true);
 
 					if(newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
 						return false;
@@ -138,19 +138,19 @@ public class RunAwayGoal extends Goal
 
 	private void createRunningParticles(Entity entity)
 	{
-		int x = MathHelper.floor(entity.getX());
-		int y = MathHelper.floor(entity.getY() - 0.2F);
-		int z = MathHelper.floor(entity.getZ());
+		int x = Mth.floor(entity.getX());
+		int y = Mth.floor(entity.getY() - 0.2F);
+		int z = Mth.floor(entity.getZ());
 		BlockPos pos = new BlockPos(x, y, z);
 		BlockState state = entity.level.getBlockState(pos);
 
-		if(!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != BlockRenderType.INVISIBLE)
+		if(!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE)
 		{
-			Vector3d motion = entity.getDeltaMovement();
-			EntitySize size = entity.getDimensions(entity.getPose());
+			Vec3 motion = entity.getDeltaMovement();
+			EntityDimensions size = entity.getDimensions(entity.getPose());
 			Random rand = entity.level.random;
 
-			entity.level.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
+			entity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
 	}
 }

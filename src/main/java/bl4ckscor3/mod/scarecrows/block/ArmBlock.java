@@ -1,48 +1,48 @@
 package bl4ckscor3.mod.scarecrows.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-import net.minecraft.block.AbstractBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class ArmBlock extends Block
 {
 	public static final String NAME = "arm";
-	public static final DirectionProperty FACING = HorizontalBlock.FACING;
+	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public ArmBlock()
 	{
-		super(AbstractBlock.Properties.of(Material.WOOD).strength(0.25F, 1.0F).sound(SoundType.WOOD).isRedstoneConductor((state, world, pos) -> false));
+		super(BlockBehaviour.Properties.of(Material.WOOD).strength(0.25F, 1.0F).sound(SoundType.WOOD).isRedstoneConductor((state, world, pos) -> false));
 
 		setRegistryName(NAME);
 		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean flag)
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean flag)
 	{
 		if(pos.relative(state.getValue(FACING).getOpposite()).equals(fromPos) && world.isEmptyBlock(fromPos))
 			world.destroyBlock(pos, true);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
+	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
 	{
 		Direction facing = state.getValue(FACING);
 
@@ -58,7 +58,7 @@ public class ArmBlock extends Block
 			return Block.box(0, 0, 0, 16, 16, 16);
 	}
 
-	public static boolean canBeConnectedTo(BlockState state, IBlockReader world, BlockPos pos, Direction facing)
+	public static boolean canBeConnectedTo(BlockState state, BlockGetter world, BlockPos pos, Direction facing)
 	{
 		BlockPos oppositePos = pos.relative(facing.getOpposite());
 		BlockState oppositeState = world.getBlockState(oppositePos);
@@ -70,9 +70,9 @@ public class ArmBlock extends Block
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState blockState, IBlockReader world, BlockPos pos, ISelectionContext ctx)
+	public VoxelShape getCollisionShape(BlockState blockState, BlockGetter world, BlockPos pos, CollisionContext ctx)
 	{
-		return VoxelShapes.empty();
+		return Shapes.empty();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ArmBlock extends Block
 	}
 
 	@Override
-	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
+	public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
 	{
 		return new ItemStack(Items.STICK);
 	}

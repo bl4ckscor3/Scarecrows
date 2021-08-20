@@ -4,20 +4,20 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.ShulkerEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.entity.passive.AmbientEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.SquidEntity;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.Ghast;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Shulker;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.ambient.AmbientCreature;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityUtil
 {
@@ -28,7 +28,7 @@ public class EntityUtil
 	 */
 	public static boolean isAttackableMonster(Entity entity)
 	{
-		return entity instanceof MonsterEntity || entity instanceof EnderDragonEntity || entity instanceof GhastEntity || entity instanceof ShulkerEntity || entity instanceof SlimeEntity;
+		return entity instanceof Monster || entity instanceof EnderDragon || entity instanceof Ghast || entity instanceof Shulker || entity instanceof Slime;
 	}
 
 	/**
@@ -38,15 +38,15 @@ public class EntityUtil
 	 */
 	public static boolean isAttackableAnimal(Entity entity)
 	{
-		return entity instanceof AmbientEntity || entity instanceof AnimalEntity || entity instanceof SquidEntity;
+		return entity instanceof AmbientCreature || entity instanceof Animal || entity instanceof Squid;
 	}
 
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	public static Vector3d generateRandomPos(MobEntity entity, int xz, int y, @Nullable Vector3d target, boolean b)
+	public static Vec3 generateRandomPos(Mob entity, int xz, int y, @Nullable Vec3 target, boolean b)
 	{
-		PathNavigator pathnavigate = entity.getNavigation();
+		PathNavigation pathnavigate = entity.getNavigation();
 		Random random = entity.getRandom();
 		boolean flag = false;
 		boolean flag1 = false;
@@ -83,7 +83,7 @@ public class EntityUtil
 		}
 
 		if(flag1)
-			return new Vector3d(k1 + entity.getX(), i + entity.getY(), j + entity.getZ());
+			return new Vec3(k1 + entity.getX(), i + entity.getY(), j + entity.getZ());
 		else
 			return null;
 	}
@@ -91,7 +91,7 @@ public class EntityUtil
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	private static BlockPos moveAboveSolid(BlockPos pos, MobEntity entity)
+	private static BlockPos moveAboveSolid(BlockPos pos, Mob entity)
 	{
 		if(!entity.level.getBlockState(pos).getMaterial().isSolid())
 			return pos;
@@ -111,7 +111,7 @@ public class EntityUtil
 	/**
 	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
 	 */
-	private static boolean isWaterDestination(BlockPos pos, MobEntity entity)
+	private static boolean isWaterDestination(BlockPos pos, Mob entity)
 	{
 		return entity.level.getBlockState(pos).getMaterial() == Material.WATER;
 	}

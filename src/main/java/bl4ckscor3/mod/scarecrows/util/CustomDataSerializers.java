@@ -1,23 +1,23 @@
 package bl4ckscor3.mod.scarecrows.util;
 
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.IDataSerializer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.world.phys.AABB;
 
 public class CustomDataSerializers
 {
-	public static final IDataSerializer<ScarecrowType> SCARECROWTYPE = new IDataSerializer<ScarecrowType>()
+	public static final EntityDataSerializer<ScarecrowType> SCARECROWTYPE = new EntityDataSerializer<ScarecrowType>()
 	{
 		@Override
-		public void write(PacketBuffer buf, ScarecrowType value)
+		public void write(FriendlyByteBuf buf, ScarecrowType value)
 		{
 			buf.writeUtf(value.getName());
 		}
 
 		@Override
-		public ScarecrowType read(PacketBuffer buf)
+		public ScarecrowType read(FriendlyByteBuf buf)
 		{
 			String bufferedName = buf.readUtf(Integer.MAX_VALUE / 4);
 
@@ -31,9 +31,9 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public DataParameter<ScarecrowType> createAccessor(int id)
+		public EntityDataAccessor<ScarecrowType> createAccessor(int id)
 		{
-			return new DataParameter<ScarecrowType>(id, this);
+			return new EntityDataAccessor<ScarecrowType>(id, this);
 		}
 
 		@Override
@@ -43,10 +43,10 @@ public class CustomDataSerializers
 		}
 	};
 
-	public static final IDataSerializer<AxisAlignedBB> AXISALIGNEDBB = new IDataSerializer<AxisAlignedBB>()
+	public static final EntityDataSerializer<AABB> AXISALIGNEDBB = new EntityDataSerializer<AABB>()
 	{
 		@Override
-		public void write(PacketBuffer buf, AxisAlignedBB value)
+		public void write(FriendlyByteBuf buf, AABB value)
 		{
 			buf.writeDouble(value.minX);
 			buf.writeDouble(value.minY);
@@ -57,19 +57,19 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public AxisAlignedBB read(PacketBuffer buf)
+		public AABB read(FriendlyByteBuf buf)
 		{
-			return new AxisAlignedBB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
+			return new AABB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
 		}
 
 		@Override
-		public DataParameter<AxisAlignedBB> createAccessor(int id)
+		public EntityDataAccessor<AABB> createAccessor(int id)
 		{
-			return new DataParameter<AxisAlignedBB>(id, this);
+			return new EntityDataAccessor<AABB>(id, this);
 		}
 
 		@Override
-		public AxisAlignedBB copy(AxisAlignedBB value)
+		public AABB copy(AABB value)
 		{
 			return value.inflate(0);
 		}

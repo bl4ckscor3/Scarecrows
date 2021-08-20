@@ -4,11 +4,11 @@ import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.block.InvisibleLightBlock;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -30,12 +30,12 @@ public class Scarecrows
 	@ObjectHolder(Scarecrows.PREFIX + InvisibleLightBlock.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
 
-	public static final EntityType<ScarecrowEntity> SCARECROW_ENTITY_TYPE = (EntityType<ScarecrowEntity>)EntityType.Builder.<ScarecrowEntity>of(ScarecrowEntity::new, EntityClassification.MISC).sized(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new ScarecrowEntity(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
+	public static final EntityType<ScarecrowEntity> SCARECROW_ENTITY_TYPE = (EntityType<ScarecrowEntity>)EntityType.Builder.<ScarecrowEntity>of(ScarecrowEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new ScarecrowEntity(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
 
 	public Scarecrows()
 	{
-		DataSerializers.registerSerializer(CustomDataSerializers.AXISALIGNEDBB);
-		DataSerializers.registerSerializer(CustomDataSerializers.SCARECROWTYPE);
+		EntityDataSerializers.registerSerializer(CustomDataSerializers.AXISALIGNEDBB);
+		EntityDataSerializers.registerSerializer(CustomDataSerializers.SCARECROWTYPE);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 	}
 

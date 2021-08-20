@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Tracks all exisiting scarecrow so searching for them each tick is obsolete.
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
  */
 public class ScarecrowTracker
 {
-	private static final Map<RegistryKey<World>,Collection<Integer>> trackedScarecrows = new HashMap<>();
+	private static final Map<ResourceKey<Level>,Collection<Integer>> trackedScarecrows = new HashMap<>();
 
 	/**
 	 * Starts tracking a scarecrow
@@ -47,7 +47,7 @@ public class ScarecrowTracker
 	 * @param pos The block position
 	 * @return A list of all scarecrows that have the given block position in their range
 	 */
-	public static List<ScarecrowEntity> getScarecrowsInRange(World world, BlockPos pos)
+	public static List<ScarecrowEntity> getScarecrowsInRange(Level world, BlockPos pos)
 	{
 		final Collection<Integer> scarecrows = getTrackedScarecrows(world);
 		List<ScarecrowEntity> returnValue = new ArrayList<>();
@@ -75,7 +75,7 @@ public class ScarecrowTracker
 	 * Gets all block positions at which a scarecrow is being tracked for the given world
 	 * @param world The world to get the tracked scarecrows of
 	 */
-	private static Collection<Integer> getTrackedScarecrows(World world)
+	private static Collection<Integer> getTrackedScarecrows(Level world)
 	{
 		Collection<Integer> scarecrows = trackedScarecrows.get(world.dimension());
 
@@ -95,7 +95,7 @@ public class ScarecrowTracker
 	 */
 	private static boolean canScarecrowReach(ScarecrowEntity entity, BlockPos pos)
 	{
-		AxisAlignedBB scarecrowRange = entity.getArea();
+		AABB scarecrowRange = entity.getArea();
 
 		return scarecrowRange.minX <= pos.getX() && scarecrowRange.minY <= pos.getY() && scarecrowRange.minZ <= pos.getZ() && scarecrowRange.maxX >= pos.getX() && scarecrowRange.maxY >= pos.getY() && scarecrowRange.maxZ >= pos.getZ();
 	}

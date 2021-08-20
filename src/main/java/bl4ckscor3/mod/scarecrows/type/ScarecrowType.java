@@ -3,15 +3,15 @@ package bl4ckscor3.mod.scarecrows.type;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -51,14 +51,14 @@ public abstract class ScarecrowType
 	 * @param pumpkinFacing The facing of the pumpkin
 	 * @return true if the scarecrow is correctly built, false otherwise
 	 */
-	public abstract boolean checkStructure(IWorld world, BlockPos pos, Direction pumpkinFacing);
+	public abstract boolean checkStructure(LevelAccessor world, BlockPos pos, Direction pumpkinFacing);
 
 	/**
 	 * Destroy the structure of this scarecrow
 	 * @param world The world to destroy in
 	 * @param pos The position to start destroying from (the pumpkin)
 	 */
-	public abstract void destroy(IWorld world, BlockPos pos);
+	public abstract void destroy(LevelAccessor world, BlockPos pos);
 
 	/**
 	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
@@ -110,7 +110,7 @@ public abstract class ScarecrowType
 	 * @param pos The block to which the arms should be attached
 	 * @param pumpkinFacing The facing of the pumpkin, used to determin if the arms are placed on the correct sides
 	 */
-	public final boolean hasArms(IWorld world, BlockPos pos, Direction pumpkinFacing)
+	public final boolean hasArms(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
 	{
 		BlockPos posNorth = pos.north();
 		BlockPos posEast = pos.east();
@@ -142,12 +142,12 @@ public abstract class ScarecrowType
 	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
 	 * @param facing The facing of the spawned scarecrow entity
 	 */
-	public final void spawn(ScarecrowType type, IWorld world, BlockPos pos, boolean isLit, Direction facing)
+	public final void spawn(ScarecrowType type, LevelAccessor world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		if(isLit)
-			((World)world).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
+			((Level)world).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
 
-		world.addFreshEntity(new ScarecrowEntity(type, (World)world, pos, isLit, facing));
+		world.addFreshEntity(new ScarecrowEntity(type, (Level)world, pos, isLit, facing));
 	}
 
 	/**
@@ -156,7 +156,7 @@ public abstract class ScarecrowType
 	 * @param pos The position to spawn the drops at
 	 * @param dropLight true if the entity was made with a Jack o' Lantern, false otherwise
 	 */
-	public final void dropMaterials(World world, BlockPos pos, boolean dropLight)
+	public final void dropMaterials(Level world, BlockPos pos, boolean dropLight)
 	{
 		Block.popResource(world, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
 

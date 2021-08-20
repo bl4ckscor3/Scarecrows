@@ -3,18 +3,18 @@ package bl4ckscor3.mod.scarecrows.handler;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CarvedPumpkinBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,12 +33,12 @@ public class PlaceHandler
 			BlockPos pos = event.getPos();
 			Direction face = event.getFace();
 			BlockPos placeAt = pos.relative(face);
-			World world = event.getWorld();
+			Level world = event.getWorld();
 
 			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isEmptyBlock(placeAt))
 			{
 				world.setBlockAndUpdate(placeAt, Scarecrows.ARM.defaultBlockState().setValue(ArmBlock.FACING, face));
-				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
 				event.getPlayer().swing(event.getHand());
 
 				if(!event.getPlayer().isCreative())
@@ -65,7 +65,7 @@ public class PlaceHandler
 	 * @param pos The position of the block that was placed/rightclicked
 	 * @param state The state of the block that was placed/rightclicked
 	 */
-	private static void tryBuildScarecrow(IWorld world, BlockPos pos, BlockState state)
+	private static void tryBuildScarecrow(LevelAccessor world, BlockPos pos, BlockState state)
 	{
 		Block block = state.getBlock();
 

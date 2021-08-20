@@ -4,37 +4,37 @@ import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class ScarecrowEntity extends Entity
 {
-	private static final DataParameter<ScarecrowType> TYPE = EntityDataManager.<ScarecrowType>defineId(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
-	private static final DataParameter<Boolean> LIT = EntityDataManager.<Boolean>defineId(ScarecrowEntity.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Float> ROTATION = EntityDataManager.<Float>defineId(ScarecrowEntity.class, DataSerializers.FLOAT);
-	private static final DataParameter<AxisAlignedBB> AREA = EntityDataManager.<AxisAlignedBB>defineId(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
+	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(ScarecrowEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(ScarecrowEntity.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
 
-	public ScarecrowEntity(EntityType<ScarecrowEntity> type, World world)
+	public ScarecrowEntity(EntityType<ScarecrowEntity> type, Level world)
 	{
 		super(type, world);
 	}
 
-	public ScarecrowEntity(World world)
+	public ScarecrowEntity(Level world)
 	{
 		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
-	public ScarecrowEntity(ScarecrowType type, World world, BlockPos pos, boolean isLit, Direction facing)
+	public ScarecrowEntity(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		this(world);
 
@@ -42,7 +42,7 @@ public class ScarecrowEntity extends Entity
 		entityData.set(TYPE, type);
 		entityData.set(LIT, isLit);
 		entityData.set(ROTATION, facing.toYRot() + 180); //+180 because the default rotation of the model is not at the 0th horizontal facing
-		entityData.set(AREA, new AxisAlignedBB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(type.getRange(), type.getHeight() * 3, type.getRange()));
+		entityData.set(AREA, new AABB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(type.getRange(), type.getHeight() * 3, type.getRange()));
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ScarecrowEntity extends Entity
 		entityData.define(TYPE, null);
 		entityData.define(LIT, false);
 		entityData.define(ROTATION, 0F);
-		entityData.define(AREA, new AxisAlignedBB(0, 0, 0, 0, 0, 0));
+		entityData.define(AREA, new AABB(0, 0, 0, 0, 0, 0));
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class ScarecrowEntity extends Entity
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundNBT tag)
+	protected void readAdditionalSaveData(CompoundTag tag)
 	{
 		String name = tag.getString("type");
 
@@ -105,7 +105,7 @@ public class ScarecrowEntity extends Entity
 
 		entityData.set(LIT, tag.getBoolean("isLit"));
 		entityData.set(ROTATION, tag.getFloat("rotation"));
-		entityData.set(AREA, new AxisAlignedBB(
+		entityData.set(AREA, new AABB(
 				tag.getDouble("areaMinX"),
 				tag.getDouble("areaMinY"),
 				tag.getDouble("areaMinZ"),
@@ -115,9 +115,9 @@ public class ScarecrowEntity extends Entity
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundNBT tag)
+	protected void addAdditionalSaveData(CompoundTag tag)
 	{
-		AxisAlignedBB area = getArea();
+		AABB area = getArea();
 
 		tag.putString("type", getScarecrowType().getName());
 		tag.putBoolean("isLit", isLit());
@@ -157,13 +157,13 @@ public class ScarecrowEntity extends Entity
 	/**
 	 * @return The area this scarecrow is affecting
 	 */
-	public AxisAlignedBB getArea()
+	public AABB getArea()
 	{
 		return entityData.get(AREA);
 	}
 
 	@Override
-	public IPacket<?> getAddEntityPacket()
+	public Packet<?> getAddEntityPacket()
 	{
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
