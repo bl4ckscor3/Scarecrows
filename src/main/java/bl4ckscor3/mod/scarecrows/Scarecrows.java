@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows;
 
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.block.InvisibleLightBlock;
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +30,7 @@ public class Scarecrows
 	@ObjectHolder(Scarecrows.PREFIX + InvisibleLightBlock.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
 
-	public static final EntityType<ScarecrowEntity> SCARECROW_ENTITY_TYPE = (EntityType<ScarecrowEntity>)EntityType.Builder.<ScarecrowEntity>of(ScarecrowEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new ScarecrowEntity(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
+	public static final EntityType<Scarecrow> SCARECROW_ENTITY_TYPE = (EntityType<Scarecrow>)EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC).sized(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new Scarecrow(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
 
 	public Scarecrows()
 	{

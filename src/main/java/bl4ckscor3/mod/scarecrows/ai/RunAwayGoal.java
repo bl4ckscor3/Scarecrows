@@ -6,7 +6,7 @@ import java.util.Random;
 import com.google.common.base.Predicate;
 
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -44,13 +44,13 @@ public class RunAwayGoal extends Goal
 	@Override
 	public boolean canUse()
 	{
-		List<ScarecrowEntity> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
+		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
 
 		if(list.isEmpty())
 			return false;
 		else
 		{
-			for(ScarecrowEntity scarecrow : list)
+			for(Scarecrow scarecrow : list)
 			{
 				if(canBeSeenSelector.apply(scarecrow))
 				{
@@ -77,7 +77,7 @@ public class RunAwayGoal extends Goal
 	 * @param scarecrow The scarecrow that potentially scares this entity
 	 * @return true if this ai task should execute, false otherwhise
 	 */
-	private boolean shouldScare(ScarecrowEntity scarecrow)
+	private boolean shouldScare(Scarecrow scarecrow)
 	{
 		List<? extends Mob> entities = scarecrow.level.getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 

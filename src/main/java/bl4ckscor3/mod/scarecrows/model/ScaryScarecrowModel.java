@@ -3,7 +3,7 @@ package bl4ckscor3.mod.scarecrows.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class ScaryScarecrowModel extends EntityModel<ScarecrowEntity>
+public class ScaryScarecrowModel extends EntityModel<Scarecrow>
 {
 	private ModelPart head;
 	private ModelPart body;
@@ -70,5 +70,5 @@ public class ScaryScarecrowModel extends EntityModel<ScarecrowEntity>
 	}
 
 	@Override
-	public void setupAnim(ScarecrowEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
+	public void setupAnim(Scarecrow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
 }

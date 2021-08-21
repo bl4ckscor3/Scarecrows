@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
@@ -16,9 +16,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
+public class ScarecrowRenderer extends EntityRenderer<Scarecrow>
 {
-	private record RenderInfo(ResourceLocation textureLocation, EntityModel<ScarecrowEntity> unLitModel, EntityModel<ScarecrowEntity> litModel) {}
+	private record RenderInfo(ResourceLocation textureLocation, EntityModel<Scarecrow> unLitModel, EntityModel<Scarecrow> litModel) {}
 
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
@@ -39,7 +39,7 @@ public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 	}
 
 	@Override
-	public void render(ScarecrowEntity entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight)
+	public void render(Scarecrow entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight)
 	{
 		Model modelToRender;
 
@@ -56,7 +56,7 @@ public class ScarecrowRenderer extends EntityRenderer<ScarecrowEntity>
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(ScarecrowEntity entity)
+	public ResourceLocation getTextureLocation(Scarecrow entity)
 	{
 		return RENDER_INFO.get(entity.getScarecrowType().getName()).textureLocation();
 	}

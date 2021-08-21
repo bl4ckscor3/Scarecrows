@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +27,7 @@ public class ScarecrowTracker
 	 * Starts tracking a scarecrow
 	 * @param entity The scarecrow to track
 	 */
-	public static void track(ScarecrowEntity entity)
+	public static void track(Scarecrow entity)
 	{
 		getTrackedScarecrows(entity.getCommandSenderWorld()).add(entity.getId());
 	}
@@ -36,7 +36,7 @@ public class ScarecrowTracker
 	 * Stops tracking the given scarecrow. Use when e.g. removing the entity from the world
 	 * @param entity The scarecrow to stop tracking
 	 */
-	public static void stopTracking(ScarecrowEntity entity)
+	public static void stopTracking(Scarecrow entity)
 	{
 		getTrackedScarecrows(entity.getCommandSenderWorld()).remove(entity.getId());
 	}
@@ -47,20 +47,20 @@ public class ScarecrowTracker
 	 * @param pos The block position
 	 * @return A list of all scarecrows that have the given block position in their range
 	 */
-	public static List<ScarecrowEntity> getScarecrowsInRange(Level world, BlockPos pos)
+	public static List<Scarecrow> getScarecrowsInRange(Level world, BlockPos pos)
 	{
 		final Collection<Integer> scarecrows = getTrackedScarecrows(world);
-		List<ScarecrowEntity> returnValue = new ArrayList<>();
+		List<Scarecrow> returnValue = new ArrayList<>();
 
 		for(Iterator<Integer> it = scarecrows.iterator(); it.hasNext(); )
 		{
 			int scarecrowId = it.next();
 			Entity scarecrow = world.getEntity(scarecrowId);
 
-			if(scarecrow instanceof ScarecrowEntity)
+			if(scarecrow instanceof Scarecrow)
 			{
-				if(canScarecrowReach((ScarecrowEntity)scarecrow, pos))
-					returnValue.add((ScarecrowEntity)scarecrow);
+				if(canScarecrowReach((Scarecrow)scarecrow, pos))
+					returnValue.add((Scarecrow)scarecrow);
 
 				continue;
 			}
@@ -93,7 +93,7 @@ public class ScarecrowTracker
 	 * @param entity The scarecrow
 	 * @param pos The block position
 	 */
-	private static boolean canScarecrowReach(ScarecrowEntity entity, BlockPos pos)
+	private static boolean canScarecrowReach(Scarecrow entity, BlockPos pos)
 	{
 		AABB scarecrowRange = entity.getArea();
 

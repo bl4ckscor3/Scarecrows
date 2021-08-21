@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -80,7 +80,7 @@ public abstract class ScarecrowType
 	 * @return The model to render
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public abstract EntityModel<ScarecrowEntity> createModel(ModelPart modelPart);
+	public abstract EntityModel<Scarecrow> createModel(ModelPart modelPart);
 
 	/**
 	 * @return The name of the scarecrow
@@ -157,7 +157,7 @@ public abstract class ScarecrowType
 		if(isLit)
 			((Level)world).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
 
-		world.addFreshEntity(new ScarecrowEntity(type, (Level)world, pos, isLit, facing));
+		world.addFreshEntity(new Scarecrow(type, (Level)world, pos, isLit, facing));
 	}
 
 	/**

@@ -2,7 +2,7 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.ClientReg;
 import bl4ckscor3.mod.scarecrows.Configuration;
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.model.SpookyScarecrowModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -73,7 +73,7 @@ public class SuperSpookyScarecrow extends ScarecrowType
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<ScarecrowEntity> createModel(ModelPart modelPart)
+	public EntityModel<Scarecrow> createModel(ModelPart modelPart)
 	{
 		return new SpookyScarecrowModel(modelPart);
 	}

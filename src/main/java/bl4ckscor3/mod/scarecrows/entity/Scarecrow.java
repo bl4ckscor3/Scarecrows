@@ -17,24 +17,24 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
-public class ScarecrowEntity extends Entity
+public class Scarecrow extends Entity
 {
-	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(ScarecrowEntity.class, CustomDataSerializers.SCARECROWTYPE);
-	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(ScarecrowEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(ScarecrowEntity.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(ScarecrowEntity.class, CustomDataSerializers.AXISALIGNEDBB);
+	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(Scarecrow.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(Scarecrow.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
 
-	public ScarecrowEntity(EntityType<ScarecrowEntity> type, Level world)
+	public Scarecrow(EntityType<Scarecrow> type, Level world)
 	{
 		super(type, world);
 	}
 
-	public ScarecrowEntity(Level world)
+	public Scarecrow(Level world)
 	{
 		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
-	public ScarecrowEntity(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing)
+	public Scarecrow(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing)
 	{
 		this(world);
 

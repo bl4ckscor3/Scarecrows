@@ -7,7 +7,7 @@ import com.google.common.base.Predicate;
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.ai.RunAwayGoal;
-import bl4ckscor3.mod.scarecrows.entity.ScarecrowEntity;
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -33,9 +33,9 @@ public class SpawnHandler
 
 		if(EntityUtil.isAttackableMonster(entity) || animal)
 		{
-			List<ScarecrowEntity> scarecrows = ScarecrowTracker.getScarecrowsInRange(level, entity.blockPosition());
+			List<Scarecrow> scarecrows = ScarecrowTracker.getScarecrowsInRange(level, entity.blockPosition());
 
-			for(ScarecrowEntity scarecrow : scarecrows)
+			for(Scarecrow scarecrow : scarecrows)
 			{
 				Predicate<Entity> filter = e -> e.isAlive() && ((Mob)entity).getSensing().hasLineOfSight(e);
 
