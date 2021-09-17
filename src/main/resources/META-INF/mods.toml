@@ -14,7 +14,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/Scarecrows/issues"
 [[dependencies.scarecrows]]
     modId="forge"
     mandatory=true
-    versionRange="[37,)"
+    versionRange="[37.0.65,)"
     ordering="NONE"
     side="BOTH"
 

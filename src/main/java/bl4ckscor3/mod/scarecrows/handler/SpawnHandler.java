@@ -13,7 +13,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,18 +54,7 @@ public class SpawnHandler
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{
-		addAI(event.getEntity());
-	}
-
-	@SubscribeEvent
-	public static void onSpawn(LivingSpawnEvent event)
-	{
-		addAI(event.getEntity());
-	}
-
-	private static void addAI(Entity entity)
-	{
-		if(entity instanceof Mob mob && (EntityUtil.isAttackableMonster(mob) || EntityUtil.isAttackableAnimal(mob)))
+		if(event.getEntity() instanceof Mob mob && (EntityUtil.isAttackableMonster(mob) || EntityUtil.isAttackableAnimal(mob)))
 			mob.goalSelector.addGoal(0, new RunAwayGoal(mob));
 	}
 }
