@@ -28,7 +28,7 @@ public class SpookyScarecrowModel extends EntityModel<Scarecrow>
 		setRotateAngles(rightArm, 0.0F, 0.0F, -0.7853981633974483F);
 		leftArm = modelPart.getChild("left_arm");
 		setRotateAngles(leftArm, 0.0F, 0.0F, 0.7853981633974483F);
-		leftArm = modelPart.getChild("fence");
+		fence = modelPart.getChild("fence");
 	}
 
 	public static LayerDefinition createLayer(boolean isLit)
