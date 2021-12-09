@@ -38,7 +38,6 @@ public class RunAwayGoal extends Goal
 		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().hasLineOfSight(e);
 		this.entity = entity;
 		navigation = entity.getNavigation();
-		//		setFlags(EnumSet.of(Flag.MOVE));
 	}
 
 	@Override
@@ -46,31 +45,24 @@ public class RunAwayGoal extends Goal
 	{
 		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
 
-		if(list.isEmpty())
-			return false;
-		else
+		for(Scarecrow scarecrow : list)
 		{
-			for(Scarecrow scarecrow : list)
+			if(canBeSeenSelector.apply(scarecrow))
 			{
-				if(canBeSeenSelector.apply(scarecrow))
+				if(EntityUtil.isAttackableMonster(entity))
 				{
-					if(EntityUtil.isAttackableMonster(entity))
-					{
-						if(!shouldScare(scarecrow))
-							continue;
-						else return true;
-					}
-					else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
-					{
-						if(!shouldScare(scarecrow))
-							continue;
-						else return true;
-					}
+					if(shouldScare(scarecrow))
+						return true;
+				}
+				else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
+				{
+					if(shouldScare(scarecrow))
+						return true;
 				}
 			}
-
-			return false;
 		}
+
+		return false;
 	}
 
 	/**

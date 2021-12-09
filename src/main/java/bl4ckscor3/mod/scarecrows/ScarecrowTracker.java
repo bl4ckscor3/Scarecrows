@@ -11,7 +11,6 @@ import java.util.Map;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -21,7 +20,7 @@ import net.minecraft.world.phys.AABB;
  */
 public class ScarecrowTracker
 {
-	private static final Map<ResourceKey<Level>,Collection<Integer>> trackedScarecrows = new HashMap<>();
+	private static final Map<ResourceKey<Level>,Collection<Integer>> TRACKED_SCARECROWS = new HashMap<>();
 
 	/**
 	 * Starts tracking a scarecrow
@@ -43,24 +42,21 @@ public class ScarecrowTracker
 
 	/**
 	 * Gets all scarecrows that have the given block position in their range in the given world
-	 * @param world The world
+	 * @param level The level
 	 * @param pos The block position
 	 * @return A list of all scarecrows that have the given block position in their range
 	 */
-	public static List<Scarecrow> getScarecrowsInRange(Level world, BlockPos pos)
+	public static List<Scarecrow> getScarecrowsInRange(Level level, BlockPos pos)
 	{
-		final Collection<Integer> scarecrows = getTrackedScarecrows(world);
+		final Collection<Integer> scarecrows = getTrackedScarecrows(level);
 		List<Scarecrow> returnValue = new ArrayList<>();
 
 		for(Iterator<Integer> it = scarecrows.iterator(); it.hasNext(); )
 		{
-			int scarecrowId = it.next();
-			Entity scarecrow = world.getEntity(scarecrowId);
-
-			if(scarecrow instanceof Scarecrow)
+			if(level.getEntity(it.next()) instanceof Scarecrow scarecrow)
 			{
-				if(canScarecrowReach((Scarecrow)scarecrow, pos))
-					returnValue.add((Scarecrow)scarecrow);
+				if(canScarecrowReach(scarecrow, pos))
+					returnValue.add(scarecrow);
 
 				continue;
 			}
@@ -73,16 +69,16 @@ public class ScarecrowTracker
 
 	/**
 	 * Gets all block positions at which a scarecrow is being tracked for the given world
-	 * @param world The world to get the tracked scarecrows of
+	 * @param level The world to get the tracked scarecrows of
 	 */
-	private static Collection<Integer> getTrackedScarecrows(Level world)
+	private static Collection<Integer> getTrackedScarecrows(Level level)
 	{
-		Collection<Integer> scarecrows = trackedScarecrows.get(world.dimension());
+		Collection<Integer> scarecrows = TRACKED_SCARECROWS.get(level.dimension());
 
 		if(scarecrows == null)
 		{
 			scarecrows = new HashSet<>();
-			trackedScarecrows.put(world.dimension(), scarecrows);
+			TRACKED_SCARECROWS.put(level.dimension(), scarecrows);
 		}
 
 		return scarecrows;

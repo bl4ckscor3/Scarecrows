@@ -61,11 +61,11 @@ public class PlaceHandler
 
 	/**
 	 * Tries to build a scarecrow
-	 * @param world The world to build the scarecrow in
+	 * @param level The level to build the scarecrow in
 	 * @param pos The position of the block that was placed/rightclicked
 	 * @param state The state of the block that was placed/rightclicked
 	 */
-	private static void tryBuildScarecrow(LevelAccessor world, BlockPos pos, BlockState state)
+	private static void tryBuildScarecrow(LevelAccessor level, BlockPos pos, BlockState state)
 	{
 		Block block = state.getBlock();
 
@@ -75,12 +75,12 @@ public class PlaceHandler
 			{
 				Direction pumpkinFacing = state.getValue(CarvedPumpkinBlock.FACING);
 				BlockPos groundPos = pos.below(type.getHeight());
-				BlockState groundState = world.getBlockState(groundPos);
+				BlockState groundState = level.getBlockState(groundPos);
 
-				if(!groundState.isAir() && type.checkStructure(world, pos, pumpkinFacing))
+				if(!groundState.isAir() && type.checkStructure(level, pos, pumpkinFacing))
 				{
-					type.destroy(world, pos);
-					type.spawn(type, world, pos.below(type.getHeight() - 1), block == Blocks.JACK_O_LANTERN, pumpkinFacing); //-1 because of the feet
+					type.destroy(level, pos);
+					type.spawn(type, level, pos.below(type.getHeight() - 1), block == Blocks.JACK_O_LANTERN, pumpkinFacing); //-1 because of the feet
 					return;
 				}
 			}

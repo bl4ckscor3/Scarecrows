@@ -8,7 +8,7 @@ import net.minecraft.world.phys.AABB;
 
 public class CustomDataSerializers
 {
-	public static final EntityDataSerializer<ScarecrowType> SCARECROWTYPE = new EntityDataSerializer<ScarecrowType>()
+	public static final EntityDataSerializer<ScarecrowType> SCARECROW_TYPE = new EntityDataSerializer<ScarecrowType>()
 	{
 		@Override
 		public void write(FriendlyByteBuf buf, ScarecrowType value)
@@ -43,7 +43,7 @@ public class CustomDataSerializers
 		}
 	};
 
-	public static final EntityDataSerializer<AABB> AXISALIGNEDBB = new EntityDataSerializer<AABB>()
+	public static final EntityDataSerializer<AABB> AABB = new EntityDataSerializer<AABB>()
 	{
 		@Override
 		public void write(FriendlyByteBuf buf, AABB value)

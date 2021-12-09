@@ -13,6 +13,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class InvisibleLightBlock extends Block
 {
 	public static final String NAME = "invisible_light";
+	private static final VoxelShape SHAPE = Block.box(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
 
 	public InvisibleLightBlock()
 	{
@@ -22,13 +23,13 @@ public class InvisibleLightBlock extends Block
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx)
 	{
-		return Block.box(5.5F, 5.5F, 5.5F, 6.5F, 6.5F, 6.5F);
+		return SHAPE;
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext ctx)
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx)
 	{
 		return Shapes.empty();
 	}

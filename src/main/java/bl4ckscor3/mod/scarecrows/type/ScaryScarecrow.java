@@ -33,14 +33,14 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
 	{
-		BlockState state = world.getBlockState(pos = pos.below());
+		BlockState state = level.getBlockState(pos = pos.below());
 
-		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
+		if(hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
 		{
-			BlockState topState = world.getBlockState(pos.below());
-			BlockState bottomState = world.getBlockState(pos.below(2));
+			BlockState topState = level.getBlockState(pos.below());
+			BlockState bottomState = level.getBlockState(pos.below(2));
 
 			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(EndRodBlock.FACING) == Direction.DOWN &&
 					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(EndRodBlock.FACING) == Direction.UP)
@@ -51,18 +51,18 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(LevelAccessor world, BlockPos pos)
+	public void destroy(LevelAccessor level, BlockPos pos)
 	{
-		world.destroyBlock(pos, false); //pumpkin
+		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
-		world.destroyBlock(pos.west(), false); //a potential arm
-		world.destroyBlock(pos.north(), false); //a potential arm
-		world.destroyBlock(pos.south(), false); //a potential arm
-		world.destroyBlock(pos.east(), false); //a potential arm
-		world.destroyBlock(pos, false); //arm attachement block
+		level.destroyBlock(pos.west(), false); //a potential arm
+		level.destroyBlock(pos.north(), false); //a potential arm
+		level.destroyBlock(pos.south(), false); //a potential arm
+		level.destroyBlock(pos.east(), false); //a potential arm
+		level.destroyBlock(pos, false); //arm attachement block
 		pos = pos.below();
-		world.destroyBlock(pos, false); //leg
-		world.destroyBlock(pos.below(), false); //foot
+		level.destroyBlock(pos, false); //leg
+		level.destroyBlock(pos.below(), false); //foot
 	}
 
 	@Override

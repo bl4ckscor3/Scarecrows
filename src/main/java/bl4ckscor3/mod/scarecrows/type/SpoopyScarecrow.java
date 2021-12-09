@@ -30,23 +30,23 @@ public class SpoopyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
 	{
 		pos = pos.below();
 
-		return hasArms(world, pos, pumpkinFacing) && world.getBlockState(pos).getBlock() == Blocks.CLAY;
+		return hasArms(level, pos, pumpkinFacing) && level.getBlockState(pos).getBlock() == Blocks.CLAY;
 	}
 
 	@Override
-	public void destroy(LevelAccessor world, BlockPos pos)
+	public void destroy(LevelAccessor level, BlockPos pos)
 	{
-		world.destroyBlock(pos, false); //pumpkin
+		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
-		world.destroyBlock(pos.west(), false); //a potential arm
-		world.destroyBlock(pos.north(), false); //a potential arm
-		world.destroyBlock(pos.south(), false); //a potential arm
-		world.destroyBlock(pos.east(), false); //a potential arm
-		world.destroyBlock(pos, false); //arm attachement block
+		level.destroyBlock(pos.west(), false); //a potential arm
+		level.destroyBlock(pos.north(), false); //a potential arm
+		level.destroyBlock(pos.south(), false); //a potential arm
+		level.destroyBlock(pos.east(), false); //a potential arm
+		level.destroyBlock(pos, false); //arm attachement block
 	}
 
 	@Override

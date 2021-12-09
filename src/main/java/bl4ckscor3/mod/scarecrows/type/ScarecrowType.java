@@ -48,19 +48,19 @@ public abstract class ScarecrowType
 
 	/**
 	 * Checks whether this scarecrow is built correctly
-	 * @param world The world to check in
+	 * @param level The world to check in
 	 * @param pos The position to start checking from (the pumpkin)
 	 * @param pumpkinFacing The facing of the pumpkin
 	 * @return true if the scarecrow is correctly built, false otherwise
 	 */
-	public abstract boolean checkStructure(LevelAccessor world, BlockPos pos, Direction pumpkinFacing);
+	public abstract boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing);
 
 	/**
 	 * Destroy the structure of this scarecrow
-	 * @param world The world to destroy in
+	 * @param level The world to destroy in
 	 * @param pos The position to start destroying from (the pumpkin)
 	 */
-	public abstract void destroy(LevelAccessor world, BlockPos pos);
+	public abstract void destroy(LevelAccessor level, BlockPos pos);
 
 	/**
 	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
@@ -116,20 +116,20 @@ public abstract class ScarecrowType
 
 	/**
 	 * Checks whether this scarecrow has arms
-	 * @param world The world the scarecrow is in
+	 * @param level The level the scarecrow is in
 	 * @param pos The block position to which the arms should be attached
 	 * @param pumpkinFacing The facing of the pumpkin, used to determin if the arms are placed on the correct sides
 	 */
-	public final boolean hasArms(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
+	public final boolean hasArms(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
 	{
 		BlockPos posNorth = pos.north();
 		BlockPos posEast = pos.east();
 		BlockPos posSouth = pos.south();
 		BlockPos posWest = pos.west();
-		BlockState stateNorth = world.getBlockState(posNorth);
-		BlockState stateEast = world.getBlockState(posEast);
-		BlockState stateSouth = world.getBlockState(posSouth);
-		BlockState stateWest = world.getBlockState(posWest);
+		BlockState stateNorth = level.getBlockState(posNorth);
+		BlockState stateEast = level.getBlockState(posEast);
+		BlockState stateSouth = level.getBlockState(posSouth);
+		BlockState stateWest = level.getBlockState(posWest);
 
 		if((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
 				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
@@ -147,32 +147,32 @@ public abstract class ScarecrowType
 	/**
 	 * Spawns the scarecrow entity
 	 * @param type The type of scarecrow to spawn
-	 * @param world The world to spawn in
+	 * @param level The level to spawn in
 	 * @param pos The position to spawn at
 	 * @param isLit Whether the scarecrow should emit light (from a Jack o' Lantern used as the head)
 	 * @param facing The facing of the spawned scarecrow entity
 	 */
-	public final void spawn(ScarecrowType type, LevelAccessor world, BlockPos pos, boolean isLit, Direction facing)
+	public final void spawn(ScarecrowType type, LevelAccessor level, BlockPos pos, boolean isLit, Direction facing)
 	{
 		if(isLit)
-			((Level)world).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
+			((Level)level).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
 
-		world.addFreshEntity(new Scarecrow(type, (Level)world, pos, isLit, facing));
+		level.addFreshEntity(new Scarecrow(type, (Level)level, pos, isLit, facing));
 	}
 
 	/**
 	 * Drops the items that the structure was made of. Used when the entity dies
-	 * @param world The world to spawn the drops in
+	 * @param level The level to spawn the drops in
 	 * @param pos The position to spawn the drops at
 	 * @param dropLight true if the entity was made with a Jack o' Lantern, false otherwise
 	 */
-	public final void dropMaterials(Level world, BlockPos pos, boolean dropLight)
+	public final void dropMaterials(Level level, BlockPos pos, boolean dropLight)
 	{
-		Block.popResource(world, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+		Block.popResource(level, pos, new ItemStack(dropLight ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
 
 		for(ItemStack stack : getDrops())
 		{
-			Block.popResource(world, pos, stack);
+			Block.popResource(level, pos, stack);
 		}
 	}
 }

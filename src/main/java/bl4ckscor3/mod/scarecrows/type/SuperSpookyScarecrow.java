@@ -32,13 +32,13 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor world, BlockPos pos, Direction pumpkinFacing)
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
 	{
-		BlockState state = world.getBlockState(pos = pos.below());
+		BlockState state = level.getBlockState(pos = pos.below());
 
-		if(hasArms(world, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_PILLAR)
+		if(hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_PILLAR)
 		{
-			if(world.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
+			if(level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
 		}
 
@@ -46,16 +46,16 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(LevelAccessor world, BlockPos pos)
+	public void destroy(LevelAccessor level, BlockPos pos)
 	{
-		world.destroyBlock(pos, false); //pumpkin
+		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
-		world.destroyBlock(pos.west(), false); //a potential arm
-		world.destroyBlock(pos.north(), false); //a potential arm
-		world.destroyBlock(pos.south(), false); //a potential arm
-		world.destroyBlock(pos.east(), false); //a potential arm
-		world.destroyBlock(pos, false); //arm attachement block
-		world.destroyBlock(pos.below(), false); //foot
+		level.destroyBlock(pos.west(), false); //a potential arm
+		level.destroyBlock(pos.north(), false); //a potential arm
+		level.destroyBlock(pos.south(), false); //a potential arm
+		level.destroyBlock(pos.east(), false); //a potential arm
+		level.destroyBlock(pos, false); //arm attachement block
+		level.destroyBlock(pos.below(), false); //foot
 	}
 
 	@Override

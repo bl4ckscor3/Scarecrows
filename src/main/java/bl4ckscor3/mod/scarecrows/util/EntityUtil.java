@@ -42,7 +42,7 @@ public class EntityUtil
 	}
 
 	/**
-	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 * @see {@link net.minecraft.world.entity.ai.util.RandomPos}
 	 */
 	public static Vec3 generateRandomPos(Mob entity, int xz, int y, @Nullable Vec3 target, boolean b)
 	{
@@ -89,7 +89,7 @@ public class EntityUtil
 	}
 
 	/**
-	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 * @see {@link net.minecraft.world.entity.ai.util.RandomPos}
 	 */
 	private static BlockPos moveAboveSolid(BlockPos pos, Mob entity)
 	{
@@ -109,7 +109,7 @@ public class EntityUtil
 	}
 
 	/**
-	 * @see {@link net.minecraft.entity.ai.RandomPositionGenerator}
+	 * @see {@link net.minecraft.world.entity.ai.util.RandomPos}
 	 */
 	private static boolean isWaterDestination(BlockPos pos, Mob entity)
 	{

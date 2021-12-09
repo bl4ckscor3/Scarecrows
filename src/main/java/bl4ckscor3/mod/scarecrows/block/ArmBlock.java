@@ -24,6 +24,10 @@ public class ArmBlock extends Block
 {
 	public static final String NAME = "arm";
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	private static final VoxelShape SOUTH_SHAPE = Block.box(7.5D, 7, 0, 8.5D, 16, 8.5D);
+	private static final VoxelShape WEST_SHAPE = Block.box(8, 7, 7.5D, 16, 16, 8.5D);
+	private static final VoxelShape NORTH_SHAPE = Block.box(7.5D, 7, 8, 8.5D, 16, 16);
+	private static final VoxelShape EAST_SHAPE = Block.box(0, 7, 7.5D, 8.5D, 16, 8.5D);
 
 	public ArmBlock()
 	{
@@ -34,42 +38,37 @@ public class ArmBlock extends Block
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean flag)
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean flag)
 	{
-		if(pos.relative(state.getValue(FACING).getOpposite()).equals(fromPos) && world.isEmptyBlock(fromPos))
-			world.destroyBlock(pos, true);
+		if(pos.relative(state.getValue(FACING).getOpposite()).equals(fromPos) && level.isEmptyBlock(fromPos))
+			level.destroyBlock(pos, true);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx)
 	{
-		Direction facing = state.getValue(FACING);
-
-		if(facing == Direction.SOUTH)
-			return Block.box(7.5D, 7, 0, 8.5D, 16, 8.5D);
-		else if(facing == Direction.WEST)
-			return Block.box(8, 7, 7.5D, 16, 16, 8.5D);
-		else if(facing == Direction.NORTH)
-			return Block.box(7.5D, 7, 8, 8.5D, 16, 16);
-		else if(facing == Direction.EAST)
-			return Block.box(0, 7, 7.5D, 8.5D, 16, 8.5D);
-		else
-			return Block.box(0, 0, 0, 16, 16, 16);
+		return switch(state.getValue(FACING)) {
+			case SOUTH -> SOUTH_SHAPE;
+			case WEST -> WEST_SHAPE;
+			case NORTH -> NORTH_SHAPE;
+			case EAST -> EAST_SHAPE;
+			default -> Shapes.block();
+		};
 	}
 
-	public static boolean canBeConnectedTo(BlockState state, BlockGetter world, BlockPos pos, Direction facing)
+	public static boolean canBeConnectedTo(BlockState state, BlockGetter level, BlockPos pos, Direction facing)
 	{
 		BlockPos oppositePos = pos.relative(facing.getOpposite());
-		BlockState oppositeState = world.getBlockState(oppositePos);
+		BlockState oppositeState = level.getBlockState(oppositePos);
 
 		if(facing != Direction.UP && facing != Direction.DOWN)
-			return oppositeState.isFaceSturdy(world, oppositePos, facing);
+			return oppositeState.isFaceSturdy(level, oppositePos, facing);
 		else
 			return false;
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState blockState, BlockGetter world, BlockPos pos, CollisionContext ctx)
+	public VoxelShape getCollisionShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext ctx)
 	{
 		return Shapes.empty();
 	}
@@ -81,7 +80,7 @@ public class ArmBlock extends Block
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
 	{
 		return new ItemStack(Items.STICK);
 	}

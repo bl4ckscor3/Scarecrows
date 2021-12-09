@@ -53,7 +53,7 @@ public class Scarecrows
 	@SubscribeEvent
 	public static void registerDataSerializerEntries(RegistryEvent.Register<DataSerializerEntry> event)
 	{
-		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.SCARECROWTYPE).setRegistryName("scarecrow_type"));
-		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.AXISALIGNEDBB).setRegistryName("aabb"));
+		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.SCARECROW_TYPE).setRegistryName("scarecrow_type"));
+		event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.AABB).setRegistryName("aabb"));
 	}
 }

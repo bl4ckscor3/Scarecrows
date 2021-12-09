@@ -19,10 +19,10 @@ import net.minecraft.world.phys.AABB;
 
 public class Scarecrow extends Entity
 {
-	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, CustomDataSerializers.SCARECROWTYPE);
+	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, CustomDataSerializers.SCARECROW_TYPE);
 	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(Scarecrow.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(Scarecrow.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, CustomDataSerializers.AXISALIGNEDBB);
+	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, CustomDataSerializers.AABB);
 
 	public Scarecrow(EntityType<Scarecrow> type, Level world)
 	{
