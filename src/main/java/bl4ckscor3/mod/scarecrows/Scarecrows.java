@@ -30,7 +30,7 @@ public class Scarecrows
 	@ObjectHolder(Scarecrows.PREFIX + InvisibleLightBlock.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
 
-	public static final EntityType<Scarecrow> SCARECROW_ENTITY_TYPE = (EntityType<Scarecrow>)EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC).sized(1.0F, 1.0F).setCustomClientFactory((spawnEntity, world) -> new Scarecrow(world)).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
+	public static final EntityType<Scarecrow> SCARECROW_ENTITY_TYPE = (EntityType<Scarecrow>)EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC).sized(1.0F, 1.0F).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
 
 	public Scarecrows()
 	{
