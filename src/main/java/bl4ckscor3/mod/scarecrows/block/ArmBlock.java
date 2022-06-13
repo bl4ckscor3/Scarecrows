@@ -9,12 +9,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -22,18 +19,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ArmBlock extends Block
 {
-	public static final String NAME = "arm";
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	private static final VoxelShape SOUTH_SHAPE = Block.box(7.5D, 7, 0, 8.5D, 16, 8.5D);
 	private static final VoxelShape WEST_SHAPE = Block.box(8, 7, 7.5D, 16, 16, 8.5D);
 	private static final VoxelShape NORTH_SHAPE = Block.box(7.5D, 7, 8, 8.5D, 16, 16);
 	private static final VoxelShape EAST_SHAPE = Block.box(0, 7, 7.5D, 8.5D, 16, 8.5D);
 
-	public ArmBlock()
+	public ArmBlock(Properties properties)
 	{
-		super(BlockBehaviour.Properties.of(Material.WOOD).strength(0.25F, 1.0F).sound(SoundType.WOOD).isRedstoneConductor((state, world, pos) -> false));
+		super(properties);
 
-		setRegistryName(NAME);
 		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 

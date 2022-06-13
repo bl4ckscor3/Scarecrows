@@ -26,7 +26,7 @@ public class ClientReg
 	@SubscribeEvent
 	public static void onRegisterEntityRenderers(RegisterRenderers event)
 	{
-		event.registerEntityRenderer(Scarecrows.SCARECROW_ENTITY_TYPE, ScarecrowRenderer::new);
+		event.registerEntityRenderer(Scarecrows.SCARECROW_ENTITY_TYPE.get(), ScarecrowRenderer::new);
 	}
 
 	@SubscribeEvent

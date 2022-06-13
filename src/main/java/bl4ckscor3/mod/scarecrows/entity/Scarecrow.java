@@ -3,7 +3,6 @@ package bl4ckscor3.mod.scarecrows.entity;
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
-import bl4ckscor3.mod.scarecrows.util.CustomDataSerializers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,10 +18,10 @@ import net.minecraft.world.phys.AABB;
 
 public class Scarecrow extends Entity
 {
-	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, CustomDataSerializers.SCARECROW_TYPE);
+	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, Scarecrows.SCARECROW_ENTITY_DATA_SERIALIZER.get());
 	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(Scarecrow.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(Scarecrow.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, CustomDataSerializers.AABB);
+	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, Scarecrows.AABB_ENTITY_DATA_SERIALIZER.get());
 
 	public Scarecrow(EntityType<Scarecrow> type, Level world)
 	{
@@ -31,7 +30,7 @@ public class Scarecrow extends Entity
 
 	public Scarecrow(Level world)
 	{
-		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
+		super(Scarecrows.SCARECROW_ENTITY_TYPE.get(), world);
 	}
 
 	public Scarecrow(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing)

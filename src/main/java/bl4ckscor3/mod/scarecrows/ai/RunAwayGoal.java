@@ -1,7 +1,6 @@
 package bl4ckscor3.mod.scarecrows.ai;
 
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.base.Predicate;
 
@@ -12,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;
@@ -137,7 +137,7 @@ public class RunAwayGoal extends Goal
 		{
 			Vec3 motion = entity.getDeltaMovement();
 			EntityDimensions size = entity.getDimensions(entity.getPose());
-			Random rand = entity.level.random;
+			RandomSource rand = entity.level.random;
 
 			entity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}

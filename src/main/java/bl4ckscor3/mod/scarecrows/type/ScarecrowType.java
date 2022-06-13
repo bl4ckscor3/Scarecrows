@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -132,13 +133,13 @@ public abstract class ScarecrowType
 		BlockState stateWest = level.getBlockState(posWest);
 
 		if((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
-				stateNorth.getBlock() == Scarecrows.ARM && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
-				stateSouth.getBlock() == Scarecrows.ARM && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
+				stateNorth.getBlock() == Scarecrows.ARM.get() && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
+				stateSouth.getBlock() == Scarecrows.ARM.get() && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
 				stateWest.isAir() && stateEast.isAir())
 			return true;
 		else if((pumpkinFacing == Direction.NORTH || pumpkinFacing == Direction.SOUTH) &&
-				stateEast.getBlock() == Scarecrows.ARM && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
-				stateWest.getBlock() == Scarecrows.ARM && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
+				stateEast.getBlock() == Scarecrows.ARM.get() && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
+				stateWest.getBlock() == Scarecrows.ARM.get() && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
 				stateNorth.isAir() && stateSouth.isAir())
 			return true;
 		else return false;
@@ -155,7 +156,7 @@ public abstract class ScarecrowType
 	public final void spawn(ScarecrowType type, LevelAccessor level, BlockPos pos, boolean isLit, Direction facing)
 	{
 		if(isLit)
-			((Level)level).setBlockAndUpdate(pos.above(height - 1), Scarecrows.INVISIBLE_LIGHT.defaultBlockState());
+			((Level)level).setBlockAndUpdate(pos.above(height - 1), Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 15));
 
 		level.addFreshEntity(new Scarecrow(type, (Level)level, pos, isLit, facing));
 	}

@@ -1,10 +1,9 @@
 package bl4ckscor3.mod.scarecrows.util;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -47,7 +46,7 @@ public class EntityUtil
 	public static Vec3 generateRandomPos(Mob entity, int xz, int y, @Nullable Vec3 target, boolean b)
 	{
 		PathNavigation pathnavigate = entity.getNavigation();
-		Random random = entity.getRandom();
+		RandomSource random = entity.getRandom();
 		boolean flag = false;
 		boolean flag1 = false;
 		int k1 = 0;
