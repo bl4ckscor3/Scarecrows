@@ -12,7 +12,7 @@ import bl4ckscor3.mod.scarecrows.util.EntityUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,7 +24,7 @@ public class SpawnHandler
 	@SubscribeEvent
 	public static void onCheckSpawn(CheckSpawn event)
 	{
-		if(!(event.getWorld() instanceof Level level))
+		if(!(event.getLevel() instanceof Level level))
 			return;
 
 		Entity entity = event.getEntity();
@@ -52,7 +52,7 @@ public class SpawnHandler
 	}
 
 	@SubscribeEvent
-	public static void onEntityJoinWorld(EntityJoinWorldEvent event)
+	public static void onEntityJoinWorld(EntityJoinLevelEvent event)
 	{
 		if(event.getEntity() instanceof Mob mob && (EntityUtil.isAttackableMonster(mob) || EntityUtil.isAttackableAnimal(mob)))
 			mob.goalSelector.addGoal(0, new RunAwayGoal(mob));

@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
-import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
+import net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -33,15 +33,15 @@ public class PlaceHandler
 			BlockPos pos = event.getPos();
 			Direction face = event.getFace();
 			BlockPos placeAt = pos.relative(face);
-			Level world = event.getWorld();
+			Level world = event.getLevel();
 
 			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isEmptyBlock(placeAt))
 			{
 				world.setBlockAndUpdate(placeAt, Scarecrows.ARM.get().defaultBlockState().setValue(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-				event.getPlayer().swing(event.getHand());
+				event.getEntity().swing(event.getHand());
 
-				if(!event.getPlayer().isCreative())
+				if(!event.getEntity().isCreative())
 					held.shrink(1);
 			}
 		}
@@ -50,13 +50,13 @@ public class PlaceHandler
 	@SubscribeEvent
 	public static void onPlace(EntityPlaceEvent event)
 	{
-		tryBuildScarecrow(event.getWorld(), event.getPos(), event.getPlacedBlock());
+		tryBuildScarecrow(event.getLevel(), event.getPos(), event.getPlacedBlock());
 	}
 
 	@SubscribeEvent
 	public static void onRightClick(RightClickBlock event) //scarecrow structure logic
 	{
-		tryBuildScarecrow(event.getWorld(), event.getPos(), event.getWorld().getBlockState(event.getPos()));
+		tryBuildScarecrow(event.getLevel(), event.getPos(), event.getLevel().getBlockState(event.getPos()));
 	}
 
 	/**

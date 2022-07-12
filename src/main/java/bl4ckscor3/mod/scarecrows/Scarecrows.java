@@ -31,8 +31,8 @@ public class Scarecrows
 	public static final String MODID = "scarecrows";
 	public static final String PREFIX = MODID + ":";
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
-	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.DATA_SERIALIZERS, MODID);
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.ENTITY_DATA_SERIALIZERS, MODID);
 	public static final RegistryObject<ArmBlock> ARM = BLOCKS.register("arm", () -> new ArmBlock(Properties.of(Material.WOOD)
 			.strength(0.25F, 1.0F)
 			.sound(SoundType.WOOD)
