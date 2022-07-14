@@ -29,8 +29,8 @@ public class Scarecrows
 	public static final Block ARM = null;
 	@ObjectHolder(Scarecrows.PREFIX + InvisibleLightBlock.NAME)
 	public static final Block INVISIBLE_LIGHT = null;
-
-	public static final EntityType<Scarecrow> SCARECROW_ENTITY_TYPE = (EntityType<Scarecrow>)EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC).sized(1.0F, 1.0F).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow"));
+	@ObjectHolder(Scarecrows.PREFIX + "scarecrow")
+	public static final EntityType<Scarecrow> SCARECROW_ENTITY_TYPE = null;
 
 	public Scarecrows()
 	{
@@ -47,7 +47,7 @@ public class Scarecrows
 	@SubscribeEvent
 	public static void registerEntities(RegistryEvent.Register<EntityType<?>> event)
 	{
-		event.getRegistry().register(SCARECROW_ENTITY_TYPE);
+		event.getRegistry().register(EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC).sized(1.0F, 1.0F).setTrackingRange(256).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false).build(PREFIX + "scarecrow").setRegistryName(new ResourceLocation(MODID, "scarecrow")));
 	}
 
 	@SubscribeEvent
