@@ -3,7 +3,7 @@ package bl4ckscor3.mod.scarecrows.renderer;
 import java.util.HashMap;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
@@ -38,7 +38,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow> {
 
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);
-		stack.mulPose(Vector3f.YP.rotationDegrees(entity.getRotation()));
+		stack.mulPose(Axis.YP.rotationDegrees(entity.getRotation()));
 
 		if (entity.isLit())
 			modelToRender = RENDER_INFO.get(entity.getScarecrowType().getName()).litModel();
