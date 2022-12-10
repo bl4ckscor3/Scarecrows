@@ -17,28 +17,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class SpookyScarecrow extends ScarecrowType
-{
+public class SpookyScarecrow extends ScarecrowType {
+	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
 	 *  ANA				- A: Arm
 	 *   F				- N: Netherrack
 	 *   				- F: Netherbrick Fence
 	 */
-
-	public SpookyScarecrow()
-	{
+	//@formatter:on
+	public SpookyScarecrow() {
 		super("spooky_scarecrow", 3, Configuration.CONFIG.spookyRange.get(), Configuration.CONFIG.spookyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
-	{
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
 		BlockState state = level.getBlockState(pos = pos.below());
 
-		if(hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.NETHERRACK)
-		{
-			if(level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
+		if (hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.NETHERRACK) {
+			if (level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
 		}
 
@@ -46,8 +43,7 @@ public class SpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(LevelAccessor level, BlockPos pos)
-	{
+	public void destroy(LevelAccessor level, BlockPos pos) {
 		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
 		level.destroyBlock(pos.west(), false); //a potential arm
@@ -59,22 +55,21 @@ public class SpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ItemStack[] getDrops()
-	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.NETHERRACK), new ItemStack(Blocks.NETHER_BRICK_FENCE)};
+	public ItemStack[] getDrops() {
+		return new ItemStack[] {
+				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.NETHERRACK), new ItemStack(Blocks.NETHER_BRICK_FENCE)
+		};
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public ModelLayerLocation getModelLayerLocation(boolean isLit)
-	{
+	public ModelLayerLocation getModelLayerLocation(boolean isLit) {
 		return isLit ? ClientReg.SPOOKY_SCARECROW_LIT : ClientReg.SPOOKY_SCARECROW;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<Scarecrow> createModel(ModelPart modelPart)
-	{
+	public EntityModel<Scarecrow> createModel(ModelPart modelPart) {
 		return new SpookyScarecrowModel(modelPart);
 	}
 }

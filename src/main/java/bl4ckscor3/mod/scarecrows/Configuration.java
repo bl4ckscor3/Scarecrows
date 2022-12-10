@@ -6,11 +6,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-public class Configuration
-{
+public class Configuration {
 	public static final ForgeConfigSpec CONFIG_SPEC;
 	public static final Configuration CONFIG;
-
 	public final IntValue spoopyRange;
 	public final BooleanValue spoopyScareAnimals;
 	public final IntValue superSpoopyRange;
@@ -24,16 +22,15 @@ public class Configuration
 	public final IntValue superScaryRange;
 	public final BooleanValue superScaryScareAnimals;
 
-	static
-	{
-		Pair<Configuration,ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
+	static {
+		Pair<Configuration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
 
 		CONFIG_SPEC = specPair.getRight();
 		CONFIG = specPair.getLeft();
 	}
 
-	Configuration(ForgeConfigSpec.Builder builder)
-	{
+	Configuration(ForgeConfigSpec.Builder builder) {
+		//@formatter:off
 		builder.comment("Spoopy Scarecrow Configuration")
 		.push("spoopy");
 		spoopyRange = builder
@@ -93,5 +90,6 @@ public class Configuration
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
 				.define("scareAnimals", true);
 		builder.pop();
+		//@formatter:on
 	}
 }

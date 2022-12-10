@@ -12,8 +12,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class ScaryScarecrowModel extends EntityModel<Scarecrow>
-{
+public class ScaryScarecrowModel extends EntityModel<Scarecrow> {
 	private ModelPart head;
 	private ModelPart body;
 	private ModelPart rightArm;
@@ -22,8 +21,7 @@ public class ScaryScarecrowModel extends EntityModel<Scarecrow>
 	private ModelPart rod;
 	private ModelPart rodBottom;
 
-	public ScaryScarecrowModel(ModelPart modelPart)
-	{
+	public ScaryScarecrowModel(ModelPart modelPart) {
 		head = modelPart.getChild("head");
 		body = modelPart.getChild("body");
 		rightArm = modelPart.getChild("right_arm");
@@ -35,8 +33,7 @@ public class ScaryScarecrowModel extends EntityModel<Scarecrow>
 		rodBottom = modelPart.getChild("rod_bottom");
 	}
 
-	public static LayerDefinition createLayer(boolean isLit)
-	{
+	public static LayerDefinition createLayer(boolean isLit) {
 		MeshDefinition meshDefinition = new MeshDefinition();
 		PartDefinition partDefinition = meshDefinition.getRoot();
 
@@ -51,8 +48,7 @@ public class ScaryScarecrowModel extends EntityModel<Scarecrow>
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack stack, VertexConsumer builder, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
-	{
+	public void renderToBuffer(PoseStack stack, VertexConsumer builder, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		head.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
 		body.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
 		rightArm.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
@@ -62,8 +58,7 @@ public class ScaryScarecrowModel extends EntityModel<Scarecrow>
 		rodBottom.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
-	public void setRotateAngles(ModelPart modelRenderer, float x, float y, float z)
-	{
+	public void setRotateAngles(ModelPart modelRenderer, float x, float y, float z) {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;

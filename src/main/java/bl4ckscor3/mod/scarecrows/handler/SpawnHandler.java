@@ -18,31 +18,26 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber(modid=Scarecrows.MODID)
-public class SpawnHandler
-{
+@EventBusSubscriber(modid = Scarecrows.MODID)
+public class SpawnHandler {
 	@SubscribeEvent
-	public static void onCheckSpawn(CheckSpawn event)
-	{
-		if(!(event.getLevel() instanceof Level level))
+	public static void onCheckSpawn(CheckSpawn event) {
+		if (!(event.getLevel() instanceof Level level))
 			return;
 
 		Entity entity = event.getEntity();
 		boolean animal = EntityUtil.isAttackableAnimal(entity);
 
-		if(EntityUtil.isAttackableMonster(entity) || animal)
-		{
+		if (EntityUtil.isAttackableMonster(entity) || animal) {
 			List<Scarecrow> scarecrows = ScarecrowTracker.getScarecrowsInRange(level, entity.blockPosition());
 
-			for(Scarecrow scarecrow : scarecrows)
-			{
-				Predicate<Entity> filter = e -> e.isAlive() && ((Mob)entity).getSensing().hasLineOfSight(e);
+			for (Scarecrow scarecrow : scarecrows) {
+				Predicate<Entity> filter = e -> e.isAlive() && ((Mob) entity).getSensing().hasLineOfSight(e);
 
-				if(filter.apply(scarecrow) && entity.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((Mob)entity).hasLineOfSight(scarecrow))
-				{
-					if(animal && scarecrow.getScarecrowType().shouldScareAnimals())
+				if (filter.apply(scarecrow) && entity.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((Mob) entity).hasLineOfSight(scarecrow)) {
+					if (animal && scarecrow.getScarecrowType().shouldScareAnimals())
 						event.setResult(Result.DENY);
-					else if(!animal)
+					else if (!animal)
 						event.setResult(Result.DENY);
 
 					return; //needed so the loop stops
@@ -52,9 +47,8 @@ public class SpawnHandler
 	}
 
 	@SubscribeEvent
-	public static void onEntityJoinWorld(EntityJoinLevelEvent event)
-	{
-		if(event.getEntity() instanceof Mob mob && (EntityUtil.isAttackableMonster(mob) || EntityUtil.isAttackableAnimal(mob)))
+	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
+		if (event.getEntity() instanceof Mob mob && (EntityUtil.isAttackableMonster(mob) || EntityUtil.isAttackableAnimal(mob)))
 			mob.goalSelector.addGoal(0, new RunAwayGoal(mob));
 	}
 }

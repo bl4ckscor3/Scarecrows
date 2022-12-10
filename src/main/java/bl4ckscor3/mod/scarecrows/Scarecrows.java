@@ -25,40 +25,39 @@ import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod(Scarecrows.MODID)
-@EventBusSubscriber(bus=Bus.MOD)
-public class Scarecrows
-{
+@EventBusSubscriber(bus = Bus.MOD)
+public class Scarecrows {
 	public static final String MODID = "scarecrows";
 	public static final String PREFIX = MODID + ":";
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.ENTITY_DATA_SERIALIZERS, MODID);
 	public static final RegistryObject<ArmBlock> ARM = BLOCKS.register("arm", () -> new ArmBlock(Properties.of(Material.WOOD)
+	//@formatter:off
 			.strength(0.25F, 1.0F)
 			.sound(SoundType.WOOD)
 			.isRedstoneConductor((state, world, pos) -> false)));
+	//@formatter:on
 	public static final RegistryObject<EntityType<Scarecrow>> SCARECROW_ENTITY_TYPE = ENTITY_TYPES.register("scarecrow", () -> EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC)
+	//@formatter:off
 			.sized(1.0F, 1.0F)
 			.setTrackingRange(256)
 			.setUpdateInterval(20)
 			.setShouldReceiveVelocityUpdates(false)
 			.build(PREFIX + "scarecrow"));
-	public static final RegistryObject<EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> new EntityDataSerializer<>()
-	{
+	//@formatter:on
+	public static final RegistryObject<EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> new EntityDataSerializer<>() {
 		@Override
-		public void write(FriendlyByteBuf buf, ScarecrowType value)
-		{
+		public void write(FriendlyByteBuf buf, ScarecrowType value) {
 			buf.writeUtf(value.getName());
 		}
 
 		@Override
-		public ScarecrowType read(FriendlyByteBuf buf)
-		{
+		public ScarecrowType read(FriendlyByteBuf buf) {
 			String bufferedName = buf.readUtf(Integer.MAX_VALUE / 4);
 
-			for(ScarecrowType type : ScarecrowType.TYPES)
-			{
-				if(type.getName().equals(bufferedName))
+			for (ScarecrowType type : ScarecrowType.TYPES) {
+				if (type.getName().equals(bufferedName))
 					return type;
 			}
 
@@ -66,22 +65,18 @@ public class Scarecrows
 		}
 
 		@Override
-		public EntityDataAccessor<ScarecrowType> createAccessor(int id)
-		{
+		public EntityDataAccessor<ScarecrowType> createAccessor(int id) {
 			return new EntityDataAccessor<>(id, this);
 		}
 
 		@Override
-		public ScarecrowType copy(ScarecrowType value)
-		{
+		public ScarecrowType copy(ScarecrowType value) {
 			return value;
 		}
 	});
-	public static final RegistryObject<EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> new EntityDataSerializer<>()
-	{
+	public static final RegistryObject<EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> new EntityDataSerializer<>() {
 		@Override
-		public void write(FriendlyByteBuf buf, AABB value)
-		{
+		public void write(FriendlyByteBuf buf, AABB value) {
 			buf.writeDouble(value.minX);
 			buf.writeDouble(value.minY);
 			buf.writeDouble(value.minZ);
@@ -91,26 +86,22 @@ public class Scarecrows
 		}
 
 		@Override
-		public AABB read(FriendlyByteBuf buf)
-		{
+		public AABB read(FriendlyByteBuf buf) {
 			return new AABB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
 		}
 
 		@Override
-		public EntityDataAccessor<AABB> createAccessor(int id)
-		{
+		public EntityDataAccessor<AABB> createAccessor(int id) {
 			return new EntityDataAccessor<>(id, this);
 		}
 
 		@Override
-		public AABB copy(AABB value)
-		{
+		public AABB copy(AABB value) {
 			return value.inflate(0);
 		}
 	});
 
-	public Scarecrows()
-	{
+	public Scarecrows() {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 		BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());

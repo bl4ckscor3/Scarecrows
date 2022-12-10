@@ -20,36 +20,32 @@ import net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber(modid=Scarecrows.MODID)
-public class PlaceHandler
-{
+@EventBusSubscriber(modid = Scarecrows.MODID)
+public class PlaceHandler {
 	@SubscribeEvent
 	public static void onRightClickBlock(RightClickBlock event) //stick placement logic
 	{
 		ItemStack held = event.getItemStack();
 
-		if(held.getItem() == Items.STICK)
-		{
+		if (held.getItem() == Items.STICK) {
 			BlockPos pos = event.getPos();
 			Direction face = event.getFace();
 			BlockPos placeAt = pos.relative(face);
 			Level world = event.getLevel();
 
-			if(face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isEmptyBlock(placeAt))
-			{
+			if (face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world.getBlockState(placeAt), world, placeAt, face) && world.isEmptyBlock(placeAt)) {
 				world.setBlockAndUpdate(placeAt, Scarecrows.ARM.get().defaultBlockState().setValue(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
 				event.getEntity().swing(event.getHand());
 
-				if(!event.getEntity().isCreative())
+				if (!event.getEntity().isCreative())
 					held.shrink(1);
 			}
 		}
 	}
 
 	@SubscribeEvent
-	public static void onPlace(EntityPlaceEvent event)
-	{
+	public static void onPlace(EntityPlaceEvent event) {
 		tryBuildScarecrow(event.getLevel(), event.getPos(), event.getPlacedBlock());
 	}
 
@@ -61,24 +57,22 @@ public class PlaceHandler
 
 	/**
 	 * Tries to build a scarecrow
+	 *
 	 * @param level The level to build the scarecrow in
 	 * @param pos The position of the block that was placed/rightclicked
 	 * @param state The state of the block that was placed/rightclicked
 	 */
-	private static void tryBuildScarecrow(LevelAccessor level, BlockPos pos, BlockState state)
-	{
+	private static void tryBuildScarecrow(LevelAccessor level, BlockPos pos, BlockState state) {
 		Block block = state.getBlock();
 
-		if(block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) //structure only ever activates when placing a carved pumpkin or jack o lantern
+		if (block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) //structure only ever activates when placing a carved pumpkin or jack o lantern
 		{
-			for(ScarecrowType type : ScarecrowType.TYPES)
-			{
+			for (ScarecrowType type : ScarecrowType.TYPES) {
 				Direction pumpkinFacing = state.getValue(CarvedPumpkinBlock.FACING);
 				BlockPos groundPos = pos.below(type.getHeight());
 				BlockState groundState = level.getBlockState(groundPos);
 
-				if(!groundState.isAir() && type.checkStructure(level, pos, pumpkinFacing))
-				{
+				if (!groundState.isAir() && type.checkStructure(level, pos, pumpkinFacing)) {
 					type.destroy(level, pos);
 					type.spawn(type, level, pos.below(type.getHeight() - 1), block == Blocks.JACK_O_LANTERN, pumpkinFacing); //-1 because of the feet
 					return;
