@@ -43,7 +43,7 @@ public class Scarecrow extends Entity {
 
 	@Override
 	protected void defineSynchedData() {
-		entityData.define(TYPE, null);
+		entityData.define(TYPE, ScarecrowType.TYPES[0]);
 		entityData.define(LIT, false);
 		entityData.define(ROTATION, 0F);
 		entityData.define(AREA, new AABB(0, 0, 0, 0, 0, 0));
