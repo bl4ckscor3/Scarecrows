@@ -107,6 +107,7 @@ public class RunAwayGoal extends Goal {
 		else
 			ticksSinceSound--;
 
+		entity.setTarget(null);
 		entity.getNavigation().setSpeedModifier(speed);
 	}
 
