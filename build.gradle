@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 
-version = '1.0.12'
+version = '1.0.13'
 group = 'bl4ckscor3.mod.scarecrows'
 archivesBaseName = 'scarecrows-1.18.2'
 
