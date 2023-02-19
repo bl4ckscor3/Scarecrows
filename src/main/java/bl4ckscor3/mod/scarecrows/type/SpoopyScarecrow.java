@@ -16,30 +16,27 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class SpoopyScarecrow extends ScarecrowType
-{
+public class SpoopyScarecrow extends ScarecrowType {
+	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
 	 *  ACA				- A: Arm
 	 *					- C: Clay
 	 */
-
-	public SpoopyScarecrow()
-	{
+	//@formatter:on
+	public SpoopyScarecrow() {
 		super("spoopy_scarecrow", 2, Configuration.CONFIG.spoopyRange.get(), Configuration.CONFIG.spoopyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
-	{
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
 		pos = pos.below();
 
 		return hasArms(level, pos, pumpkinFacing) && level.getBlockState(pos).getBlock() == Blocks.CLAY;
 	}
 
 	@Override
-	public void destroy(LevelAccessor level, BlockPos pos)
-	{
+	public void destroy(LevelAccessor level, BlockPos pos) {
 		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
 		level.destroyBlock(pos.west(), false); //a potential arm
@@ -50,22 +47,21 @@ public class SpoopyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ItemStack[] getDrops()
-	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CLAY)};
+	public ItemStack[] getDrops() {
+		return new ItemStack[] {
+				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CLAY)
+		};
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public ModelLayerLocation getModelLayerLocation(boolean isLit)
-	{
+	public ModelLayerLocation getModelLayerLocation(boolean isLit) {
 		return isLit ? ClientReg.SPOOPY_SCARECROW_LIT : ClientReg.SPOOPY_SCARECROW;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<Scarecrow> createModel(ModelPart modelPart)
-	{
+	public EntityModel<Scarecrow> createModel(ModelPart modelPart) {
 		return new SpoopyScarecrowModel(modelPart);
 	}
 }

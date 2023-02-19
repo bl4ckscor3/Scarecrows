@@ -17,28 +17,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class SuperSpookyScarecrow extends ScarecrowType
-{
+public class SuperSpookyScarecrow extends ScarecrowType {
+	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
 	 *  AQA				- A: Arm
 	 *   F				- Q: Quartz Pillar
 	 *   				- F: Netherbrick Fence
 	 */
-
-	public SuperSpookyScarecrow()
-	{
+	//@formatter:on
+	public SuperSpookyScarecrow() {
 		super("super_spooky_scarecrow", 3, Configuration.CONFIG.superSpookyRange.get(), Configuration.CONFIG.superSpookyScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
-	{
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
 		BlockState state = level.getBlockState(pos = pos.below());
 
-		if(hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_PILLAR)
-		{
-			if(level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
+		if (hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.QUARTZ_PILLAR) {
+			if (level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
 				return true;
 		}
 
@@ -46,8 +43,7 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(LevelAccessor level, BlockPos pos)
-	{
+	public void destroy(LevelAccessor level, BlockPos pos) {
 		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
 		level.destroyBlock(pos.west(), false); //a potential arm
@@ -59,22 +55,21 @@ public class SuperSpookyScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ItemStack[] getDrops()
-	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.QUARTZ_PILLAR), new ItemStack(Blocks.NETHER_BRICK_FENCE)};
+	public ItemStack[] getDrops() {
+		return new ItemStack[] {
+				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.QUARTZ_PILLAR), new ItemStack(Blocks.NETHER_BRICK_FENCE)
+		};
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public ModelLayerLocation getModelLayerLocation(boolean isLit)
-	{
+	public ModelLayerLocation getModelLayerLocation(boolean isLit) {
 		return isLit ? ClientReg.SPOOKY_SCARECROW_LIT : ClientReg.SPOOKY_SCARECROW;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<Scarecrow> createModel(ModelPart modelPart)
-	{
+	public EntityModel<Scarecrow> createModel(ModelPart modelPart) {
 		return new SpookyScarecrowModel(modelPart);
 	}
 }

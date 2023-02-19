@@ -17,25 +17,21 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-public class Scarecrow extends Entity
-{
+public class Scarecrow extends Entity {
 	private static final EntityDataAccessor<ScarecrowType> TYPE = SynchedEntityData.<ScarecrowType>defineId(Scarecrow.class, CustomDataSerializers.SCARECROW_TYPE);
 	private static final EntityDataAccessor<Boolean> LIT = SynchedEntityData.<Boolean>defineId(Scarecrow.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.<Float>defineId(Scarecrow.class, EntityDataSerializers.FLOAT);
 	private static final EntityDataAccessor<AABB> AREA = SynchedEntityData.<AABB>defineId(Scarecrow.class, CustomDataSerializers.AABB);
 
-	public Scarecrow(EntityType<Scarecrow> type, Level world)
-	{
+	public Scarecrow(EntityType<Scarecrow> type, Level world) {
 		super(type, world);
 	}
 
-	public Scarecrow(Level world)
-	{
+	public Scarecrow(Level world) {
 		super(Scarecrows.SCARECROW_ENTITY_TYPE, world);
 	}
 
-	public Scarecrow(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing)
-	{
+	public Scarecrow(ScarecrowType type, Level world, BlockPos pos, boolean isLit, Direction facing) {
 		this(world);
 
 		setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
@@ -46,8 +42,7 @@ public class Scarecrow extends Entity
 	}
 
 	@Override
-	protected void defineSynchedData()
-	{
+	protected void defineSynchedData() {
 		entityData.define(TYPE, null);
 		entityData.define(LIT, false);
 		entityData.define(ROTATION, 0F);
@@ -55,34 +50,29 @@ public class Scarecrow extends Entity
 	}
 
 	@Override
-	public void onAddedToWorld()
-	{
+	public void onAddedToWorld() {
 		super.onAddedToWorld();
 		ScarecrowTracker.track(this);
 	}
 
 	@Override
-	public void onRemovedFromWorld()
-	{
+	public void onRemovedFromWorld() {
 		super.onRemovedFromWorld();
 		ScarecrowTracker.stopTracking(this);
 	}
 
 	@Override
-	public void tick()
-	{
-		if(level.getBlockState(blockPosition().below()).isAir())
+	public void tick() {
+		if (level.getBlockState(blockPosition().below()).isAir())
 			remove(RemovalReason.KILLED);
 	}
 
 	@Override
-	public void remove(RemovalReason reason)
-	{
+	public void remove(RemovalReason reason) {
 		super.remove(reason);
 
-		if(!level.isClientSide)
-		{
-			if(isLit())
+		if (!level.isClientSide) {
+			if (isLit())
 				level.destroyBlock(blockPosition().above(getScarecrowType().getHeight() - 1), false);
 
 			getScarecrowType().dropMaterials(level, blockPosition(), isLit());
@@ -90,14 +80,11 @@ public class Scarecrow extends Entity
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag tag)
-	{
+	protected void readAdditionalSaveData(CompoundTag tag) {
 		String name = tag.getString("type");
 
-		for(ScarecrowType st : ScarecrowType.TYPES)
-		{
-			if(st.getName().equals(name))
-			{
+		for (ScarecrowType st : ScarecrowType.TYPES) {
+			if (st.getName().equals(name)) {
 				entityData.set(TYPE, st);
 				break;
 			}
@@ -105,6 +92,7 @@ public class Scarecrow extends Entity
 
 		entityData.set(LIT, tag.getBoolean("isLit"));
 		entityData.set(ROTATION, tag.getFloat("rotation"));
+		//@formatter:off
 		entityData.set(AREA, new AABB(
 				tag.getDouble("areaMinX"),
 				tag.getDouble("areaMinY"),
@@ -112,11 +100,11 @@ public class Scarecrow extends Entity
 				tag.getDouble("areaMaxX"),
 				tag.getDouble("areaMaxY"),
 				tag.getDouble("areaMaxZ")));
+		//@formatter:on
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag tag)
-	{
+	protected void addAdditionalSaveData(CompoundTag tag) {
 		AABB area = getArea();
 
 		tag.putString("type", getScarecrowType().getName());
@@ -133,38 +121,33 @@ public class Scarecrow extends Entity
 	/**
 	 * @return The type of this scarecrow
 	 */
-	public ScarecrowType getScarecrowType()
-	{
+	public ScarecrowType getScarecrowType() {
 		return entityData.get(TYPE);
 	}
 
 	/**
 	 * @return true if this entity gives off light, false otherwhise
 	 */
-	public boolean isLit()
-	{
+	public boolean isLit() {
 		return entityData.get(LIT);
 	}
 
 	/**
 	 * @return The rotation of the entity for rendering
 	 */
-	public Float getRotation()
-	{
+	public Float getRotation() {
 		return entityData.get(ROTATION);
 	}
 
 	/**
 	 * @return The area this scarecrow is affecting
 	 */
-	public AABB getArea()
-	{
+	public AABB getArea() {
 		return entityData.get(AREA);
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket()
-	{
+	public Packet<?> getAddEntityPacket() {
 		return new ClientboundAddEntityPacket(this);
 	}
 }

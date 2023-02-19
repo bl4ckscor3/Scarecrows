@@ -13,9 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@EventBusSubscriber(modid=Scarecrows.MODID, value=Dist.CLIENT, bus=Bus.MOD)
-public class ClientReg
-{
+@EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT, bus = Bus.MOD)
+public class ClientReg {
 	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spoopy_scarecrow"), "main");
 	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
 	public static final ModelLayerLocation SPOOKY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spooky_scarecrow"), "main");
@@ -24,14 +23,12 @@ public class ClientReg
 	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
 
 	@SubscribeEvent
-	public static void onRegisterEntityRenderers(RegisterRenderers event)
-	{
+	public static void onRegisterEntityRenderers(RegisterRenderers event) {
 		event.registerEntityRenderer(Scarecrows.SCARECROW_ENTITY_TYPE, ScarecrowRenderer::new);
 	}
 
 	@SubscribeEvent
-	public static void onRegisterLayerDefinitions(RegisterLayerDefinitions event)
-	{
+	public static void onRegisterLayerDefinitions(RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(SPOOPY_SCARECROW, () -> SpoopyScarecrowModel.createLayer(false));
 		event.registerLayerDefinition(SPOOPY_SCARECROW_LIT, () -> SpoopyScarecrowModel.createLayer(true));
 		event.registerLayerDefinition(SPOOKY_SCARECROW, () -> SpookyScarecrowModel.createLayer(false));

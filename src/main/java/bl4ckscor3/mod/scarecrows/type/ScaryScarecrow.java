@@ -18,32 +18,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ScaryScarecrow extends ScarecrowType
-{
+public class ScaryScarecrow extends ScarecrowType {
+	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
 	 *  AEA				- A: Arm
 	 *   R				- E: Endstone
 	 *   R				- R: End Rod
 	 */
-
-	public ScaryScarecrow()
-	{
+	//@formatter:on
+	public ScaryScarecrow() {
 		super("scary_scarecrow", 4, Configuration.CONFIG.scaryRange.get(), Configuration.CONFIG.scaryScareAnimals.get());
 	}
 
 	@Override
-	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing)
-	{
+	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
 		BlockState state = level.getBlockState(pos = pos.below());
 
-		if(hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE)
-		{
+		if (hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.END_STONE) {
 			BlockState topState = level.getBlockState(pos.below());
 			BlockState bottomState = level.getBlockState(pos.below(2));
 
-			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(EndRodBlock.FACING) == Direction.DOWN &&
+			//@formatter:off
+			if (topState.getBlock() == Blocks.END_ROD && topState.getValue(EndRodBlock.FACING) == Direction.DOWN &&
 					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(EndRodBlock.FACING) == Direction.UP)
+				//@formatter:on
 				return true;
 		}
 
@@ -51,8 +50,7 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public void destroy(LevelAccessor level, BlockPos pos)
-	{
+	public void destroy(LevelAccessor level, BlockPos pos) {
 		level.destroyBlock(pos, false); //pumpkin
 		pos = pos.below();
 		level.destroyBlock(pos.west(), false); //a potential arm
@@ -66,22 +64,21 @@ public class ScaryScarecrow extends ScarecrowType
 	}
 
 	@Override
-	public ItemStack[] getDrops()
-	{
-		return new ItemStack[] {new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_ROD, 2)};
+	public ItemStack[] getDrops() {
+		return new ItemStack[] {
+				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_ROD, 2)
+		};
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public ModelLayerLocation getModelLayerLocation(boolean isLit)
-	{
+	public ModelLayerLocation getModelLayerLocation(boolean isLit) {
 		return isLit ? ClientReg.SCARY_SCARECROW_LIT : ClientReg.SCARY_SCARECROW;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<Scarecrow> createModel(ModelPart modelPart)
-	{
+	public EntityModel<Scarecrow> createModel(ModelPart modelPart) {
 		return new ScaryScarecrowModel(modelPart);
 	}
 }

@@ -22,8 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
-public class RunAwayGoal extends Goal
-{
+public class RunAwayGoal extends Goal {
 	private final Predicate<Entity> canBeSeenSelector;
 	private Mob entity;
 	private final float speed = 1.5F;
@@ -33,30 +32,24 @@ public class RunAwayGoal extends Goal
 	private final PathNavigation navigation;
 	private long ticksSinceSound = 0;
 
-	public RunAwayGoal(Mob entity)
-	{
+	public RunAwayGoal(Mob entity) {
 		canBeSeenSelector = e -> e.isAlive() && entity.getSensing().hasLineOfSight(e);
 		this.entity = entity;
 		navigation = entity.getNavigation();
 	}
 
 	@Override
-	public boolean canUse()
-	{
+	public boolean canUse() {
 		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
 
-		for(Scarecrow scarecrow : list)
-		{
-			if(canBeSeenSelector.apply(scarecrow))
-			{
-				if(EntityUtil.isAttackableMonster(entity))
-				{
-					if(shouldScare(scarecrow))
+		for (Scarecrow scarecrow : list) {
+			if (canBeSeenSelector.apply(scarecrow)) {
+				if (EntityUtil.isAttackableMonster(entity)) {
+					if (shouldScare(scarecrow))
 						return true;
 				}
-				else if(scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
-				{
-					if(shouldScare(scarecrow))
+				else if (scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity)) {
+					if (shouldScare(scarecrow))
 						return true;
 				}
 			}
@@ -69,29 +62,25 @@ public class RunAwayGoal extends Goal
 	 * @param scarecrow The scarecrow that potentially scares this entity
 	 * @return true if this ai task should execute, false otherwhise
 	 */
-	private boolean shouldScare(Scarecrow scarecrow)
-	{
+	private boolean shouldScare(Scarecrow scarecrow) {
 		List<? extends Mob> entities = scarecrow.level.getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 
-		for(Mob e : entities)
-		{
-			if(e == entity)
-			{
-				if(e.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange())
-				{
+		for (Mob e : entities) {
+			if (e == entity) {
+				if (e.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange()) {
 					Vec3 scarecrowPos = new Vec3(scarecrow.getX(), scarecrow.getY(), scarecrow.getZ());
 					Vec3 currentPos = new Vec3(e.getX(), e.getY(), e.getZ());
 					Vec3 newPosition = EntityUtil.generateRandomPos(e, 16, 7, currentPos.subtract(scarecrowPos), true);
 
-					if(newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
+					if (newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
 						return false;
-					else
-					{
+					else {
 						path = navigation.createPath(new BlockPos(newPosition), 0);
 						return path != null;
 					}
 				}
-				else return false;
+				else
+					return false;
 			}
 		}
 
@@ -99,22 +88,18 @@ public class RunAwayGoal extends Goal
 	}
 
 	@Override
-	public boolean canContinueToUse()
-	{
+	public boolean canContinueToUse() {
 		return !navigation.isDone();
 	}
 
 	@Override
-	public void start()
-	{
+	public void start() {
 		navigation.moveTo(path, speed);
 	}
 
 	@Override
-	public void tick()
-	{
-		if(ticksSinceSound == 0)
-		{
+	public void tick() {
+		if (ticksSinceSound == 0) {
 			entity.playAmbientSound();
 			createRunningParticles(entity);
 			ticksSinceSound = 10;
@@ -125,16 +110,14 @@ public class RunAwayGoal extends Goal
 		entity.getNavigation().setSpeedModifier(speed);
 	}
 
-	private void createRunningParticles(Entity entity)
-	{
+	private void createRunningParticles(Entity entity) {
 		int x = Mth.floor(entity.getX());
 		int y = Mth.floor(entity.getY() - 0.2F);
 		int z = Mth.floor(entity.getZ());
 		BlockPos pos = new BlockPos(x, y, z);
 		BlockState state = entity.level.getBlockState(pos);
 
-		if(!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE)
-		{
+		if (!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE) {
 			Vec3 motion = entity.getDeltaMovement();
 			EntityDimensions size = entity.getDimensions(entity.getPose());
 			Random rand = entity.level.random;

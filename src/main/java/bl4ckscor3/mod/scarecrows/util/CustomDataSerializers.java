@@ -6,24 +6,19 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.phys.AABB;
 
-public class CustomDataSerializers
-{
-	public static final EntityDataSerializer<ScarecrowType> SCARECROW_TYPE = new EntityDataSerializer<ScarecrowType>()
-	{
+public class CustomDataSerializers {
+	public static final EntityDataSerializer<ScarecrowType> SCARECROW_TYPE = new EntityDataSerializer<>() {
 		@Override
-		public void write(FriendlyByteBuf buf, ScarecrowType value)
-		{
+		public void write(FriendlyByteBuf buf, ScarecrowType value) {
 			buf.writeUtf(value.getName());
 		}
 
 		@Override
-		public ScarecrowType read(FriendlyByteBuf buf)
-		{
+		public ScarecrowType read(FriendlyByteBuf buf) {
 			String bufferedName = buf.readUtf(Integer.MAX_VALUE / 4);
 
-			for(ScarecrowType type : ScarecrowType.TYPES)
-			{
-				if(type.getName().equals(bufferedName))
+			for (ScarecrowType type : ScarecrowType.TYPES) {
+				if (type.getName().equals(bufferedName))
 					return type;
 			}
 
@@ -31,23 +26,18 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public EntityDataAccessor<ScarecrowType> createAccessor(int id)
-		{
-			return new EntityDataAccessor<ScarecrowType>(id, this);
+		public EntityDataAccessor<ScarecrowType> createAccessor(int id) {
+			return new EntityDataAccessor<>(id, this);
 		}
 
 		@Override
-		public ScarecrowType copy(ScarecrowType value)
-		{
+		public ScarecrowType copy(ScarecrowType value) {
 			return value;
 		}
 	};
-
-	public static final EntityDataSerializer<AABB> AABB = new EntityDataSerializer<AABB>()
-	{
+	public static final EntityDataSerializer<AABB> AABB = new EntityDataSerializer<>() {
 		@Override
-		public void write(FriendlyByteBuf buf, AABB value)
-		{
+		public void write(FriendlyByteBuf buf, AABB value) {
 			buf.writeDouble(value.minX);
 			buf.writeDouble(value.minY);
 			buf.writeDouble(value.minZ);
@@ -57,20 +47,17 @@ public class CustomDataSerializers
 		}
 
 		@Override
-		public AABB read(FriendlyByteBuf buf)
-		{
+		public AABB read(FriendlyByteBuf buf) {
 			return new AABB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
 		}
 
 		@Override
-		public EntityDataAccessor<AABB> createAccessor(int id)
-		{
-			return new EntityDataAccessor<AABB>(id, this);
+		public EntityDataAccessor<AABB> createAccessor(int id) {
+			return new EntityDataAccessor<>(id, this);
 		}
 
 		@Override
-		public AABB copy(AABB value)
-		{
+		public AABB copy(AABB value) {
 			return value.inflate(0);
 		}
 	};
