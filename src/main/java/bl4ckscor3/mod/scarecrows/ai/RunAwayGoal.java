@@ -75,7 +75,7 @@ public class RunAwayGoal extends Goal {
 					if (newPosition == null || scarecrow.distanceToSqr(newPosition.x, newPosition.y, newPosition.z) < scarecrow.distanceToSqr(e))
 						return false;
 					else {
-						path = navigation.createPath(new BlockPos(newPosition), 0);
+						path = navigation.createPath(BlockPos.containing(newPosition), 0);
 						return path != null;
 					}
 				}

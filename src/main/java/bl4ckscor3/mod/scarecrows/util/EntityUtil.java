@@ -57,7 +57,7 @@ public class EntityUtil {
 			int j1 = random.nextInt(2 * xz + 1) - xz;
 
 			if (target == null || l * target.x + j1 * target.z >= 0.0D) {
-				BlockPos blockpos1 = new BlockPos(l + entity.getX(), i1 + entity.getY(), j1 + entity.getZ());
+				BlockPos blockpos1 = BlockPos.containing(l + entity.getX(), i1 + entity.getY(), j1 + entity.getZ());
 
 				if (!flag && pathnavigate.isStableDestination(blockpos1)) {
 					if (!b) {
@@ -90,8 +90,7 @@ public class EntityUtil {
 		else {
 			BlockPos blockpos;
 
-			for (blockpos = pos.above(); blockpos.getY() < entity.level.getMaxBuildHeight() && entity.level.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.above()) {
-			}
+			for (blockpos = pos.above(); blockpos.getY() < entity.level.getMaxBuildHeight() && entity.level.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.above()) {}
 
 			return blockpos;
 		}
