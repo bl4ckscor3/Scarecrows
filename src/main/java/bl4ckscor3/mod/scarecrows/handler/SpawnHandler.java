@@ -13,15 +13,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
-import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class SpawnHandler {
 	@SubscribeEvent
-	public static void onCheckSpawn(CheckSpawn event) {
+	public static void onCheckSpawn(MobSpawnEvent.FinalizeSpawn event) {
 		if (!(event.getLevel() instanceof Level level))
 			return;
 
@@ -36,11 +35,11 @@ public class SpawnHandler {
 
 				if (filter.apply(scarecrow) && entity.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((Mob) entity).hasLineOfSight(scarecrow)) {
 					if (animal && scarecrow.getScarecrowType().shouldScareAnimals())
-						event.setResult(Result.DENY);
+						event.setSpawnCancelled(true);
 					else if (!animal)
-						event.setResult(Result.DENY);
+						event.setSpawnCancelled(true);
 
-					return; //needed so the loop stops
+					return;
 				}
 			}
 		}
