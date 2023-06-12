@@ -11,7 +11,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +31,7 @@ public class Scarecrows {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.ENTITY_DATA_SERIALIZERS, MODID);
-	public static final RegistryObject<ArmBlock> ARM = BLOCKS.register("arm", () -> new ArmBlock(Properties.of(Material.WOOD)
+	public static final RegistryObject<ArmBlock> ARM = BLOCKS.register("arm", () -> new ArmBlock(Properties.of()
 	//@formatter:off
 			.strength(0.25F, 1.0F)
 			.sound(SoundType.WOOD)

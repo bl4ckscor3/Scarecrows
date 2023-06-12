@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
@@ -40,7 +41,7 @@ public class RunAwayGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level, entity.blockPosition());
+		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level(), entity.blockPosition());
 
 		for (Scarecrow scarecrow : list) {
 			if (canBeSeenSelector.apply(scarecrow)) {
@@ -63,7 +64,7 @@ public class RunAwayGoal extends Goal {
 	 * @return true if this ai task should execute, false otherwhise
 	 */
 	private boolean shouldScare(Scarecrow scarecrow) {
-		List<? extends Mob> entities = scarecrow.level.getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
+		List<? extends Mob> entities = scarecrow.level().getEntitiesOfClass(entity.getClass(), scarecrow.getArea());
 
 		for (Mob e : entities) {
 			if (e == entity) {
@@ -116,14 +117,15 @@ public class RunAwayGoal extends Goal {
 		int y = Mth.floor(entity.getY() - 0.2F);
 		int z = Mth.floor(entity.getZ());
 		BlockPos pos = new BlockPos(x, y, z);
-		BlockState state = entity.level.getBlockState(pos);
+		Level level = entity.level();
+		BlockState state = level.getBlockState(pos);
 
-		if (!state.addRunningEffects(entity.level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE) {
+		if (!state.addRunningEffects(level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE) {
 			Vec3 motion = entity.getDeltaMovement();
 			EntityDimensions size = entity.getDimensions(entity.getPose());
-			RandomSource rand = entity.level.random;
+			RandomSource rand = level.random;
 
-			entity.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
+			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
 	}
 }

@@ -63,7 +63,7 @@ public class Scarecrow extends Entity {
 
 	@Override
 	public void tick() {
-		if (level.getBlockState(blockPosition().below()).isAir())
+		if (level().getBlockState(blockPosition().below()).isAir())
 			remove(RemovalReason.KILLED);
 	}
 
@@ -71,11 +71,11 @@ public class Scarecrow extends Entity {
 	public void remove(RemovalReason reason) {
 		super.remove(reason);
 
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			if (isLit())
-				level.destroyBlock(blockPosition().above(getScarecrowType().getHeight() - 1), false);
+				level().destroyBlock(blockPosition().above(getScarecrowType().getHeight() - 1), false);
 
-			getScarecrowType().dropMaterials(level, blockPosition(), isLit());
+			getScarecrowType().dropMaterials(level(), blockPosition(), isLit());
 		}
 	}
 

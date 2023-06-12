@@ -3,6 +3,7 @@ package bl4ckscor3.mod.scarecrows.util;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityUtil {
@@ -85,12 +86,14 @@ public class EntityUtil {
 	 * @see {@link net.minecraft.world.entity.ai.util.RandomPos}
 	 */
 	private static BlockPos moveAboveSolid(BlockPos pos, Mob entity) {
-		if (!entity.level.getBlockState(pos).getMaterial().isSolid())
+		Level level = entity.level();
+
+		if (!level.getBlockState(pos).isSolid())
 			return pos;
 		else {
 			BlockPos blockpos;
 
-			for (blockpos = pos.above(); blockpos.getY() < entity.level.getMaxBuildHeight() && entity.level.getBlockState(blockpos).getMaterial().isSolid(); blockpos = blockpos.above()) {}
+			for (blockpos = pos.above(); blockpos.getY() < level.getMaxBuildHeight() && level.getBlockState(blockpos).isSolid(); blockpos = blockpos.above()) {}
 
 			return blockpos;
 		}
@@ -100,6 +103,6 @@ public class EntityUtil {
 	 * @see {@link net.minecraft.world.entity.ai.util.RandomPos}
 	 */
 	private static boolean isWaterDestination(BlockPos pos, Mob entity) {
-		return entity.level.getBlockState(pos).getMaterial() == Material.WATER;
+		return entity.level().getFluidState(pos).is(FluidTags.WATER);
 	}
 }
