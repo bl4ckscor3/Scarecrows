@@ -1,9 +1,8 @@
 package bl4ckscor3.mod.scarecrows.model;
 
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

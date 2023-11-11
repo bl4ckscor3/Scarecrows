@@ -1,6 +1,14 @@
 {
     "pack": {
-        "description": "Scarecrows resources & data",
-        "pack_format": 15
+        "description": {
+            "text": "Scarecrows resources & data"
+        },
+        "neoforge": {
+            "versions": {
+                "client_resources": 18,
+                "server_data": 18
+            }
+        },
+        "pack_format": 18
     }
 }

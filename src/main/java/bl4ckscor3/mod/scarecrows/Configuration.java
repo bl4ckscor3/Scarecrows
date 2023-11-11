@@ -1,13 +1,12 @@
 package bl4ckscor3.mod.scarecrows;
 
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-
 public class Configuration {
-	public static final ForgeConfigSpec CONFIG_SPEC;
+	public static final ModConfigSpec CONFIG_SPEC;
 	public static final Configuration CONFIG;
 	public final IntValue spoopyRange;
 	public final BooleanValue spoopyScareAnimals;
@@ -23,13 +22,13 @@ public class Configuration {
 	public final BooleanValue superScaryScareAnimals;
 
 	static {
-		Pair<Configuration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
+		Pair<Configuration, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Configuration::new);
 
 		CONFIG_SPEC = specPair.getRight();
 		CONFIG = specPair.getLeft();
 	}
 
-	Configuration(ForgeConfigSpec.Builder builder) {
+	Configuration(ModConfigSpec.Builder builder) {
 		//@formatter:off
 		builder.comment("Spoopy Scarecrow Configuration")
 		.push("spoopy");

@@ -6,3 +6,4 @@
 *.launch
 .classpath
 .project
+.idea/

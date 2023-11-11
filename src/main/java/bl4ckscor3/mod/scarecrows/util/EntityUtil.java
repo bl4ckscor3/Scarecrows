@@ -1,7 +1,5 @@
 package bl4ckscor3.mod.scarecrows.util;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -18,6 +16,8 @@ import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public class EntityUtil {
 	/**

@@ -6,12 +6,12 @@ import bl4ckscor3.mod.scarecrows.model.SpoopyScarecrowModel;
 import bl4ckscor3.mod.scarecrows.renderer.ScarecrowRenderer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
 
 @EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientReg {

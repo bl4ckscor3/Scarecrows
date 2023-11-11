@@ -15,10 +15,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
-import net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class PlaceHandler {

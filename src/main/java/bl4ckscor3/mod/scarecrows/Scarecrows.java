@@ -12,19 +12,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.ForgeRegistries.Keys;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 @Mod(Scarecrows.MODID)
-@EventBusSubscriber(bus = Bus.MOD)
 public class Scarecrows {
 	public static final String MODID = "scarecrows";
 	public static final String PREFIX = MODID + ":";
@@ -100,10 +97,10 @@ public class Scarecrows {
 		}
 	});
 
-	public Scarecrows() {
+	public Scarecrows(IEventBus modEventBus) {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
-		BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		ENTITY_DATA_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		BLOCKS.register(modEventBus);
+		ENTITY_TYPES.register(modEventBus);
+		ENTITY_DATA_SERIALIZERS.register(modEventBus);
 	}
 }

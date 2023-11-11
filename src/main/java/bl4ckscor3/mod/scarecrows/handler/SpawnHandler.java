@@ -1,21 +1,20 @@
 package bl4ckscor3.mod.scarecrows.handler;
 
-import java.util.List;
-
-import com.google.common.base.Predicate;
-
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.ai.RunAwayGoal;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
+import com.google.common.base.Predicate;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+
+import java.util.List;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class SpawnHandler {
