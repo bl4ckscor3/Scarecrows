@@ -1,9 +1,12 @@
 package bl4ckscor3.mod.scarecrows.renderer;
 
-import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
-import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
+import java.util.HashMap;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
+import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
+import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,8 +15,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.HashMap;
 
 public class ScarecrowRenderer extends EntityRenderer<Scarecrow> {
 	private record RenderInfo(ResourceLocation textureLocation, EntityModel<Scarecrow> unLitModel, EntityModel<Scarecrow> litModel) {}

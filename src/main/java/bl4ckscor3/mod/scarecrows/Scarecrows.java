@@ -3,9 +3,10 @@ package bl4ckscor3.mod.scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -13,7 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -41,64 +42,28 @@ public class Scarecrows {
 			.setUpdateInterval(20)
 			.setShouldReceiveVelocityUpdates(false)
 			.build(PREFIX + "scarecrow"));
+	public static final StreamCodec<ByteBuf, AABB> AABB_STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.DOUBLE, aabb -> aabb.minX,
+			ByteBufCodecs.DOUBLE, aabb -> aabb.minY,
+			ByteBufCodecs.DOUBLE, aabb -> aabb.minZ,
+			ByteBufCodecs.DOUBLE, aabb -> aabb.maxX,
+			ByteBufCodecs.DOUBLE, aabb -> aabb.maxY,
+			ByteBufCodecs.DOUBLE, aabb -> aabb.maxZ,
+			AABB::new);
+	public static final StreamCodec<ByteBuf, ScarecrowType> SCARECROW_TYPE_STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, ScarecrowType::getName, name -> {
+		for (int i = 0; i < ScarecrowType.TYPES.length; i++) {
+			if (ScarecrowType.TYPES[i].getName().equals(name))
+				return ScarecrowType.TYPES[i];
+		}
+
+		throw new IllegalArgumentException("Non-existent scarecrow type: " + name);
+	});
 	//@formatter:on
-	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> new EntityDataSerializer<>() {
-		@Override
-		public void write(FriendlyByteBuf buf, ScarecrowType value) {
-			buf.writeUtf(value.getName());
-		}
+	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> EntityDataSerializer.forValueType(SCARECROW_TYPE_STREAM_CODEC));
+	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> EntityDataSerializer.forValueType(AABB_STREAM_CODEC));
 
-		@Override
-		public ScarecrowType read(FriendlyByteBuf buf) {
-			String bufferedName = buf.readUtf(Integer.MAX_VALUE / 4);
-
-			for (ScarecrowType type : ScarecrowType.TYPES) {
-				if (type.getName().equals(bufferedName))
-					return type;
-			}
-
-			return null;
-		}
-
-		@Override
-		public EntityDataAccessor<ScarecrowType> createAccessor(int id) {
-			return new EntityDataAccessor<>(id, this);
-		}
-
-		@Override
-		public ScarecrowType copy(ScarecrowType value) {
-			return value;
-		}
-	});
-	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> new EntityDataSerializer<>() {
-		@Override
-		public void write(FriendlyByteBuf buf, AABB value) {
-			buf.writeDouble(value.minX);
-			buf.writeDouble(value.minY);
-			buf.writeDouble(value.minZ);
-			buf.writeDouble(value.maxX);
-			buf.writeDouble(value.maxY);
-			buf.writeDouble(value.maxZ);
-		}
-
-		@Override
-		public AABB read(FriendlyByteBuf buf) {
-			return new AABB(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble());
-		}
-
-		@Override
-		public EntityDataAccessor<AABB> createAccessor(int id) {
-			return new EntityDataAccessor<>(id, this);
-		}
-
-		@Override
-		public AABB copy(AABB value) {
-			return value.inflate(0);
-		}
-	});
-
-	public Scarecrows(IEventBus modEventBus) {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
+	public Scarecrows(IEventBus modEventBus, ModContainer modContainer) {
+		modContainer.registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 		BLOCKS.register(modEventBus);
 		ENTITY_TYPES.register(modEventBus);
 		ENTITY_DATA_SERIALIZERS.register(modEventBus);

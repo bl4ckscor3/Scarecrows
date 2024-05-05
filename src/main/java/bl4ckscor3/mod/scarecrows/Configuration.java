@@ -1,9 +1,10 @@
 package bl4ckscor3.mod.scarecrows;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
 import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class Configuration {
 	public static final ModConfigSpec CONFIG_SPEC;

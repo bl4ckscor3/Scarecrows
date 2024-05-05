@@ -1,9 +1,12 @@
 package bl4ckscor3.mod.scarecrows.ai;
 
+import java.util.List;
+
+import com.google.common.base.Predicate;
+
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.util.EntityUtil;
-import com.google.common.base.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,8 +22,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class RunAwayGoal extends Goal {
 	private final Predicate<Entity> canBeSeenSelector;
@@ -124,7 +125,7 @@ public class RunAwayGoal extends Goal {
 			EntityDimensions size = entity.getDimensions(entity.getPose());
 			RandomSource rand = level.random;
 
-			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width, entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width, motion.x * -4.0D, 1.5D, motion.z * -4.0D);
+			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width(), entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width(), motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
 	}
 }

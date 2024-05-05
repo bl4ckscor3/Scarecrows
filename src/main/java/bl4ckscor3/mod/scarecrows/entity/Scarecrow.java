@@ -42,11 +42,11 @@ public class Scarecrow extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		entityData.define(TYPE, ScarecrowType.TYPES[0]);
-		entityData.define(LIT, false);
-		entityData.define(ROTATION, 0F);
-		entityData.define(AREA, new AABB(0, 0, 0, 0, 0, 0));
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		builder.define(TYPE, ScarecrowType.TYPES[0]);
+		builder.define(LIT, false);
+		builder.define(ROTATION, 0F);
+		builder.define(AREA, new AABB(0, 0, 0, 0, 0, 0));
 	}
 
 	@Override
