@@ -31,9 +31,11 @@ public class SuperSpoopyScarecrow extends ScarecrowType {
 
 	@Override
 	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
-		BlockState state = level.getBlockState(pos = pos.below());
+		pos = pos.below();
 
-		return hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.CHISELED_STONE_BRICKS;
+		BlockState state = level.getBlockState(pos);
+
+		return hasArms(level, pos, pumpkinFacing) && state.is(Blocks.CHISELED_STONE_BRICKS);
 	}
 
 	@Override

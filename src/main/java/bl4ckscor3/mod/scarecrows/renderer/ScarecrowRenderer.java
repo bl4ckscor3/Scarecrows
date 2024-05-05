@@ -1,6 +1,7 @@
 package bl4ckscor3.mod.scarecrows.renderer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -22,7 +23,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow> {
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
 	 */
-	public static final HashMap<String, RenderInfo> RENDER_INFO = new HashMap<>();
+	protected static final Map<String, RenderInfo> RENDER_INFO = new HashMap<>();
 
 	public ScarecrowRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx);

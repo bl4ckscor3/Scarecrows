@@ -24,9 +24,9 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
 public class RunAwayGoal extends Goal {
+	private static final float SPEED = 1.5F;
 	private final Predicate<Entity> canBeSeenSelector;
 	private Mob entity;
-	private final float speed = 1.5F;
 	/** The PathEntity of our entity */
 	private Path path;
 	/** The PathNavigate of our entity */
@@ -44,16 +44,13 @@ public class RunAwayGoal extends Goal {
 		List<Scarecrow> list = ScarecrowTracker.getScarecrowsInRange(entity.level(), entity.blockPosition());
 
 		for (Scarecrow scarecrow : list) {
-			if (canBeSeenSelector.apply(scarecrow)) {
-				if (EntityUtil.isAttackableMonster(entity)) {
-					if (shouldScare(scarecrow))
+			//@formatter:off
+			if (canBeSeenSelector.apply(scarecrow)
+					&& (EntityUtil.isAttackableMonster(entity) || scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity))
+					&& shouldScare(scarecrow)) {
 						return true;
-				}
-				else if (scarecrow.getScarecrowType().shouldScareAnimals() && EntityUtil.isAttackableAnimal(entity)) {
-					if (shouldScare(scarecrow))
-						return true;
-				}
 			}
+			//@formatter:on
 		}
 
 		return false;
@@ -95,7 +92,7 @@ public class RunAwayGoal extends Goal {
 
 	@Override
 	public void start() {
-		navigation.moveTo(path, speed);
+		navigation.moveTo(path, SPEED);
 	}
 
 	@Override
@@ -109,7 +106,7 @@ public class RunAwayGoal extends Goal {
 			ticksSinceSound--;
 
 		entity.setTarget(null);
-		entity.getNavigation().setSpeedModifier(speed);
+		entity.getNavigation().setSpeedModifier(SPEED);
 	}
 
 	private void createRunningParticles(Entity entity) {

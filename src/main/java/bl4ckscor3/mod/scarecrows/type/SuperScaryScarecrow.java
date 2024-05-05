@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EndRodBlock;
+import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -33,18 +33,15 @@ public class SuperScaryScarecrow extends ScarecrowType {
 
 	@Override
 	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
-		BlockState state = level.getBlockState(pos = pos.below());
+		pos = pos.below();
 
-		if (hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.PURPUR_PILLAR) {
+		BlockState state = level.getBlockState(pos);
+
+		if (hasArms(level, pos, pumpkinFacing) && state.is(Blocks.PURPUR_PILLAR)) {
 			BlockState topState = level.getBlockState(pos.below());
 			BlockState bottomState = level.getBlockState(pos.below(2));
 
-			//@formatter:off
-			if(topState.getBlock() == Blocks.END_ROD && topState.getValue(EndRodBlock.FACING) == Direction.DOWN &&
-					bottomState.getBlock() == Blocks.END_ROD && bottomState.getValue(EndRodBlock.FACING) == Direction.UP) {
-				//@formatter:on
-				return true;
-			}
+			return topState.is(Blocks.END_ROD) && topState.getValue(DirectionalBlock.FACING) == Direction.DOWN && bottomState.is(Blocks.END_ROD) && bottomState.getValue(DirectionalBlock.FACING) == Direction.UP;
 		}
 
 		return false;

@@ -32,7 +32,7 @@ public class SpoopyScarecrow extends ScarecrowType {
 	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
 		pos = pos.below();
 
-		return hasArms(level, pos, pumpkinFacing) && level.getBlockState(pos).getBlock() == Blocks.CLAY;
+		return hasArms(level, pos, pumpkinFacing) && level.getBlockState(pos).is(Blocks.CLAY);
 	}
 
 	@Override

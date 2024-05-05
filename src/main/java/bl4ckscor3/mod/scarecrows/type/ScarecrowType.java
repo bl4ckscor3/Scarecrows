@@ -40,7 +40,7 @@ public abstract class ScarecrowType {
 	 * @param range The range in blocks in which this scarecrow will be effective in
 	 * @param scareAnimals true if this scarecrow should scare away animals, false otherwise
 	 */
-	public ScarecrowType(String name, int height, int range, boolean scareAnimals) {
+	protected ScarecrowType(String name, int height, int range, boolean scareAnimals) {
 		this.name = name;
 		this.height = height;
 		this.range = range;
@@ -133,14 +133,14 @@ public abstract class ScarecrowType {
 
 		//@formatter:off
 		if ((pumpkinFacing == Direction.EAST || pumpkinFacing == Direction.WEST) &&
-				stateNorth.getBlock() == Scarecrows.ARM.get() && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
-				stateSouth.getBlock() == Scarecrows.ARM.get() && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
+				stateNorth.is(Scarecrows.ARM) && stateNorth.getValue(ArmBlock.FACING) == Direction.NORTH &&
+				stateSouth.is(Scarecrows.ARM) && stateSouth.getValue(ArmBlock.FACING) == Direction.SOUTH &&
 				stateWest.isAir() && stateEast.isAir()) {
 			return true;
 		}
 		else if ((pumpkinFacing == Direction.NORTH || pumpkinFacing == Direction.SOUTH) &&
-				stateEast.getBlock() == Scarecrows.ARM.get() && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
-				stateWest.getBlock() == Scarecrows.ARM.get() && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
+				stateEast.is(Scarecrows.ARM) && stateEast.getValue(ArmBlock.FACING) == Direction.EAST &&
+				stateWest.is(Scarecrows.ARM) && stateWest.getValue(ArmBlock.FACING) == Direction.WEST &&
 				stateNorth.isAir() && stateSouth.isAir()) {
 			return true;
 		}

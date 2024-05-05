@@ -22,6 +22,8 @@ public class ClientReg {
 	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "scary_scarecrow"), "main");
 	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
 
+	private ClientReg() {}
+
 	@SubscribeEvent
 	public static void onRegisterEntityRenderers(RegisterRenderers event) {
 		event.registerEntityRenderer(Scarecrows.SCARECROW_ENTITY_TYPE.get(), ScarecrowRenderer::new);

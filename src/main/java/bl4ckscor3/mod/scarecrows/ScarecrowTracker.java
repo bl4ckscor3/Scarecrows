@@ -19,6 +19,8 @@ import net.minecraft.world.phys.AABB;
 public class ScarecrowTracker {
 	private static final Map<ResourceKey<Level>, Collection<Integer>> TRACKED_SCARECROWS = new ConcurrentHashMap<>();
 
+	private ScarecrowTracker() {}
+
 	/**
 	 * Starts tracking a scarecrow
 	 *

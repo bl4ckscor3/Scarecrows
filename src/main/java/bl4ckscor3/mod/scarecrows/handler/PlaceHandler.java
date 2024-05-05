@@ -22,9 +22,10 @@ import net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class PlaceHandler {
+	private PlaceHandler() {}
+
 	@SubscribeEvent
-	public static void onRightClickBlock(RightClickBlock event) //stick placement logic
-	{
+	public static void onRightClickBlock(RightClickBlock event) { //stick placement logic
 		ItemStack held = event.getItemStack();
 
 		if (held.getItem() == Items.STICK) {
@@ -50,8 +51,7 @@ public class PlaceHandler {
 	}
 
 	@SubscribeEvent
-	public static void onRightClick(RightClickBlock event) //scarecrow structure logic
-	{
+	public static void onRightClick(RightClickBlock event) { //scarecrow structure logic
 		tryBuildScarecrow(event.getLevel(), event.getPos(), event.getLevel().getBlockState(event.getPos()));
 	}
 
@@ -62,11 +62,10 @@ public class PlaceHandler {
 	 * @param pos The position of the block that was placed/rightclicked
 	 * @param state The state of the block that was placed/rightclicked
 	 */
-	private static void tryBuildScarecrow(LevelAccessor level, BlockPos pos, BlockState state) {
+	public static void tryBuildScarecrow(LevelAccessor level, BlockPos pos, BlockState state) {
 		Block block = state.getBlock();
 
-		if (block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) //structure only ever activates when placing a carved pumpkin or jack o lantern
-		{
+		if (block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) { //structure only ever activates when placing a carved pumpkin or jack o lantern
 			for (ScarecrowType type : ScarecrowType.TYPES) {
 				Direction pumpkinFacing = state.getValue(CarvedPumpkinBlock.FACING);
 				BlockPos groundPos = pos.below(type.getHeight());

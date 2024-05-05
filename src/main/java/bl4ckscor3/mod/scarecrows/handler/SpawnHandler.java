@@ -19,6 +19,8 @@ import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class SpawnHandler {
+	private SpawnHandler() {}
+
 	@SubscribeEvent
 	public static void onCheckSpawn(MobSpawnEvent.FinalizeSpawn event) {
 		if (!(event.getLevel() instanceof Level level))
@@ -34,9 +36,7 @@ public class SpawnHandler {
 				Predicate<Entity> filter = e -> e.isAlive() && ((Mob) entity).getSensing().hasLineOfSight(e);
 
 				if (filter.apply(scarecrow) && entity.distanceTo(scarecrow) <= scarecrow.getScarecrowType().getRange() && ((Mob) entity).hasLineOfSight(scarecrow)) {
-					if (animal && scarecrow.getScarecrowType().shouldScareAnimals())
-						event.setSpawnCancelled(true);
-					else if (!animal)
+					if (!animal || scarecrow.getScarecrowType().shouldScareAnimals())
 						event.setSpawnCancelled(true);
 
 					return;

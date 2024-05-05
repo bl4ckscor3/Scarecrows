@@ -20,6 +20,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityUtil {
+	private EntityUtil() {}
+
 	/**
 	 * Checks whether a given entity is a monster (Zombie, Creeper, ...) that a scarecrow would attack
 	 *
@@ -46,7 +48,6 @@ public class EntityUtil {
 	public static Vec3 generateRandomPos(Mob entity, int xz, int y, @Nullable Vec3 target, boolean b) {
 		PathNavigation pathnavigate = entity.getNavigation();
 		RandomSource random = entity.getRandom();
-		boolean flag = false;
 		boolean flag1 = false;
 		int k1 = 0;
 		int i = 0;
@@ -60,7 +61,7 @@ public class EntityUtil {
 			if (target == null || l * target.x + j1 * target.z >= 0.0D) {
 				BlockPos blockpos1 = BlockPos.containing(l + entity.getX(), i1 + entity.getY(), j1 + entity.getZ());
 
-				if (!flag && pathnavigate.isStableDestination(blockpos1)) {
+				if (pathnavigate.isStableDestination(blockpos1)) {
 					if (!b) {
 						blockpos1 = moveAboveSolid(blockpos1, entity);
 

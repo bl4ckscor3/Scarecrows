@@ -32,14 +32,11 @@ public class SpookyScarecrow extends ScarecrowType {
 
 	@Override
 	public boolean checkStructure(LevelAccessor level, BlockPos pos, Direction pumpkinFacing) {
-		BlockState state = level.getBlockState(pos = pos.below());
+		pos = pos.below();
 
-		if (hasArms(level, pos, pumpkinFacing) && state.getBlock() == Blocks.NETHERRACK) {
-			if (level.getBlockState(pos.below()).getBlock() == Blocks.NETHER_BRICK_FENCE)
-				return true;
-		}
+		BlockState state = level.getBlockState(pos);
 
-		return false;
+		return hasArms(level, pos, pumpkinFacing) && state.is(Blocks.NETHERRACK) && level.getBlockState(pos.below()).is(Blocks.NETHER_BRICK_FENCE);
 	}
 
 	@Override
