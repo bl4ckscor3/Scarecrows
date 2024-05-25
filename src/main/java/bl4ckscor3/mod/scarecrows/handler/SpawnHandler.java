@@ -15,14 +15,14 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 
 @EventBusSubscriber(modid = Scarecrows.MODID)
 public class SpawnHandler {
 	private SpawnHandler() {}
 
 	@SubscribeEvent
-	public static void onCheckSpawn(MobSpawnEvent.FinalizeSpawn event) {
+	public static void onCheckSpawn(FinalizeSpawnEvent event) {
 		if (!(event.getLevel() instanceof Level level))
 			return;
 
