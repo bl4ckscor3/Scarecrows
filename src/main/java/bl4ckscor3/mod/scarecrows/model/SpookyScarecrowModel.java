@@ -42,12 +42,12 @@ public class SpookyScarecrowModel extends EntityModel<Scarecrow> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack stack, VertexConsumer builder, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		head.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
-		fence.render(stack, builder, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack stack, VertexConsumer builder, int packedLight, int packedOverlay, int packedARGB) {
+		head.render(stack, builder, packedLight, packedOverlay, packedARGB);
+		body.render(stack, builder, packedLight, packedOverlay, packedARGB);
+		rightArm.render(stack, builder, packedLight, packedOverlay, packedARGB);
+		leftArm.render(stack, builder, packedLight, packedOverlay, packedARGB);
+		fence.render(stack, builder, packedLight, packedOverlay, packedARGB);
 	}
 
 	public void setRotateAngles(ModelPart modelRenderer, float x, float y, float z) {

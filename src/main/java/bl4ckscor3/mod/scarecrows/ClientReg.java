@@ -15,12 +15,12 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderer
 
 @EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientReg {
-	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spoopy_scarecrow"), "main");
-	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
-	public static final ModelLayerLocation SPOOKY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spooky_scarecrow"), "main");
-	public static final ModelLayerLocation SPOOKY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "spooky_scarecrow_lit"), "main");
-	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "scary_scarecrow"), "main");
-	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(new ResourceLocation(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow"), "main");
+	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SPOOKY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow"), "main");
+	public static final ModelLayerLocation SPOOKY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow"), "main");
+	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
 
 	private ClientReg() {}
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
+import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
@@ -29,7 +30,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow> {
 		super(ctx);
 
 		for (ScarecrowType type : ScarecrowType.TYPES) {
-			RENDER_INFO.put(type.getName(), new RenderInfo(new ResourceLocation("scarecrows", "textures/entity/" + type.getName() + ".png"), type.createModel(ctx.bakeLayer(type.getModelLayerLocation(false))), type.createModel(ctx.bakeLayer(type.getModelLayerLocation(true)))));
+			RENDER_INFO.put(type.getName(), new RenderInfo(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"), type.createModel(ctx.bakeLayer(type.getModelLayerLocation(false))), type.createModel(ctx.bakeLayer(type.getModelLayerLocation(true)))));
 		}
 	}
 
@@ -46,7 +47,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow> {
 		else
 			modelToRender = RENDER_INFO.get(entity.getScarecrowType().getName()).unLitModel();
 
-		modelToRender.renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		modelToRender.renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
 	}
 
 	@Override
