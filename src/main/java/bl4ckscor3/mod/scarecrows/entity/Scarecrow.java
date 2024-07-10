@@ -51,14 +51,14 @@ public class Scarecrow extends Entity {
 	}
 
 	@Override
-	public void onAddedToWorld() {
-		super.onAddedToWorld();
+	public void onAddedToLevel() {
+		super.onAddedToLevel();
 		ScarecrowTracker.track(this);
 	}
 
 	@Override
-	public void onRemovedFromWorld() {
-		super.onRemovedFromWorld();
+	public void onRemovedFromLevel() {
+		super.onRemovedFromLevel();
 		ScarecrowTracker.stopTracking(this);
 	}
 
