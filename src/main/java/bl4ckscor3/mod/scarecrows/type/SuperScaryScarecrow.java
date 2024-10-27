@@ -2,8 +2,8 @@ package bl4ckscor3.mod.scarecrows.type;
 
 import bl4ckscor3.mod.scarecrows.ClientReg;
 import bl4ckscor3.mod.scarecrows.Configuration;
-import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.model.ScaryScarecrowModel;
+import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -76,7 +76,7 @@ public class SuperScaryScarecrow extends ScarecrowType {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public EntityModel<Scarecrow> createModel(ModelPart modelPart) {
+	public EntityModel<ScarecrowEntityRenderState> createModel(ModelPart modelPart) {
 		return new ScaryScarecrowModel(modelPart);
 	}
 }

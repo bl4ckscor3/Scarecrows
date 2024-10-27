@@ -2,24 +2,26 @@ package bl4ckscor3.mod.scarecrows.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ArmBlock extends Block {
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 	private static final VoxelShape SOUTH_SHAPE = Block.box(7.5D, 7, 0, 8.5D, 16, 8.5D);
 	private static final VoxelShape WEST_SHAPE = Block.box(8, 7, 7.5D, 16, 16, 8.5D);
 	private static final VoxelShape NORTH_SHAPE = Block.box(7.5D, 7, 8, 8.5D, 16, 16);
@@ -32,9 +34,13 @@ public class ArmBlock extends Block {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean flag) {
-		if (pos.relative(state.getValue(FACING).getOpposite()).equals(fromPos) && level.isEmptyBlock(fromPos))
-			level.destroyBlock(pos, true);
+	public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
+		return facing == state.getValue(FACING).getOpposite() && !canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
+	}
+
+	@Override
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		return canBeConnectedTo(level, pos, state.getValue(FACING).getOpposite());
 	}
 
 	@Override
@@ -48,14 +54,11 @@ public class ArmBlock extends Block {
 		};
 	}
 
-	public static boolean canBeConnectedTo(BlockState state, BlockGetter level, BlockPos pos, Direction facing) {
+	public static boolean canBeConnectedTo(BlockGetter level, BlockPos pos, Direction facing) {
 		BlockPos oppositePos = pos.relative(facing.getOpposite());
 		BlockState oppositeState = level.getBlockState(oppositePos);
 
-		if (facing != Direction.UP && facing != Direction.DOWN)
-			return oppositeState.isFaceSturdy(level, oppositePos, facing);
-		else
-			return false;
+		return facing != Direction.UP && facing != Direction.DOWN && oppositeState.isFaceSturdy(level, oppositePos, facing);
 	}
 
 	@Override

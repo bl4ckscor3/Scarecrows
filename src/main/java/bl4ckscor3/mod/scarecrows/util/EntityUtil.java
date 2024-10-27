@@ -94,7 +94,7 @@ public class EntityUtil {
 		else {
 			BlockPos blockpos;
 
-			for (blockpos = pos.above(); blockpos.getY() < level.getMaxBuildHeight() && level.getBlockState(blockpos).isSolid(); blockpos = blockpos.above()) {}
+			for (blockpos = pos.above(); blockpos.getY() <= level.getMaxY() && level.getBlockState(blockpos).isSolid(); blockpos = blockpos.above()) {}
 
 			return blockpos;
 		}

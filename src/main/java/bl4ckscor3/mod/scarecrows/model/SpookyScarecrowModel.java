@@ -1,9 +1,6 @@
 package bl4ckscor3.mod.scarecrows.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
+import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,21 +9,11 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class SpookyScarecrowModel extends EntityModel<Scarecrow> {
-	private ModelPart head;
-	private ModelPart body;
-	private ModelPart rightArm;
-	private ModelPart leftArm;
-	private ModelPart fence;
-
-	public SpookyScarecrowModel(ModelPart modelPart) {
-		head = modelPart.getChild("head");
-		body = modelPart.getChild("body");
-		rightArm = modelPart.getChild("right_arm");
-		setRotateAngles(rightArm, 0.0F, 0.0F, -0.7853981633974483F);
-		leftArm = modelPart.getChild("left_arm");
-		setRotateAngles(leftArm, 0.0F, 0.0F, 0.7853981633974483F);
-		fence = modelPart.getChild("fence");
+public class SpookyScarecrowModel extends EntityModel<ScarecrowEntityRenderState> {
+	public SpookyScarecrowModel(ModelPart root) {
+		super(root);
+		setRotateAngles(root.getChild("right_arm"), 0.0F, 0.0F, -0.7853981633974483F);
+		setRotateAngles(root.getChild("left_arm"), 0.0F, 0.0F, 0.7853981633974483F);
 	}
 
 	public static LayerDefinition createLayer(boolean isLit) {
@@ -41,21 +28,9 @@ public class SpookyScarecrowModel extends EntityModel<Scarecrow> {
 		return LayerDefinition.create(meshDefinition, 64, 96);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack stack, VertexConsumer builder, int packedLight, int packedOverlay, int packedARGB) {
-		head.render(stack, builder, packedLight, packedOverlay, packedARGB);
-		body.render(stack, builder, packedLight, packedOverlay, packedARGB);
-		rightArm.render(stack, builder, packedLight, packedOverlay, packedARGB);
-		leftArm.render(stack, builder, packedLight, packedOverlay, packedARGB);
-		fence.render(stack, builder, packedLight, packedOverlay, packedARGB);
-	}
-
 	public void setRotateAngles(ModelPart modelRenderer, float x, float y, float z) {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
 	}
-
-	@Override
-	public void setupAnim(Scarecrow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
 }

@@ -3,6 +3,7 @@ package bl4ckscor3.mod.scarecrows.type;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
+import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -84,7 +85,7 @@ public abstract class ScarecrowType {
 	 * @return The model to render
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public abstract EntityModel<Scarecrow> createModel(ModelPart modelPart);
+	public abstract EntityModel<ScarecrowEntityRenderState> createModel(ModelPart modelPart);
 
 	/**
 	 * @return The name of the scarecrow
