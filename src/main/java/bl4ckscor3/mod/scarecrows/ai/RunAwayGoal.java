@@ -122,7 +122,7 @@ public class RunAwayGoal extends Goal {
 			EntityDimensions size = entity.getDimensions(entity.getPose());
 			RandomSource rand = level.random;
 
-			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width(), entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width(), motion.x * -4.0D, 1.5D, motion.z * -4.0D);
+			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state, pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width(), entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width(), motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
 	}
 }
