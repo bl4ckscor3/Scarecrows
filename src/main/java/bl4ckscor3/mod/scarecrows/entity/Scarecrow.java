@@ -84,7 +84,7 @@ public class Scarecrow extends Entity {
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
-		String name = tag.getString("type");
+		String name = tag.getStringOr("type", ScarecrowType.TYPES[0].getName());
 
 		for (ScarecrowType st : ScarecrowType.TYPES) {
 			if (st.getName().equals(name)) {
@@ -93,9 +93,9 @@ public class Scarecrow extends Entity {
 			}
 		}
 
-		entityData.set(LIT, tag.getBoolean("isLit"));
-		entityData.set(ROTATION, tag.getFloat("rotation"));
-		entityData.set(AREA, new AABB(tag.getDouble("areaMinX"), tag.getDouble("areaMinY"), tag.getDouble("areaMinZ"), tag.getDouble("areaMaxX"), tag.getDouble("areaMaxY"), tag.getDouble("areaMaxZ")));
+		entityData.set(LIT, tag.getBooleanOr("isLit", false));
+		entityData.set(ROTATION, tag.getFloatOr("rotation", 0.0F));
+		entityData.set(AREA, new AABB(tag.getDoubleOr("areaMinX", 0D), tag.getDoubleOr("areaMinY", 0D), tag.getDoubleOr("areaMinZ", 0D), tag.getDoubleOr("areaMaxX", 0D), tag.getDoubleOr("areaMaxY", 0D), tag.getDoubleOr("areaMaxZ", 0D)));
 	}
 
 	@Override
