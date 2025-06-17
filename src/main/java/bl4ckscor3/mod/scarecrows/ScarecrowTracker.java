@@ -27,7 +27,7 @@ public class ScarecrowTracker {
 	 * @param entity The scarecrow to track
 	 */
 	public static void track(Scarecrow entity) {
-		getTrackedScarecrows(entity.getCommandSenderWorld()).add(entity.getId());
+		getTrackedScarecrows(entity.level()).add(entity.getId());
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class ScarecrowTracker {
 	 * @param entity The scarecrow to stop tracking
 	 */
 	public static void stopTracking(Scarecrow entity) {
-		getTrackedScarecrows(entity.getCommandSenderWorld()).remove(entity.getId());
+		getTrackedScarecrows(entity.level()).remove(entity.getId());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ScarecrowTracker {
 		final Collection<Integer> scarecrows = getTrackedScarecrows(level);
 		List<Scarecrow> returnValue = new ArrayList<>();
 
-		for (Iterator<Integer> it = scarecrows.iterator(); it.hasNext();) {
+		for (Iterator<Integer> it = scarecrows.iterator(); it.hasNext(); ) {
 			if (level.getEntity(it.next()) instanceof Scarecrow scarecrow) {
 				if (canScarecrowReach(scarecrow, pos))
 					returnValue.add(scarecrow);
