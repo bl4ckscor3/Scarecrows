@@ -9,11 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
 
-@EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT, bus = Bus.MOD)
+@EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT)
 public class ClientReg {
 	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow"), "main");
 	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
