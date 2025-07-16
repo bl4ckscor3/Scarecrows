@@ -30,7 +30,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 
 		RENDER_INFO.clear();
 
-		for (ScarecrowType type : ScarecrowType.TYPES) {
+		for (ScarecrowType type : Scarecrows.TYPES) {
 			//@formatter:off
 			RENDER_INFO.put(type.getName(), new RenderInfo(
 					ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"),

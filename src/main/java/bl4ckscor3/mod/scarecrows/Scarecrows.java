@@ -1,8 +1,17 @@
 package bl4ckscor3.mod.scarecrows;
 
+import java.util.Arrays;
+import java.util.List;
+
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.type.ScaryScarecrow;
+import bl4ckscor3.mod.scarecrows.type.SpookyScarecrow;
+import bl4ckscor3.mod.scarecrows.type.SpoopyScarecrow;
+import bl4ckscor3.mod.scarecrows.type.SuperScaryScarecrow;
+import bl4ckscor3.mod.scarecrows.type.SuperSpookyScarecrow;
+import bl4ckscor3.mod.scarecrows.type.SuperSpoopyScarecrow;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -31,13 +40,13 @@ public class Scarecrows {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
 	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.ENTITY_DATA_SERIALIZERS, MODID);
 	public static final DeferredBlock<ArmBlock> ARM = BLOCKS.registerBlock("arm", ArmBlock::new, BlockBehaviour.Properties.of()
-	//@formatter:off
+		//@formatter:off
 			.strength(0.25F, 1.0F)
 			.sound(SoundType.WOOD)
 			.isRedstoneConductor((state, world, pos) -> false));
 	//@formatter:on
 	public static final DeferredHolder<EntityType<?>, EntityType<Scarecrow>> SCARECROW_ENTITY_TYPE = ENTITY_TYPES.register("scarecrow", () -> EntityType.Builder.<Scarecrow>of(Scarecrow::new, MobCategory.MISC)
-	//@formatter:off
+		//@formatter:off
 			.sized(1.0F, 1.0F)
 			.setTrackingRange(256)
 			.setUpdateInterval(20)
@@ -53,15 +62,25 @@ public class Scarecrows {
 			AABB::new);
 	//@formatter:on
 	public static final StreamCodec<ByteBuf, ScarecrowType> SCARECROW_TYPE_STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, ScarecrowType::getName, name -> {
-		for (int i = 0; i < ScarecrowType.TYPES.length; i++) {
-			if (ScarecrowType.TYPES[i].getName().equals(name))
-				return ScarecrowType.TYPES[i];
+		for (ScarecrowType type : Scarecrows.TYPES) {
+			if (type.getName().equals(name))
+				return type;
 		}
 
 		throw new IllegalArgumentException("Non-existent scarecrow type: " + name);
 	});
 	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> EntityDataSerializer.forValueType(SCARECROW_TYPE_STREAM_CODEC));
 	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> EntityDataSerializer.forValueType(AABB_STREAM_CODEC));
+	//@formatter:off
+	public static final List<ScarecrowType> TYPES = Arrays.asList(
+		SpoopyScarecrow.TYPE,
+		SuperSpoopyScarecrow.TYPE,
+		SpookyScarecrow.TYPE,
+		SuperSpookyScarecrow.TYPE,
+		ScaryScarecrow.TYPE,
+		SuperScaryScarecrow.TYPE
+	);
+	//@formatter:on
 
 	public Scarecrows(IEventBus modEventBus, ModContainer modContainer) {
 		modContainer.registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);

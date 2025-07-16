@@ -66,7 +66,7 @@ public class PlaceHandler {
 		Block block = state.getBlock();
 
 		if (block == Blocks.CARVED_PUMPKIN || block == Blocks.JACK_O_LANTERN) { //structure only ever activates when placing a carved pumpkin or jack o lantern
-			for (ScarecrowType type : ScarecrowType.TYPES) {
+			for (ScarecrowType type : Scarecrows.TYPES) {
 				Direction pumpkinFacing = state.getValue(CarvedPumpkinBlock.FACING);
 				BlockPos groundPos = pos.below(type.getHeight());
 				BlockState groundState = level.getBlockState(groundPos);

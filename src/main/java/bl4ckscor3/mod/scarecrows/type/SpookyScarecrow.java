@@ -18,6 +18,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public class SpookyScarecrow extends ScarecrowType {
+	public static final ScarecrowType TYPE = new SpookyScarecrow();
+
 	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
@@ -26,7 +28,7 @@ public class SpookyScarecrow extends ScarecrowType {
 	 *   				- F: Netherbrick Fence
 	 */
 	//@formatter:on
-	public SpookyScarecrow() {
+	private SpookyScarecrow() {
 		super("spooky_scarecrow", 3, Configuration.CONFIG.spookyRange.get(), Configuration.CONFIG.spookyScareAnimals.get());
 	}
 
@@ -54,7 +56,7 @@ public class SpookyScarecrow extends ScarecrowType {
 	@Override
 	public ItemStack[] getDrops() {
 		return new ItemStack[] {
-				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.NETHERRACK), new ItemStack(Blocks.NETHER_BRICK_FENCE)
+			new ItemStack(Items.STICK, 2), new ItemStack(Blocks.NETHERRACK), new ItemStack(Blocks.NETHER_BRICK_FENCE)
 		};
 	}
 

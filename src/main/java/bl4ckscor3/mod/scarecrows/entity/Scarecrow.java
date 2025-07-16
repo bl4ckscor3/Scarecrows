@@ -3,6 +3,7 @@ package bl4ckscor3.mod.scarecrows.entity;
 import bl4ckscor3.mod.scarecrows.ScarecrowTracker;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
+import bl4ckscor3.mod.scarecrows.type.SpoopyScarecrow;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.Packet;
@@ -47,7 +48,7 @@ public class Scarecrow extends Entity {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		builder.define(TYPE, ScarecrowType.TYPES[0]);
+		builder.define(TYPE, SpoopyScarecrow.TYPE);
 		builder.define(LIT, false);
 		builder.define(ROTATION, 0F);
 		builder.define(AREA, new AABB(0, 0, 0, 0, 0, 0));
@@ -85,9 +86,9 @@ public class Scarecrow extends Entity {
 
 	@Override
 	protected void readAdditionalSaveData(ValueInput tag) {
-		String name = tag.getStringOr("type", ScarecrowType.TYPES[0].getName());
+		String name = tag.getStringOr("type", SpoopyScarecrow.TYPE.getName());
 
-		for (ScarecrowType st : ScarecrowType.TYPES) {
+		for (ScarecrowType st : Scarecrows.TYPES) {
 			if (st.getName().equals(name)) {
 				entityData.set(TYPE, st);
 				break;

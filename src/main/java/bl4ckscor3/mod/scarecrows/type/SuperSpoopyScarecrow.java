@@ -18,6 +18,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public class SuperSpoopyScarecrow extends ScarecrowType {
+	public static final ScarecrowType TYPE = new SuperSpoopyScarecrow();
+
 	//@formatter:off
 	/*
 	 *   P				- P: Pumpkin
@@ -25,7 +27,7 @@ public class SuperSpoopyScarecrow extends ScarecrowType {
 	 *					- C: Chiseled Stone Bricks
 	 */
 	//@formatter:on
-	public SuperSpoopyScarecrow() {
+	private SuperSpoopyScarecrow() {
 		super("super_spoopy_scarecrow", 2, Configuration.CONFIG.superSpoopyRange.get(), Configuration.CONFIG.superSpoopyScareAnimals.get());
 	}
 
@@ -52,7 +54,7 @@ public class SuperSpoopyScarecrow extends ScarecrowType {
 	@Override
 	public ItemStack[] getDrops() {
 		return new ItemStack[] {
-				new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CHISELED_STONE_BRICKS)
+			new ItemStack(Items.STICK, 2), new ItemStack(Blocks.CHISELED_STONE_BRICKS)
 		};
 	}
 

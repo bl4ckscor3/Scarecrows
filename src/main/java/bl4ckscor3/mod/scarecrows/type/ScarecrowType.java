@@ -20,16 +20,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class ScarecrowType {
-	//@formatter:off
-	public static final ScarecrowType[] TYPES = {
-			new SpoopyScarecrow(),
-			new SuperSpoopyScarecrow(),
-			new SpookyScarecrow(),
-			new SuperSpookyScarecrow(),
-			new ScaryScarecrow(),
-			new SuperScaryScarecrow()
-	};
-	//@formatter:on
 	private String name;
 	private int height;
 	private int range;
@@ -41,7 +31,7 @@ public abstract class ScarecrowType {
 	 * @param range The range in blocks in which this scarecrow will be effective in
 	 * @param scareAnimals true if this scarecrow should scare away animals, false otherwise
 	 */
-	protected ScarecrowType(String name, int height, int range, boolean scareAnimals) {
+	public ScarecrowType(String name, int height, int range, boolean scareAnimals) {
 		this.name = name;
 		this.height = height;
 		this.range = range;
