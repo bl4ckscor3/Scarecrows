@@ -34,7 +34,7 @@ public class Configuration {
 		builder.comment("Spoopy Scarecrow Configuration")
 		.push("spoopy");
 		spoopyRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 10, 0, Integer.MAX_VALUE);
 		spoopyScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
@@ -44,7 +44,7 @@ public class Configuration {
 		builder.comment("Super Spoopy Scarecrow Configuration")
 		.push("super_spoopy");
 		superSpoopyRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 10, 0, Integer.MAX_VALUE);
 		superSpoopyScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
@@ -54,7 +54,7 @@ public class Configuration {
 		builder.comment("Spooky Scarecrow Configuration")
 		.push("spooky");
 		spookyRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
 		spookyScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
@@ -64,7 +64,7 @@ public class Configuration {
 		builder.comment("Super Spooky Scarecrow Configuration")
 		.push("super_spooky");
 		superSpookyRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 25, 0, Integer.MAX_VALUE);
 		superSpookyScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
@@ -74,7 +74,7 @@ public class Configuration {
 		builder.comment("Scary Scarecrow Configuration")
 		.push("scary");
 		scaryRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
 		scaryScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")
@@ -84,7 +84,7 @@ public class Configuration {
 		builder.comment("Super Scary Scarecrow Configuration")
 		.push("super_scary");
 		superScaryRange = builder
-				.comment("The effect range of this scarecrow")
+				.comment("The effect range of this scarecrow, in blocks")
 				.defineInRange("range", 50, 0, Integer.MAX_VALUE);
 		superScaryScareAnimals = builder
 				.comment("false if this scarecrow only scares monsters, true if animals should be affected additionally")

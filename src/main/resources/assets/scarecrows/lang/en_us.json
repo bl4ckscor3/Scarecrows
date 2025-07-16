@@ -1,0 +1,18 @@
+{
+	"scarecrows.configuration.range": "Range",
+	"scarecrows.configuration.range.tooltip": "The effect range of this scarecrow, in blocks",
+	"scarecrows.configuration.scareAnimals": "Scare Animals",
+	"scarecrows.configuration.scareAnimals.tooltip": "Whether this scarecrow scares animals additionally to scaring monsters.",
+	"scarecrows.configuration.scary": "Scary Scarecrow",
+	"scarecrows.configuration.scary.tooltip": "Scary Scarecrow Configuration",
+	"scarecrows.configuration.spooky": "Spooky Scarecrow",
+	"scarecrows.configuration.spooky.tooltip": "Spooky Scarecrow Configuration",
+	"scarecrows.configuration.spoopy": "Spoopy Scarecrow",
+	"scarecrows.configuration.spoopy.tooltip": "Spoopy Scarecrow Configuration",
+	"scarecrows.configuration.super_scary": "Super Scary Scarecrow",
+	"scarecrows.configuration.super_scary.tooltip": "Super Scary Scarecrow Configuration",
+	"scarecrows.configuration.super_spooky": "Super Spooky Scarecrow",
+	"scarecrows.configuration.super_spooky.tooltip": "Super Spooky Scarecrow Configuration",
+	"scarecrows.configuration.super_spoopy": "Super Spoopy Scarecrow",
+	"scarecrows.configuration.super_spoopy.tooltip": "Super Spoopy Scarecrow Configuration"
+}
