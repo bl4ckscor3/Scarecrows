@@ -1,0 +1,18 @@
+{
+	"scarecrows.configuration.range": "Reichweite",
+	"scarecrows.configuration.range.tooltip": "Die Reichweite des Effekts der Vogelscheuche, in Blöcken",
+	"scarecrows.configuration.scareAnimals": "Tiere verschrecken",
+	"scarecrows.configuration.scareAnimals.tooltip": "Ob diese Vogelscheuche Tiere verschrecken soll, zusätzlich zum Verschrecken von Monstern.",
+	"scarecrows.configuration.scary": "Furchterregende Vogelscheuche",
+	"scarecrows.configuration.scary.tooltip": "Konfiguration für die furchterregende Vogelscheuche",
+	"scarecrows.configuration.spooky": "Unheimliche Vogelscheuche",
+	"scarecrows.configuration.spooky.tooltip": "Konfiguration für die unheimliche Vogelscheuche",
+	"scarecrows.configuration.spoopy": "Spoopy Vogelscheuche",
+	"scarecrows.configuration.spoopy.tooltip": "Konfiguration für die spoopy Vogelscheuche",
+	"scarecrows.configuration.super_scary": "Sehr furchterregende Vogelscheuche",
+	"scarecrows.configuration.super_scary.tooltip": "Konfiguration für die sehr furchterregende Vogelscheuche",
+	"scarecrows.configuration.super_spooky": "Sehr unheimliche Vogelscheuche",
+	"scarecrows.configuration.super_spooky.tooltip": "Konfiguration für die sehr unheimliche Vogelscheuche",
+	"scarecrows.configuration.super_spoopy": "Sehr spoopy Vogelscheuche",
+	"scarecrows.configuration.super_spoopy.tooltip": "Konfiguration für die sehr spoopy Vogelscheuche"
+}

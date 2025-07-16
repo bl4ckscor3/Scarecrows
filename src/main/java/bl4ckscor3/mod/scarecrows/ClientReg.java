@@ -8,11 +8,16 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
+@Mod(value = Scarecrows.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientReg {
 	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow"), "main");
@@ -22,7 +27,9 @@ public class ClientReg {
 	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow"), "main");
 	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
 
-	private ClientReg() {}
+	public ClientReg(ModContainer modContainer) {
+		modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+	}
 
 	@SubscribeEvent
 	public static void onRegisterEntityRenderers(RegisterRenderers event) {
