@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
+import bl4ckscor3.mod.scarecrows.ScarecrowsClient;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
@@ -31,11 +32,13 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 		RENDER_INFO.clear();
 
 		for (ScarecrowType type : Scarecrows.TYPES) {
+			ScarecrowsClient.ClientType clientType = ScarecrowsClient.CLIENT_TYPES.get(type);
+			
 			//@formatter:off
 			RENDER_INFO.put(type.getName(), new RenderInfo(
 					ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"),
-					type.createModel(ctx.bakeLayer(type.getModelLayerLocation(false))),
-					type.createModel(ctx.bakeLayer(type.getModelLayerLocation(true)))));
+					clientType.modelGetter().apply(ctx.bakeLayer(clientType.modelLayerLocationGetter().apply(false))),
+					clientType.modelGetter().apply(ctx.bakeLayer(clientType.modelLayerLocationGetter().apply(true)))));
 			//@formatter:on
 		}
 	}

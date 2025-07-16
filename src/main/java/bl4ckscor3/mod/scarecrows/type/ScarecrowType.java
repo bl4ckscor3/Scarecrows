@@ -3,10 +3,6 @@ package bl4ckscor3.mod.scarecrows.type;
 import bl4ckscor3.mod.scarecrows.Scarecrows;
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
-import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +12,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class ScarecrowType {
 	private String name;
@@ -60,22 +54,6 @@ public abstract class ScarecrowType {
 	 * @return The drops that this scarecrow will drop when its entity is removed, excluding the pumpkin
 	 */
 	public abstract ItemStack[] getDrops();
-
-	/**
-	 * @param isLit Whether this model should show up as lit or not
-	 * @return The model layer location this scarecrow will use
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public abstract ModelLayerLocation getModelLayerLocation(boolean isLit);
-
-	/**
-	 * Creates the model to be used for rendering this scarecrow
-	 *
-	 * @param modelPart The baked model part
-	 * @return The model to render
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public abstract EntityModel<ScarecrowEntityRenderState> createModel(ModelPart modelPart);
 
 	/**
 	 * @return The name of the scarecrow

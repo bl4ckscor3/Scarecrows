@@ -1,12 +1,6 @@
 package bl4ckscor3.mod.scarecrows.type;
 
-import bl4ckscor3.mod.scarecrows.ClientReg;
 import bl4ckscor3.mod.scarecrows.Configuration;
-import bl4ckscor3.mod.scarecrows.model.SpookyScarecrowModel;
-import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -14,8 +8,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class SpookyScarecrow extends ScarecrowType {
 	public static final ScarecrowType TYPE = new SpookyScarecrow();
@@ -58,17 +50,5 @@ public class SpookyScarecrow extends ScarecrowType {
 		return new ItemStack[] {
 			new ItemStack(Items.STICK, 2), new ItemStack(Blocks.NETHERRACK), new ItemStack(Blocks.NETHER_BRICK_FENCE)
 		};
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public ModelLayerLocation getModelLayerLocation(boolean isLit) {
-		return isLit ? ClientReg.SPOOKY_SCARECROW_LIT : ClientReg.SPOOKY_SCARECROW;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public EntityModel<ScarecrowEntityRenderState> createModel(ModelPart modelPart) {
-		return new SpookyScarecrowModel(modelPart);
 	}
 }

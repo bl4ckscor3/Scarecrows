@@ -1,6 +1,6 @@
 package bl4ckscor3.mod.scarecrows;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
@@ -25,15 +25,19 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries.Keys;
 
 @Mod(Scarecrows.MODID)
+@EventBusSubscriber(modid = Scarecrows.MODID)
 public class Scarecrows {
 	public static final String MODID = "scarecrows";
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
@@ -72,14 +76,7 @@ public class Scarecrows {
 	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<ScarecrowType>> SCARECROW_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<ScarecrowType>>register("scarecrow_type", () -> EntityDataSerializer.forValueType(SCARECROW_TYPE_STREAM_CODEC));
 	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<AABB>> AABB_ENTITY_DATA_SERIALIZER = ENTITY_DATA_SERIALIZERS.<EntityDataSerializer<AABB>>register("aabb", () -> EntityDataSerializer.forValueType(AABB_STREAM_CODEC));
 	//@formatter:off
-	public static final List<ScarecrowType> TYPES = Arrays.asList(
-		SpoopyScarecrow.TYPE,
-		SuperSpoopyScarecrow.TYPE,
-		SpookyScarecrow.TYPE,
-		SuperSpookyScarecrow.TYPE,
-		ScaryScarecrow.TYPE,
-		SuperScaryScarecrow.TYPE
-	);
+	public static final List<ScarecrowType> TYPES = new ArrayList<>();
 	//@formatter:on
 
 	public Scarecrows(IEventBus modEventBus, ModContainer modContainer) {
@@ -87,5 +84,15 @@ public class Scarecrows {
 		BLOCKS.register(modEventBus);
 		ENTITY_TYPES.register(modEventBus);
 		ENTITY_DATA_SERIALIZERS.register(modEventBus);
+	}
+
+	@SubscribeEvent
+	public static void onFMLCommonSetup(FMLCommonSetupEvent event) {
+		TYPES.add(SpoopyScarecrow.TYPE);
+		TYPES.add(SuperSpoopyScarecrow.TYPE);
+		TYPES.add(SpookyScarecrow.TYPE);
+		TYPES.add(SuperSpookyScarecrow.TYPE);
+		TYPES.add(ScaryScarecrow.TYPE);
+		TYPES.add(SuperScaryScarecrow.TYPE);
 	}
 }
