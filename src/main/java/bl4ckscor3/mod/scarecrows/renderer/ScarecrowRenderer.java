@@ -11,10 +11,11 @@ import bl4ckscor3.mod.scarecrows.ScarecrowsClient;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
@@ -33,7 +34,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 
 		for (ScarecrowType type : Scarecrows.TYPES) {
 			ScarecrowsClient.ClientType clientType = ScarecrowsClient.CLIENT_TYPES.get(type);
-			
+
 			//@formatter:off
 			RENDER_INFO.put(type.getName(), new RenderInfo(
 					ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"),
@@ -44,11 +45,11 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 	}
 
 	@Override
-	public void render(ScarecrowEntityRenderState renderState, PoseStack stack, MultiBufferSource buffer, int packedLight) {
+	public void submit(ScarecrowEntityRenderState renderState, PoseStack stack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);
 		stack.mulPose(Axis.YP.rotationDegrees(renderState.rotation));
-		renderState.model.renderToBuffer(stack, buffer.getBuffer(RenderType.entitySolid(renderState.texture)), packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+		submitNodeCollector.submitModel(renderState.model, renderState, stack, RenderType.entitySolid(renderState.texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, renderState.outlineColor, null);
 	}
 
 	@Override

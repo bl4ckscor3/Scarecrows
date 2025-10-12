@@ -1,7 +1,5 @@
 package bl4ckscor3.mod.scarecrows.model;
 
-import bl4ckscor3.mod.scarecrows.renderer.ScarecrowEntityRenderState;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -9,11 +7,9 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class SpoopyScarecrowModel extends EntityModel<ScarecrowEntityRenderState> {
+public class SpoopyScarecrowModel extends ScarecrowModel {
 	public SpoopyScarecrowModel(ModelPart root) {
 		super(root);
-		setRotateAngles(root.getChild("right_arm"), 0.0F, 0.0F, -0.7853981633974483F);
-		setRotateAngles(root.getChild("left_arm"), 0.0F, 0.0F, 0.7853981633974483F);
 	}
 
 	public static LayerDefinition createLayer(boolean isLit) {
@@ -25,11 +21,5 @@ public class SpoopyScarecrowModel extends EntityModel<ScarecrowEntityRenderState
 		partDefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 0).addBox(0.0F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F), PartPose.offset(-9.5F, 12.0F, -0.5F));
 		partDefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(33, 0).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F), PartPose.offset(9.5F, 12.0F, -0.5F));
 		return LayerDefinition.create(meshDefinition, 64, 64);
-	}
-
-	public void setRotateAngles(ModelPart modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
 	}
 }

@@ -76,7 +76,7 @@ public class Scarecrow extends Entity {
 	public void remove(RemovalReason reason) {
 		super.remove(reason);
 
-		if (!level().isClientSide) {
+		if (!level().isClientSide()) {
 			if (isLit())
 				level().destroyBlock(blockPosition().above(getScarecrowType().getHeight() - 1), false);
 
