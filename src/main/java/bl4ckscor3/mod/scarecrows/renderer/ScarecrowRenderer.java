@@ -11,16 +11,16 @@ import bl4ckscor3.mod.scarecrows.ScarecrowsClient;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntityRenderState> {
-	private record RenderInfo(ResourceLocation textureLocation, EntityModel<ScarecrowEntityRenderState> unLitModel, EntityModel<ScarecrowEntityRenderState> litModel) {}
+	private record RenderInfo(Identifier textureLocation, EntityModel<ScarecrowEntityRenderState> unLitModel, EntityModel<ScarecrowEntityRenderState> litModel) {}
 
 	/**
 	 * Used so the memory doesn't build up with new instances of resource locations and models each render tick
@@ -37,7 +37,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 
 			//@formatter:off
 			RENDER_INFO.put(type.getName(), new RenderInfo(
-					ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"),
+					Identifier.fromNamespaceAndPath(Scarecrows.MODID, "textures/entity/" + type.getName() + ".png"),
 					clientType.modelGetter().apply(ctx.bakeLayer(clientType.modelLayerLocationGetter().apply(false))),
 					clientType.modelGetter().apply(ctx.bakeLayer(clientType.modelLayerLocationGetter().apply(true)))));
 			//@formatter:on
@@ -49,7 +49,7 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);
 		stack.mulPose(Axis.YP.rotationDegrees(renderState.rotation));
-		submitNodeCollector.submitModel(renderState.model, renderState, stack, RenderType.entitySolid(renderState.texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, renderState.outlineColor, null);
+		submitNodeCollector.submitModel(renderState.model, renderState, stack, RenderTypes.entitySolid(renderState.texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, renderState.outlineColor, null);
 	}
 
 	@Override

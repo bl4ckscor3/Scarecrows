@@ -17,8 +17,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.SoundType;
@@ -43,7 +43,7 @@ public class Scarecrows {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
 	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(Keys.ENTITY_DATA_SERIALIZERS, MODID);
-	public static final DeferredBlock<ArmBlock> ARM = BLOCKS.registerBlock("arm", ArmBlock::new, BlockBehaviour.Properties.of()
+	public static final DeferredBlock<ArmBlock> ARM = BLOCKS.registerBlock("arm", ArmBlock::new, () -> BlockBehaviour.Properties.of()
 		//@formatter:off
 			.strength(0.25F, 1.0F)
 			.sound(SoundType.WOOD)
@@ -55,7 +55,7 @@ public class Scarecrows {
 			.setTrackingRange(256)
 			.setUpdateInterval(20)
 			.setShouldReceiveVelocityUpdates(false)
-			.build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "scarecrow"))));
+			.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(MODID, "scarecrow"))));
 	public static final StreamCodec<ByteBuf, AABB> AABB_STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.DOUBLE, aabb -> aabb.minX,
 			ByteBufCodecs.DOUBLE, aabb -> aabb.minY,

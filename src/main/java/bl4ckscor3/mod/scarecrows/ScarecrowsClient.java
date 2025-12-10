@@ -19,7 +19,7 @@ import bl4ckscor3.mod.scarecrows.type.SuperSpoopyScarecrow;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -34,12 +34,12 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(value = Scarecrows.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = Scarecrows.MODID, value = Dist.CLIENT)
 public class ScarecrowsClient {
-	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow"), "main");
-	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
-	public static final ModelLayerLocation SPOOKY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow"), "main");
-	public static final ModelLayerLocation SPOOKY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow_lit"), "main");
-	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow"), "main");
-	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SPOOPY_SCARECROW = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow"), "main");
+	public static final ModelLayerLocation SPOOPY_SCARECROW_LIT = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "spoopy_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SPOOKY_SCARECROW = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow"), "main");
+	public static final ModelLayerLocation SPOOKY_SCARECROW_LIT = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "spooky_scarecrow_lit"), "main");
+	public static final ModelLayerLocation SCARY_SCARECROW = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow"), "main");
+	public static final ModelLayerLocation SCARY_SCARECROW_LIT = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Scarecrows.MODID, "scary_scarecrow_lit"), "main");
 	public static final Map<ScarecrowType, ClientType> CLIENT_TYPES = new HashMap<>();
 
 	public ScarecrowsClient(ModContainer modContainer) {
