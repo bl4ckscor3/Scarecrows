@@ -120,7 +120,7 @@ public class RunAwayGoal extends Goal {
 		if (!state.addRunningEffects(level, pos, entity) && state.getRenderShape() != RenderShape.INVISIBLE) {
 			Vec3 motion = entity.getDeltaMovement();
 			EntityDimensions size = entity.getDimensions(entity.getPose());
-			RandomSource rand = level.random;
+			RandomSource rand = level.getRandom();
 
 			level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state, pos), entity.getX() + (rand.nextDouble() - 0.5D) * size.width(), entity.getY() + 0.1D, entity.getZ() + (rand.nextDouble() - 0.5D) * size.width(), motion.x * -4.0D, 1.5D, motion.z * -4.0D);
 		}
