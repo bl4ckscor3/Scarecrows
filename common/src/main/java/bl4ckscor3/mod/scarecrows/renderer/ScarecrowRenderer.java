@@ -48,8 +48,8 @@ public class ScarecrowRenderer extends EntityRenderer<Scarecrow, ScarecrowEntity
 	public void submit(ScarecrowEntityRenderState renderState, PoseStack stack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		stack.translate(0.0D, 1.5D, 0.0D);
 		stack.scale(-1, -1, 1);
-		stack.mulPose(Axis.YP.rotationDegrees(renderState.rotation));
-		submitNodeCollector.submitModel(renderState.model, renderState, stack, RenderTypes.entitySolid(renderState.texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, renderState.outlineColor, null);
+		stack.rotate(Axis.YP.rotationDegrees(renderState.rotation));
+		submitNodeCollector.submitModel(renderState.model, renderState, stack, RenderTypes.entitySolid(renderState.texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, renderState.outlineColor);
 	}
 
 	@Override

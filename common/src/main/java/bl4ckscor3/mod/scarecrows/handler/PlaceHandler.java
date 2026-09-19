@@ -29,7 +29,7 @@ public class PlaceHandler {
 			if (face != Direction.UP && face != Direction.DOWN && ArmBlock.canBeConnectedTo(world, placeAt, face) && world.isEmptyBlock(placeAt)) {
 				world.setBlockAndUpdate(placeAt, Scarecrows.ARM.get().defaultBlockState().setValue(ArmBlock.FACING, face));
 				world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundType.WOOD.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-				player.swing(hand);
+				player.swing(hand, held.getInteractAnimation(), false);
 
 				if (!player.isCreative())
 					held.shrink(1);

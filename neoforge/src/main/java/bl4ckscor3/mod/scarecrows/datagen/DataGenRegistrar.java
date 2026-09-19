@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import bl4ckscor3.mod.scarecrows.Scarecrows;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
 import net.minecraft.world.level.block.Block;
@@ -18,11 +20,16 @@ public class DataGenRegistrar {
 
 	@SubscribeEvent
 	public static void onGatherData(GatherDataEvent.Client event) {
-		event.createProvider((output, _) -> new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(lp -> new BlockLootTableGenerator(lp) {
-			@Override
-			protected Iterable<Block> getKnownBlocks() {
-				return List.of(Scarecrows.ARM.get());
-			}
-		}, LootContextParamSets.BLOCK)), event.getLookupProvider()));
+		event.createProvider(BlockTagGenerator::new);
+		event.createReloadableRegistryObjects(
+			new RegistrySetBuilder()
+				.add(Registries.LOOT_TABLE, new LootTableProvider(Set.of(), List.of(new SubProviderEntry(provider -> new BlockLootTableGenerator(provider) {
+					@Override
+					protected Iterable<Block> getKnownBlocks() {
+						return List.of(Scarecrows.ARM.get());
+					}
+				}, LootContextParamSets.BLOCK)))),
+			Set.of(Scarecrows.MODID)
+		);
 	}
 }
