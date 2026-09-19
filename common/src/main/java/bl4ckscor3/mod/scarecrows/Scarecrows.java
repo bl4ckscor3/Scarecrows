@@ -8,6 +8,8 @@ import com.google.common.base.Suppliers;
 
 import bl4ckscor3.mod.scarecrows.block.ArmBlock;
 import bl4ckscor3.mod.scarecrows.entity.Scarecrow;
+import bl4ckscor3.mod.scarecrows.lib.Platform;
+import bl4ckscor3.mod.scarecrows.lib.RegisteredBlock;
 import bl4ckscor3.mod.scarecrows.type.ScarecrowType;
 import bl4ckscor3.mod.scarecrows.type.ScaryScarecrow;
 import bl4ckscor3.mod.scarecrows.type.SpookyScarecrow;
@@ -31,7 +33,7 @@ import net.minecraft.world.phys.AABB;
 public class Scarecrows {
 	public static final String MODID = "scarecrows";
 	private static Platform platform;
-	public static final RegistryObject<ArmBlock> ARM = RegistryObject.block("arm", ArmBlock::new, () -> BlockBehaviour.Properties.of()
+	public static final RegisteredBlock<ArmBlock> ARM = RegisteredBlock.create("arm", ArmBlock::new, () -> BlockBehaviour.Properties.of()
 		.strength(0.25F, 1.0F)
 		.sound(SoundType.WOOD)
 		.isRedstoneConductor((_, _, _) -> false));

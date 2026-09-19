@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import bl4ckscor3.mod.scarecrows.handler.PlaceHandler;
 import bl4ckscor3.mod.scarecrows.handler.SpawnHandler;
+import bl4ckscor3.mod.scarecrows.lib.Platform;
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;

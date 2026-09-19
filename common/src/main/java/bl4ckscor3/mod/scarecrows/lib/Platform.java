@@ -1,4 +1,4 @@
-package bl4ckscor3.mod.scarecrows;
+package bl4ckscor3.mod.scarecrows.lib;
 
 import java.util.function.Supplier;
 
@@ -11,7 +11,7 @@ public interface Platform {
 
 	<T> void registerEntityDataSerializer(Supplier<EntityDataSerializer<T>> serializer, String path);
 
-	default <R, T extends R> void register(ResourceKey<? extends Registry<R>> registry, RegistryObject<T> registryObject) {
-		register(registry, registryObject.object(), registryObject.id().getPath());
+	default <R, T extends R> void register(ResourceKey<? extends Registry<R>> registry, RegistryObject<R, T> registryObject) {
+		register(registry, registryObject.object(), registryObject.key().identifier().getPath());
 	}
 }
